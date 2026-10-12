@@ -3,7 +3,7 @@
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 if ( function_exists( 'as_unschedule_all_actions' ) ) {
-	foreach ( array( 'wcip_process_print_job', 'wcip_reconcile_paid_orders', 'wcip_process_export', 'wcip_recover_exports' ) as $hook ) { as_unschedule_all_actions( $hook, array(), 'wc-invoice-printer' ); }
+	foreach ( array( 'wcip_process_print_job', 'wcip_reconcile_paid_orders', 'wcip_process_export', 'wcip_recover_exports' ) as $hook ) { as_unschedule_all_actions( $hook, null, 'wc-invoice-printer' ); }
 }
 
 foreach ( array( 'administrator', 'shop_manager' ) as $role_name ) {
@@ -32,5 +32,6 @@ foreach ( array( 'wcip_discovery_since', 'wcip_reconciliation_state', 'wcip_reco
 delete_option( 'wcip_settings' );
 delete_option( 'wcip_db_version' );
 delete_option( 'wcip_capabilities_version' );
+delete_option( 'wcip_printing_migration_version' );
 delete_option( 'wcip_delete_data_on_uninstall' );
 delete_option( 'wcip_recovery_cursor' );

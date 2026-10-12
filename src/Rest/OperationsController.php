@@ -136,7 +136,7 @@ final class OperationsController {
 	public function diagnostics() {
 		return $this->guarded( function (): array {
 			if ( ! $this->can_backfill() ) { throw new \RuntimeException( 'Denied.', 403 ); }
-			return array( 'cron_disabled' => defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON, 'scheduler_initialized' => class_exists( 'ActionScheduler' ) && \ActionScheduler::is_initialized(), 'automatic_enabled' => $this->settings->get( 'automatic_enabled' ), 'printer_configured' => '' !== $this->settings->cups_endpoint() && '' !== $this->settings->get( 'cups_printer_id' ), 'discovery_since' => get_option( 'wcip_discovery_since' ), 'cursor' => get_option( 'wcip_reconciliation_state', array() ), 'last_run' => get_option( 'wcip_reconciliation_stats', array() ) );
+			return array( 'cron_disabled' => defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON, 'scheduler_initialized' => class_exists( 'ActionScheduler' ) && \ActionScheduler::is_initialized(), 'automatic_enabled' => $this->settings->get( 'automatic_enabled' ), 'printer_configured' => $this->settings->automatic_ready(), 'discovery_since' => get_option( 'wcip_discovery_since' ), 'cursor' => get_option( 'wcip_reconciliation_state', array() ), 'last_run' => get_option( 'wcip_reconciliation_stats', array() ) );
 		} );
 	}
 }

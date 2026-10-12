@@ -25,7 +25,19 @@ final class RecipientResolverTest extends JobTestCase {
 		$this->assertSame( 'Gift recipient', $data['name'] );
 		$this->assertSame( 'Recipient street', $data['address']['address_1'] );
 		$this->assertSame( '12 & B', $data['extra']['unit'] );
+		$this->assertArrayNotHasKey( 'phone', $data['extra'], 'A lower-priority phone must not become an extra address field.' );
 		$this->assertContains( 'city', $data['inherited'] );
+	}
+
+	public function test_hidden_recipient_phone_cannot_leak_through_mapped_extra_fields(): void {
+		$this->settings->update( array( 'shipping_field_mapping' => '{"phone":"_phone"}', 'show_shipping_phone' => false ) );
+		$data = ( new \WCInvoicePrinter\Invoice\InvoiceFactory( $this->settings ) )->from_order( $this->order( '+81 3 123' ) );
+		$html = new \WCInvoicePrinter\Template\HtmlRenderer( $this->templates );
+		foreach ( $this->templates->all() as $template ) {
+			$document = $html->render( $data, $template->id );
+			$this->assertStringNotContainsString( '+98 21 555', $document, $template->id );
+			$this->assertStringNotContainsString( '+81 3 123', $document, $template->id );
+		}
 	}
 	public function test_mapping_precedes_optional_billing_fallback_and_rejects_arrays(): void {
 		$this->settings->update( array( 'shipping_field_mapping' => '{"phone":"_phone","unit":"_invalid"}', 'shipping_billing_fallback' => false ) );

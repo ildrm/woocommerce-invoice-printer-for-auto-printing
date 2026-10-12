@@ -25,7 +25,7 @@ def main():
         for directory in ('src', 'templates', 'assets', 'languages'):
             shutil.copytree(ROOT / directory, stage / directory)
         (stage / 'docs').mkdir()
-        for filename in ('open-source-printing.md', 'cross-platform-printing.md', 'operations.md'):
+        for filename in ('open-source-printing.md', 'cross-platform-printing.md', 'operations.md', 'review-1.4.1.md'):
             shutil.copy2(ROOT / 'docs' / filename, stage / 'docs' / filename)
         (stage / 'print-agent').mkdir()
         for filename in ('wcip_agent.py', 'config.example.json', 'README.md', 'LICENSE'):

@@ -51,4 +51,30 @@ final class AgentDeliveryTest extends JobTestCase {
 		$GLOBALS['wcip_test_user_id'] = 42; $GLOBALS['wcip_test_capabilities']['wcip_run_print_agent'] = false; self::assertFalse( $c->allowed() );
 		unset( $GLOBALS['wcip_test_ssl'], $GLOBALS['wcip_test_app_password'], $GLOBALS['wcip_test_user_id'] );
 	}
+
+	/** @dataProvider unavailable_order_statuses */
+	public function test_manual_agent_start_refuses_orders_removed_after_claim( string $status ): void {
+		$order = new \WC_Order( 42 );
+		$GLOBALS['wcip_test_orders'][42] = $order;
+		$job = $this->service->create_manual( $order, 'classic', 'agent', 'Office', 1 );
+		( new AgentQueue() )->claim( $job['id'], 'Office', 42, $this->token );
+		$order->set_status( $status );
+		$GLOBALS['wcip_test_user_id'] = 42;
+		$GLOBALS['wcip_test_capabilities']['wcip_run_print_agent'] = true;
+		$GLOBALS['wcip_test_ssl'] = true;
+		$GLOBALS['wcip_test_app_password'] = 'uuid';
+		try {
+			$controller = new \WCInvoicePrinter\Rest\AgentController( $this->settings, $this->jobs, null, null, null, null, null );
+			$request = new \WP_REST_Request( 'POST' );
+			$request->set_body_params( array( 'id' => $job['id'], 'token' => $this->token ) );
+			$response = $controller->start( $request );
+			self::assertInstanceOf( \WP_Error::class, $response );
+			self::assertSame( 409, $response->get_error_data()['status'] );
+			self::assertSame( 'failed', $this->jobs->find( $job['id'] )['status'] );
+		} finally {
+			unset( $GLOBALS['wcip_test_ssl'], $GLOBALS['wcip_test_app_password'], $GLOBALS['wcip_test_user_id'] );
+		}
+	}
+
+	public static function unavailable_order_statuses(): array { return array( array( 'trash' ), array( 'checkout-draft' ) ); }
 }

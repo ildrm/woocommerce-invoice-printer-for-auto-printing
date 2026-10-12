@@ -136,7 +136,16 @@ function wp_die( string $message, string $title = '', array $args = array() ) { 
 function as_has_scheduled_action( string $hook, array $args = array(), string $group = '' ): bool { return (bool) ( $GLOBALS['wcip_existing_action_id'] ?? false ); }
 function as_next_scheduled_action( string $hook, array $args = array(), string $group = '' ) { return isset( $GLOBALS['wcip_existing_action_id'] ) ? true : false; }
 function as_get_scheduled_actions( array $args, string $format = 'OBJECT' ): array { return isset( $GLOBALS['wcip_existing_action_id'] ) && ( $args['status'] ?? 'pending' ) === ( $GLOBALS['wcip_existing_action_status'] ?? 'pending' ) ? array( $GLOBALS['wcip_existing_action_id'] ) : array(); }
-function as_unschedule_all_actions( string $hook, array $args = array(), string $group = '' ): void { $GLOBALS['wcip_unscheduled_actions'][] = compact( 'hook', 'args', 'group' ); }
+function as_unschedule_all_actions( string $hook, $args = array(), string $group = '' ): void {
+	$GLOBALS['wcip_unscheduled_actions'][] = compact( 'hook', 'args', 'group' );
+	// Action Scheduler applies an exact args match when both hook and group are
+	// supplied. A null args value matches jobs with any arguments.
+	foreach ( $GLOBALS['wcip_test_pending_actions'] ?? array() as $id => $action ) {
+		if ( $hook === $action['hook'] && $group === $action['group'] && ( null === $args || $args === $action['args'] ) ) {
+			unset( $GLOBALS['wcip_test_pending_actions'][ $id ] );
+		}
+	}
+}
 function add_action( string $hook, $callback, int $priority = 10, int $accepted_args = 1 ): void { $GLOBALS['wcip_registered_hooks'][ $hook ][] = compact( 'callback', 'priority', 'accepted_args' ); }
 function add_filter( string $hook, $callback, int $priority = 10, int $accepted_args = 1 ): void { add_action( $hook, $callback, $priority, $accepted_args ); }
 function get_role( string $name ) { return $GLOBALS['wcip_test_roles'][ $name ] ?? null; }

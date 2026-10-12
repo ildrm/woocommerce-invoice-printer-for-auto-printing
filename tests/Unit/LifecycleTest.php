@@ -10,6 +10,13 @@ final class LifecycleTest extends TestCase {
 		$GLOBALS['wcip_test_options'] = array();
 		$GLOBALS['wcip_test_roles'] = array();
 		$GLOBALS['wcip_unscheduled_actions'] = array();
+		$GLOBALS['wcip_test_pending_actions'] = array(
+			1 => array( 'hook' => 'wcip_process_print_job', 'args' => array( 'job_id' => 42 ), 'group' => 'wc-invoice-printer' ),
+			2 => array( 'hook' => 'wcip_process_export', 'args' => array( 'export_id' => 7 ), 'group' => 'wc-invoice-printer' ),
+			3 => array( 'hook' => 'wcip_reconcile_paid_orders', 'args' => array(), 'group' => 'wc-invoice-printer' ),
+			4 => array( 'hook' => 'other_plugin_action', 'args' => array(), 'group' => 'other-plugin' ),
+			5 => array( 'hook' => 'wcip_process_print_job', 'args' => array( 'job_id' => 43 ), 'group' => 'other-plugin' ),
+		);
 		$GLOBALS['wpdb'] = new class {
 			public string $prefix = 'wp_';
 			public array $updates = array();
@@ -19,10 +26,12 @@ final class LifecycleTest extends TestCase {
 		};
 	}
 
+	protected function tearDown(): void { unset( $GLOBALS['wcip_test_pending_actions'] ); }
+
 	public function test_deactivation_cancels_own_actions_and_releases_pending_job_action_ids(): void {
 		$GLOBALS['wcip_test_options']['wcip_settings'] = array( 'automatic_enabled' => true );
 		Activator::deactivate();
-		self::assertSame( array( 'hook' => 'wcip_process_print_job', 'args' => array(), 'group' => 'wc-invoice-printer' ), $GLOBALS['wcip_unscheduled_actions'][0] );
+		self::assertSame( array( 4, 5 ), array_keys( $GLOBALS['wcip_test_pending_actions'] ) );
 		self::assertSame( array( 'status' => 'queued' ), $GLOBALS['wpdb']->updates[0]['where'] );
 		self::assertSame( array( 'action_id' => null ), $GLOBALS['wpdb']->updates[0]['data'] );
 		self::assertTrue( $GLOBALS['wcip_test_options']['wcip_settings']['automatic_enabled'] );
@@ -41,10 +50,11 @@ final class LifecycleTest extends TestCase {
 		self::assertSame( 'Retained', $GLOBALS['wcip_test_options']['wcip_settings']['business_name'] );
 		self::assertContains( 'wcip_manage_settings', $administrator_role->removed );
 		self::assertCount( 4, $GLOBALS['wcip_unscheduled_actions'] );
+		self::assertSame( array( 4, 5 ), array_keys( $GLOBALS['wcip_test_pending_actions'] ) );
 	}
 
 	public function test_opted_in_uninstall_removes_only_plugin_table_and_options(): void {
-		$GLOBALS['wcip_test_options'] = array( 'wcip_delete_data_on_uninstall' => true, 'wcip_settings' => array(), 'wcip_db_version' => '1.0.0', 'woocommerce_currency' => 'USD' );
+		$GLOBALS['wcip_test_options'] = array( 'wcip_delete_data_on_uninstall' => true, 'wcip_settings' => array(), 'wcip_db_version' => '1.0.0', 'wcip_printing_migration_version' => '1.3.0', 'woocommerce_currency' => 'USD' );
 		defined( 'WP_UNINSTALL_PLUGIN' ) || define( 'WP_UNINSTALL_PLUGIN', 'wc-invoice-printer.php' );
 		require WCIP_PATH . 'uninstall.php';
 		self::assertSame( array_map( static fn( $table ) => 'DROP TABLE IF EXISTS wp_' . $table, array( 'wc_invoice_print_jobs', 'wcip_runtime_leases', 'wcip_document_references', 'wcip_fulfillment', 'wcip_fulfillment_events', 'wcip_export_outbox' ) ), $GLOBALS['wpdb']->queries );

@@ -21,8 +21,9 @@ final class RecipientResolver {
 			$value = $order->get_meta( $key, true );
 			if ( ! is_scalar( $value ) ) { continue; }
 			$value = sanitize_text_field( (string) $value );
-			if ( 'phone' === $field && '' === $phone ) { $phone = $value; }
-			elseif ( in_array( $field, array( 'first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country' ), true ) ) {
+			if ( 'phone' === $field ) {
+				if ( '' === $phone ) { $phone = $value; }
+			} elseif ( in_array( $field, array( 'first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country' ), true ) ) {
 				if ( empty( $address[ $field ] ) ) { $address[ $field ] = $value; }
 			} elseif ( preg_match( '/^[a-z][a-z0-9_]{0,39}$/D', (string) $field ) && '' !== $value ) { $extra[ $field ] = $value; }
 		}

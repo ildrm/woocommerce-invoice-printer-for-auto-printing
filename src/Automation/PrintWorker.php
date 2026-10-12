@@ -67,10 +67,11 @@ final class PrintWorker {
 		$submission_started = false;
 		try {
 			$order = wc_get_order( (int) $job['order_id'] );
-			if ( ! $order instanceof \WC_Order ) {
+			if ( ! $order instanceof \WC_Order || in_array( $order->get_status(), array( 'trash', 'checkout-draft' ), true ) ) {
 				throw new \RuntimeException( __( 'The order no longer exists.', 'wc-invoice-printer' ) );
 			}
-			if ( 'automatic' === $job['trigger_type'] && ! ( new PaymentEligibilityPolicy( new \WCInvoicePrinter\Settings\SettingsRepository() ) )->eligible( $order ) ) {
+			$settings = new \WCInvoicePrinter\Settings\SettingsRepository();
+			if ( 'automatic' === $job['trigger_type'] && ( ! $settings->get( 'automatic_enabled' ) || ! ( new PaymentEligibilityPolicy( $settings ) )->eligible( $order ) ) ) {
 				throw new \RuntimeException( $order->is_paid() ? __( 'This order is not eligible under the configured payment policy.', 'wc-invoice-printer' ) : __( 'The order is no longer paid, so automatic printing was stopped.', 'wc-invoice-printer' ) );
 			}
 			$template = $this->templates->get( $job['template_id'] );
@@ -78,13 +79,18 @@ final class PrintWorker {
 			$pdf      = $this->pdf->render( $html, $template );
 			$provider = $this->providers->get( $job['provider_id'] );
 			do_action( 'wcip_before_print_submission', $job_id, $job['provider_id'] );
+			// Both manual and automatic selections may have been removed while
+			// generating the PDF. Recheck before contacting a printer.
+			$current_order = wc_get_order( (int) $job['order_id'] );
+			if ( ! $current_order instanceof \WC_Order || in_array( $current_order->get_status(), array( 'trash', 'checkout-draft' ), true ) ) {
+				throw new \RuntimeException( __( 'The order no longer exists.', 'wc-invoice-printer' ) );
+			}
 			if ( 'automatic' === $job['trigger_type'] ) {
 				// Rendering may take long enough for a refund/cancellation to arrive.
 				// Refresh immediately before dispatch rather than using the snapshot
 				// that was loaded before generating the invoice.
-				$current_order = wc_get_order( (int) $job['order_id'] );
-				if ( ! $current_order instanceof \WC_Order || ! ( new PaymentEligibilityPolicy( new \WCInvoicePrinter\Settings\SettingsRepository() ) )->eligible( $current_order ) ) {
-					throw new \RuntimeException( $current_order instanceof \WC_Order && $current_order->is_paid() ? __( 'This order is not eligible under the configured payment policy.', 'wc-invoice-printer' ) : __( 'The order is no longer paid, so automatic printing was stopped.', 'wc-invoice-printer' ) );
+				if ( ! $settings->get( 'automatic_enabled' ) || ! ( new PaymentEligibilityPolicy( $settings ) )->eligible( $current_order ) ) {
+					throw new \RuntimeException( $current_order->is_paid() ? __( 'This order is not eligible under the configured payment policy.', 'wc-invoice-printer' ) : __( 'The order is no longer paid, so automatic printing was stopped.', 'wc-invoice-printer' ) );
 				}
 			}
 			$submission_started = true;

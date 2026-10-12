@@ -93,6 +93,46 @@ final class PrintWorkerTest extends JobTestCase {
 		self::assertCount( 1, $this->provider->submissions );
 	}
 
+	public function test_disabling_automation_stops_pending_jobs_but_allows_manual_prints(): void {
+		$automatic = $this->job();
+		$this->settings->update( array( 'automatic_enabled' => false ) );
+		$this->worker->process( $automatic['id'] );
+		self::assertSame( 'failed', $this->jobs->find( $automatic['id'] )['status'] );
+		self::assertSame( '', $this->pdf->html, 'Disabled automation must stop before rendering.' );
+		self::assertCount( 0, $this->provider->submissions );
+		$manual = $this->job( array( 'trigger_type' => 'manual' ) );
+		$this->worker->process( $manual['id'] );
+		self::assertSame( 'submitted', $this->jobs->find( $manual['id'] )['status'] );
+		self::assertCount( 1, $this->provider->submissions );
+	}
+
+	public function test_disabling_automation_during_rendering_stops_dispatch(): void {
+		$GLOBALS['wcip_test_hooks']['wcip_before_print_submission'][] = function (): void {
+			$this->settings->update( array( 'automatic_enabled' => false ) );
+		};
+		$job = $this->job();
+		$this->worker->process( $job['id'] );
+		self::assertSame( 'failed', $this->jobs->find( $job['id'] )['status'] );
+		self::assertCount( 0, $this->provider->submissions );
+	}
+
+	/** @dataProvider unavailable_order_statuses */
+	public function test_manual_jobs_cannot_dispatch_unavailable_orders( string $status, bool $during_render ): void {
+		if ( $during_render ) {
+			$GLOBALS['wcip_test_hooks']['wcip_before_print_submission'][] = static function () use ( $status ): void {
+				$GLOBALS['wcip_test_orders'][42]->set_status( $status );
+			};
+		} else { $GLOBALS['wcip_test_orders'][42]->set_status( $status ); }
+		$job = $this->job( array( 'trigger_type' => 'manual' ) );
+		$this->worker->process( $job['id'] );
+		self::assertSame( 'failed', $this->jobs->find( $job['id'] )['status'] );
+		self::assertCount( 0, $this->provider->submissions );
+	}
+
+	public static function unavailable_order_statuses(): array {
+		return array( array( 'trash', false ), array( 'checkout-draft', false ), array( 'trash', true ), array( 'checkout-draft', true ) );
+	}
+
 	public function test_deleted_order_and_generation_errors_never_contact_the_provider(): void {
 		$missing = $this->job( array( 'order_id' => 999 ) );
 		$this->worker->process( $missing['id'] );

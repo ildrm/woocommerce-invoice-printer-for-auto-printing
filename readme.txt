@@ -4,7 +4,7 @@ Tags: woocommerce, invoice, print, cups, pdf
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 
 Browser and free cross-platform automatic invoice printing for WooCommerce.
@@ -40,6 +40,14 @@ The plugin does not claim jurisdiction-specific fiscal or tax compliance. WooCom
 Deactivation cancels pending plugin actions and preserves settings/history for recovery on reactivation. Stop local agents before uninstall. Uninstall removes operator capabilities and preserves data and the paired-agent role unless the `wcip_delete_data_on_uninstall` option is explicitly enabled by an operator. Print jobs retain operational references and sanitized errors, but no duplicated invoice/customer payload.
 
 == Changelog ==
+
+= 1.4.1 =
+* Stop queued CUPS automatic jobs when automation is disabled, including changes during rendering.
+* Recheck trash and checkout-draft orders before CUPS dispatch and agent authorization.
+* Cancel scheduled print/export jobs with their job arguments during deactivation and uninstall.
+* Remove the printing migration marker during opted-in uninstall cleanup.
+* Keep mapped recipient phone numbers out of extra address fields and honor phone visibility.
+* Report readiness for the selected automatic destination in diagnostics.
 
 = 1.4.0 =
 * Add an open-source outbound print agent for Windows (SumatraPDF) and Linux/macOS (CUPS lp).

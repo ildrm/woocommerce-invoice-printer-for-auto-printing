@@ -344,7 +344,7 @@ See [architecture](docs/architecture.md), [UI specification](docs/ui-spec.md), a
 
 Localized DOCX development and template-customization guides and a companion-plugin example are in [system-development](system-development/README.md).
 
-[Review findings and verification](docs/review.md) records the corrected issues, regression coverage, tested environment, and practical limits.
+[Review findings and verification](docs/review-1.4.1.md) records the current corrected issues, regression coverage, tested environment, and practical limits. The [earlier review](docs/review.md) is retained for historical reference.
 
 ## Packaging
 
@@ -360,7 +360,7 @@ For an offline rebuild, `--production-vendor /absolute/path/to/clean/vendor` acc
 
 `build/` contains local staging files and generated release ZIPs and is ignored by Git. Source changes and tests do not regenerate archives. Build a fresh archive before distributing reviewed changes, then verify its installation/activation and a test print. Distribute release ZIPs separately from the source repository.
 
-`build/wc-invoice-printer-1.4.0.zip` is the production-dependency package. Schema/capability version 1.4.0 adds agent lease fields/index and a scoped role while preserving prior jobs, confirmations and CUPS settings. The separate commercial-provider retirement stamp remains 1.3.0. Back up the database before upgrade; review [upgrade and operations instructions](docs/operations.md).
+`build/wc-invoice-printer-1.4.1.zip` is the production-dependency package. The 1.4.1 maintenance release fixes queued-delivery checks, lifecycle cleanup, recipient phone mapping and destination diagnostics. Schema/capability version 1.4.0 adds agent lease fields/index and a scoped role while preserving prior jobs, confirmations and CUPS settings. The separate commercial-provider retirement stamp remains 1.3.0. Back up the database before upgrade; review [upgrade and operations instructions](docs/operations.md).
 
 ## Troubleshooting
 

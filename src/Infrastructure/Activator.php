@@ -16,10 +16,11 @@ final class Activator {
 
 	public static function deactivate(): void {
 		if ( function_exists( 'as_unschedule_all_actions' ) ) {
-			as_unschedule_all_actions( 'wcip_process_print_job', array(), 'wc-invoice-printer' );
-			as_unschedule_all_actions( 'wcip_reconcile_paid_orders', array(), 'wc-invoice-printer' );
-			as_unschedule_all_actions( 'wcip_process_export', array(), 'wc-invoice-printer' );
-			as_unschedule_all_actions( 'wcip_recover_exports', array(), 'wc-invoice-printer' );
+			// Null matches every job's arguments while keeping hook/group scoped.
+			as_unschedule_all_actions( 'wcip_process_print_job', null, 'wc-invoice-printer' );
+			as_unschedule_all_actions( 'wcip_reconcile_paid_orders', null, 'wc-invoice-printer' );
+			as_unschedule_all_actions( 'wcip_process_export', null, 'wc-invoice-printer' );
+			as_unschedule_all_actions( 'wcip_recover_exports', null, 'wc-invoice-printer' );
 		}
 		global $wpdb;
 		// Pending jobs remain reviewable and can be recovered when the plugin is reactivated.

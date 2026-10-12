@@ -78,7 +78,10 @@ final class AgentController {
 		$job = $this->jobs->find( (int) $request['id'] );
 		return $job && 'agent' === $job['provider_id'] && $job['printer_id'] === $this->settings->get( 'agent_queue' ) && (int) $job['agent_user'] === get_current_user_id() && hash_equals( (string) $job['agent_token'], hash( 'sha256', $request['token'] ) ) ? $job : null;
 	}
-	private function eligible( array $job, $order ): bool { return $order instanceof \WC_Order && ( 'automatic' !== $job['trigger_type'] || ( $this->settings->get( 'automatic_enabled' ) && ( new PaymentEligibilityPolicy( $this->settings ) )->eligible( $order ) ) ); }
+	private function eligible( array $job, $order ): bool {
+		return $order instanceof \WC_Order && ! in_array( $order->get_status(), array( 'trash', 'checkout-draft' ), true )
+			&& ( 'automatic' !== $job['trigger_type'] || ( $this->settings->get( 'automatic_enabled' ) && ( new PaymentEligibilityPolicy( $this->settings ) )->eligible( $order ) ) );
+	}
 	private function response( array $data ) { $response = new \WP_REST_Response( $data ); $response->header( 'Cache-Control', 'no-store, private' ); return $response; }
 	private function error( int $status ) { return new \WP_Error( 'wcip_agent_request', 'Print agent request refused. Check pairing, lease and authentication.', array( 'status' => $status ) ); }
 }
