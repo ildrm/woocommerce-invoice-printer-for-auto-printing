@@ -159,4 +159,36 @@ final class PreviewControllerTest extends TestCase {
 		self::assertSame( 'browser', $this->database->rows[1]['provider_id'] );
 		self::assertSame( 3, $this->database->rows[1]['copies'] );
 	}
+
+	public function test_single_sheet_browser_print_prepares_valid_pdf_before_recording_job(): void {
+		( new SettingsRepository() )->update( array( 'single_page' => true ) );
+		$_GET['copies'] = '2';
+		$this->prepare_to_http_boundary();
+		self::assertCount( 1, $this->database->rows );
+		self::assertSame( 2, $this->database->rows[1]['copies'] );
+	}
+
+	public function test_authenticated_pdf_view_does_not_create_another_job(): void {
+		$_GET['pdf'] = '1';
+		$_GET['copies'] = '2';
+		$this->prepare_to_http_boundary();
+		self::assertSame( array(), $this->database->rows );
+	}
+
+	public function test_pdf_view_requires_the_same_nonce_and_capability(): void {
+		$_GET['pdf'] = '1';
+		$GLOBALS['wcip_test_nonce_valid'] = false;
+		$this->assert_failure( 0, 'Invalid nonce' );
+		$GLOBALS['wcip_test_nonce_valid'] = true;
+		$GLOBALS['wcip_test_capabilities'] = array();
+		$this->assert_failure( 403, 'not allowed' );
+	}
+
+	public function test_single_sheet_layout_failure_does_not_prepare_a_job(): void {
+		( new SettingsRepository() )->update( array( 'single_page' => true ) );
+		$GLOBALS['wcip_test_filters']['wcip_rendered_invoice_html'][] = static function ( string $html ): string {
+			return str_replace( '</body>', str_repeat( '<p>Additional document information</p>', 500 ) . '</body>', $html );
+		};
+		$this->assert_failure( 400, 'one page' );
+	}
 }

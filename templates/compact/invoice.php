@@ -20,49 +20,40 @@ td { border-bottom:1px solid #ddd; padding:5px 4px; vertical-align:top }
 .bottom { margin-top:10px }
 .note { width:60% }
 .totals td { padding:3px 4px }
-.totals tr:last-child { font-size:12px; font-weight:bold }
+.totals .grand { font-size:12px; font-weight:bold }
 .logo { max-width:100px; max-height:36px }
-</style></head>
+</style><?php include WCIP_PATH . 'templates/shared/presentation.php'; ?></head>
 <body>
-<table class="layout top"><tr><td>
-<?php if ( $invoice->store['logo_data_uri'] ) : ?><img class="logo" src="<?php echo esc_attr( $invoice->store['logo_data_uri'] ); ?>" alt=""><?php endif; ?>
-<div class="brand"><?php echo esc_html( $invoice->store['name'] ); ?></div>
-<?php echo esc_html( $invoice->store['address'] ); ?><br>
-<?php echo nl2br( esc_html( $invoice->store['details'] ) ); ?><br>
-<bdi dir="ltr"><?php echo esc_html( $invoice->store['phone'] ); ?> · <?php echo esc_html( $invoice->store['email'] ); ?></bdi>
-</td><td class="num"><h1><?php esc_html_e( 'Invoice', 'wc-invoice-printer' ); ?> #<?php echo esc_html( $invoice->order['number'] ); ?></h1>
-<?php echo esc_html( $invoice->order['date'] ); ?> · <?php echo esc_html( $invoice->order['status'] ); ?>
+<table class="layout header top"><tr><td><?php include WCIP_PATH . 'templates/shared/store.php'; ?></td>
+<td class="title num"><h1><?php esc_html_e( "Invoice", 'wc-invoice-printer' ); ?></h1><strong>#<?php echo esc_html( $invoice->order['number'] ); ?></strong>
+<?php if ( $show( 'show_order_date' ) ) : ?><div class="meta"><?php echo esc_html( $invoice->order['date'] ); ?></div><?php endif; ?>
+<?php if ( $show( 'show_order_status' ) ) : ?><div class="meta"><?php echo esc_html( $invoice->order['status'] ); ?></div><?php endif; ?>
 </td></tr></table>
-<table class="layout grid"><tr><td>
-<span class="label"><?php esc_html_e( 'Customer', 'wc-invoice-printer' ); ?></span><br>
-<strong><?php echo esc_html( $invoice->customer['name'] ); ?></strong> · <?php echo esc_html( $invoice->customer['company'] ); ?><br>
-<?php echo nl2br( esc_html( $invoice->customer['billing_address'] ) ); ?>
-</td><td><span class="label"><?php esc_html_e( 'Payment / delivery', 'wc-invoice-printer' ); ?></span><br>
-<?php echo esc_html( $invoice->fulfillment['payment_method'] ); ?><br>
-<?php echo esc_html( $invoice->fulfillment['shipping_method'] ); ?>
-<?php if ( $invoice->customer['shipping_address'] ) : ?><br><?php echo nl2br( esc_html( $invoice->customer['shipping_address'] ) ); ?><?php endif; ?>
-</td></tr></table>
-<?php include WCIP_PATH . 'templates/shared/details.php'; ?>
-<table><thead><tr>
-<th><?php esc_html_e( 'Description', 'wc-invoice-printer' ); ?></th>
-<th><?php esc_html_e( 'SKU', 'wc-invoice-printer' ); ?></th>
+<div class="addresses grid"><?php include WCIP_PATH . 'templates/shared/customer.php'; ?></div>
+<table class="items"><thead><tr>
+<th><?php esc_html_e( 'Item', 'wc-invoice-printer' ); ?></th>
+<?php if ( $show( 'show_item_sku' ) ) : ?><th><?php esc_html_e( 'SKU', 'wc-invoice-printer' ); ?></th><?php endif; ?>
 <th class="num"><?php esc_html_e( 'Qty', 'wc-invoice-printer' ); ?></th>
-<th class="num"><?php esc_html_e( 'Price', 'wc-invoice-printer' ); ?></th>
+<?php if ( $show( 'show_item_unit_price' ) ) : ?><th class="num"><?php esc_html_e( 'Unit', 'wc-invoice-printer' ); ?></th><?php endif; ?>
+<?php if ( $show( 'show_item_discount' ) ) : ?><th class="num"><?php esc_html_e( 'Discount', 'wc-invoice-printer' ); ?></th><?php endif; ?>
+<?php if ( $show( 'show_item_tax' ) ) : ?><th class="num"><?php esc_html_e( 'Tax', 'wc-invoice-printer' ); ?></th><?php endif; ?>
 <th class="num"><?php esc_html_e( 'Total', 'wc-invoice-printer' ); ?></th>
 </tr></thead><tbody>
 <?php foreach ( $invoice->items as $item ) : ?><tr>
-<td><strong><?php echo esc_html( $item['name'] ); ?></strong><div class="meta"><?php echo esc_html( $item['variation'] ); ?></div></td>
-<td><bdi dir="ltr"><?php echo esc_html( $item['sku'] ); ?></bdi></td>
+<td><div class="item-name"><strong><?php echo esc_html( $item['name'] ); ?></strong></div>
+<?php if ( $show( 'show_item_variation' ) && $item['variation'] ) : ?><div class="item-meta"><?php echo esc_html( $item['variation'] ); ?></div><?php endif; ?></td>
+<?php if ( $show( 'show_item_sku' ) ) : ?><td><bdi dir="ltr"><?php echo esc_html( $item['sku'] ); ?></bdi></td><?php endif; ?>
 <td class="num"><bdi dir="ltr"><?php echo esc_html( (string) $item['quantity'] ); ?></bdi></td>
-<td class="num"><?php echo wp_kses_post( $item['unit_price'] ); ?></td>
+<?php foreach ( array( 'unit_price', 'discount', 'tax' ) as $field ) : if ( $show( 'show_item_' . $field ) ) : ?><td class="num"><?php echo wp_kses_post( $item[ $field ] ); ?></td><?php endif; endforeach; ?>
 <td class="num"><?php echo wp_kses_post( $item['total'] ); ?></td>
 </tr><?php endforeach; ?>
 </tbody></table>
-<p class="meta"><?php esc_html_e( 'Unit prices exclude tax; line totals include discounts and tax.', 'wc-invoice-printer' ); ?></p>
-<table class="layout bottom"><tr><td class="note">
-<?php if ( $invoice->fulfillment['note'] ) : ?><span class="label"><?php esc_html_e( 'Note', 'wc-invoice-printer' ); ?></span><br><?php echo nl2br( esc_html( $invoice->fulfillment['note'] ) ); ?><?php endif; ?>
-</td><td><table class="totals">
-<?php foreach ( $invoice->totals as $total ) : ?><tr><td><?php echo esc_html( $total['label'] ); ?></td><td class="num"><?php echo wp_kses_post( $total['value'] ); ?></td></tr><?php endforeach; ?>
-</table></td></tr></table>
+<?php if ( $show( 'show_price_note' ) ) : ?><p class="meta"><?php esc_html_e( 'Unit prices and discounts exclude tax; line totals include tax.', 'wc-invoice-printer' ); ?></p><?php endif; ?>
+<div class="invoice-end">
+<table class="totals">
+<?php foreach ( $totals as $index => $total ) : ?><tr class="<?php echo 'order_total' === ( $total['key'] ?? '' ) || ( ! isset( $total['key'] ) && count( $totals ) - 1 === $index ) ? 'grand' : ''; ?>"><td><?php echo esc_html( $total['label'] ); ?></td><td class="num"><?php echo wp_kses_post( $total['value'] ); ?></td></tr><?php endforeach; ?>
+</table>
+<?php if ( $show( 'show_customer_note' ) && $invoice->fulfillment['note'] ) : ?><div class="notes"><strong><?php esc_html_e( 'Customer note', 'wc-invoice-printer' ); ?></strong><br><?php echo nl2br( esc_html( $invoice->fulfillment['note'] ) ); ?></div><?php endif; ?>
+<?php if ( $show( 'show_footer' ) ) : ?><div class="footer"><?php esc_html_e( 'Thank you for your order.', 'wc-invoice-printer' ); ?></div><?php endif; ?>
 <?php include WCIP_PATH . 'templates/shared/code.php'; ?>
-</body></html>
+</div></body></html>

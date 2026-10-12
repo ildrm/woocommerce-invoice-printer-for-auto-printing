@@ -1,6 +1,6 @@
 # WCIP local print agent
 
-This open-source agent connects a Windows, Linux or macOS printer computer to WooCommerce Invoice Printer 1.4.0. It polls WordPress over verified HTTPS, uses a WordPress Application Password and persists a private SQLite journal before printer dispatch. Python 3.10+ and its standard library are sufficient for the agent. Windows uses the open-source SumatraPDF application; Linux/macOS use CUPS `lp`. No paid cloud printing account or service is required.
+This open-source agent connects a Windows, Linux or macOS printer computer to WooCommerce Invoice Printer 1.4.4. It polls WordPress over verified HTTPS, uses a WordPress Application Password and persists a private SQLite journal before printer dispatch. Python 3.10+ and its standard library are sufficient for the agent. Windows uses the open-source SumatraPDF application; Linux/macOS use CUPS `lp`. No paid cloud printing account or service is required.
 
 See [cross platform setup and recovery](../docs/cross-platform-printing.md). Extract this folder outside any web directory, copy `config.example.json` to `config.json`, configure the paired user/route and local printer/executable, set `WCIP_AGENT_PASSWORD`, then run:
 
@@ -16,3 +16,5 @@ Preserve the configured journal through restarts and upgrades. A successful loca
 Tests: `python3 -m unittest discover -s print-agent -p test_agent.py` from the project root. Windows command tests validate argument construction; actual printer output needs native hardware acceptance.
 
 The agent source is GPL-2.0-or-later, like the parent plugin. Python, SumatraPDF and CUPS retain their own open-source licenses; their binaries are not bundled. The standalone release archive also includes `docs/cross-platform-printing.md`, so its setup link remains usable after extraction.
+
+Version 1.4.4 PDF display, font and page options are configured in WordPress Templates; the agent prints the generated PDF without replacing those settings. Match local driver media to fixed sheets or optional thermal content-height pages. Cutter behavior belongs to a supported driver/printer setting; the agent sends no raw cutting command. See [invoice display and paper layout](../docs/invoice-layout.md).

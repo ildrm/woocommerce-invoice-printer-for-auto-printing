@@ -1,5 +1,25 @@
 # Development guide verification
 
+## Version 1.4.4 review
+
+Reviewed **12 October 2026** against the **WooCommerce Invoice Printer 1.4.4** working tree. The earlier verification record below remains historical evidence for version 1.4.0.
+
+All **14 DOCX editions** include a localized 1.4.4 supplement covering independent visibility controls, shipping-only customer information by default, optional customer name/role/email, font choices and size bounds, compact spacing, one-sheet fitting, content-length thermal paper, browser PDF viewing and driver-managed cutting. Explicitly saved display choices remain effective. Plugin version is 1.4.4; schema remains 1.4.3, capabilities 1.4.0 and provider retirement 1.3.0.
+
+The supplement describes the current flat `SettingsRepository::presentation()` array in `InvoiceData->fulfillment['presentation']`, the optional customer role and template presentation helpers. The footer example guards store details and email with their independent `$show` controls. The companion template uses the shared fragments and controls; its purchase-order field is hidden unless explicitly enabled through the documented customization filter.
+
+The final guides were rendered through the documents skill's canonical bundled LibreOffice/Poppler renderer, using an isolated temporary profile with a local CJK-capable font. All **163 pages** were visually inspected at original resolution. Unchanged pages were reused only after byte-for-byte PNG comparison between render passes. Review covered shaping, fonts, RTL/LTR direction, code wrapping, tables, headers, continuous page numbers and clipping. No font, PDF or PNG intermediates are distributed. Final checks preserve nine tables in each edition, Persian/Arabic RTL paragraphs and mirrored tables, and LTR technical code. Rendered counts and final DOCX checksums are in [manifest.json](manifest.json).
+
+Both companion-plugin PHP files passed syntax checks. A standalone check using repository WordPress doubles exercised template registration, hidden-by-default optional fields, explicitly enabled purchase-order content, escaping, LTR/RTL rendering and the final total. The full plugin suite passed **393 tests / 1,838 assertions** on PHP 8.5.8 with a 128 MiB limit, and **393 tests / 1,791 assertions** in a read-only PHP 8.4 container without network. The host runs 47 additional optional Poppler text assertions. JavaScript passed **23 tests** and the local agent **9 tests**. Composer strict validation/platform requirements, PHP/JavaScript syntax and all fourteen **371-message** catalogs passed.
+
+Chrome interaction against a temporary PHP harness with fictional sample data confirmed the one-page PDF viewer and its outer Print button opening native print preview with the final total. The print dialog was cancelled. Rendered A4/A5 and 58/80 mm thermal examples retained totals and closing content on one PDF page. Excessively long content fails within the documented 60% fitting or 2,000 mm thermal bounds; it is not clipped.
+
+No new real WordPress/database integration, native Windows printer, physical printer/scanner, production store or cutter was exercised for 1.4.4. The available database socket was unavailable. Physical sheet size, scaling, banners and driver cutting need acceptance on the chosen device. Translations have not had independent native-speaker editorial review; desktop Word rendering can vary with installed fonts. See the [1.4.4 review](../docs/review-1.4.4.md) and [invoice display and paper layout guide](../docs/invoice-layout.md) for implementation details and limits.
+
+The 1.4.4 plugin ZIP includes the Markdown guides, remediation record, this folder's index/verification/manifest and companion examples so their documentation links resolve. The fourteen DOCX editions remain in the separate documentation ZIP and source; DOCX links and manifest file entries refer to that full documentation bundle.
+
+## Historical version 1.4.0 review
+
 Reviewed **10 October 2026** against the **WooCommerce Invoice Printer 1.4.0** working tree, based on commit `c894eb05d2120a4bba09aa3500fe2842a0e48d74`.
 
 ## Review scope
@@ -31,4 +51,4 @@ No native Windows printer, physical printer/scanner, production store, multisite
 
 Translations have not had independent native-speaker editorial review. The documents were checked in the headless renderer; rendering in desktop Word can vary with font availability. Before distributing a revised edition, follow the editing and visual-review instructions in [README.md](README.md).
 
-The documentation folder is excluded from the production plugin ZIP; a separate documentation ZIP is provided. The plugin ZIP includes the local-agent source and operator setup guides. See [cross-platform printing](../docs/cross-platform-printing.md), [direct CUPS setup and historical migration](../docs/open-source-printing.md), and the [remediation record](../REMEDIATION_TRACEABILITY.md) for deployment requirements and verification limits.
+The version 1.4.0 documentation folder was excluded from the production plugin ZIP; its separate documentation ZIP was provided. That plugin ZIP included the local-agent source and operator setup guides. See [cross-platform printing](../docs/cross-platform-printing.md), [direct CUPS setup and historical migration](../docs/open-source-printing.md), and the [remediation record](../REMEDIATION_TRACEABILITY.md) for deployment requirements and verification limits.

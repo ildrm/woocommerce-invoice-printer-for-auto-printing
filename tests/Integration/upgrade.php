@@ -52,6 +52,6 @@ foreach (array('agent_token','agent_user','agent_phase','agent_claimed_at') as $
 }
 if ($after !== $before) { throw new RuntimeException('Legacy job or confirmation changed.'); }
 WCInvoicePrinter\Infrastructure\Activator::activate();
-if ('1.4.0' !== get_option('wcip_db_version') || (int)get_option('wcip_discovery_since') < time()-60) { throw new RuntimeException('Version/cutoff incorrect.'); }
+if (\WCInvoicePrinter\Infrastructure\Activator::DB_VERSION !== get_option('wcip_db_version') || (int)get_option('wcip_discovery_since') < time()-60) { throw new RuntimeException('Version/cutoff incorrect.'); }
 $wpdb->delete($table,array('id'=>$id));
 echo "PASS: populated 1.1.2 migration preserves all job/confirmation fields; default invoice; rerun; no historical discovery\n";

@@ -2,7 +2,9 @@
 
 Print WooCommerce invoices manually or automatically through the free local print agent on Windows, Linux or macOS, or through a self-hosted CUPS server. The same WordPress plugin installs on supported Windows, Linux or other WordPress hosts, including shared hosting, VPS and dedicated servers. Automatic printing does not delay checkout and is **disabled by default**.
 
-Features include HPOS and legacy order storage, A4/A5 invoices, 58/80 mm receipts, A6 shipping labels and packing lists, translations for 13 languages, RTL and multilingual PDF text, business identity and optional customer notes, individual/bulk printing, and persistent job history with duplicate prevention and conservative retries.
+Features include HPOS and legacy order storage, A4/A5 invoices, 58/80 mm receipts, A6 shipping labels and packing lists, translations for 13 languages, RTL and multilingual PDF text, configurable fields and fonts, optional compact/one-page output, individual/bulk printing, and persistent job history with duplicate prevention and conservative retries.
+
+Version **1.4.4** hides email, billing/store addresses and other optional information when no display preference was saved. Only the shipping address is shown in the customer block by default; customer name, role and email are hidden. Store name remains visible. Existing explicitly saved choices are retained. Compact spacing, one-page fitting and content-length thermal pages are optional and off by default. See [invoice display and paper layout](docs/invoice-layout.md).
 
 ## Contents
 
@@ -56,8 +58,8 @@ Copy the whole folder, including `vendor/`, to `wp-content/plugins/wc-invoice-pr
 
 ## Configuration and first print
 
-1. In **General**, set business name, contact information, logo URL, business/tax details, and whether customer notes should appear. The store address comes from WooCommerce store settings.
-2. In **Templates**, choose the manual default and inspect normal/RTL sample previews.
+1. In **General**, set business name, contact information, logo URL and business/tax details. The store address comes from WooCommerce store settings; entering a value does not enable its display.
+2. In **Templates**, choose the manual default, select the fields to show and inspect normal/RTL sample previews. Choose a bundled font and size, and enable compact spacing or one-page/content-length PDF output when needed. These layout options are off by default.
 For a locally connected USB or network printer, open **Printers → Local browser printing → Open local test page**. Click **Print** on that page and select the printer in your browser's dialog. For real orders, use **Print invoice → Browser print dialog**, or the same destination in bulk printing. Local printing is available immediately; no credential or printer settings need to be saved.
 
 The CUPS list contains queues on your own CUPS server. Browser printer choice belongs to the operating system; refreshing CUPS does not discover USB devices on the browser computer.
@@ -133,19 +135,19 @@ Bulk input is prevalidated, but a database/queue failure during creation may lea
 | --- | --- | --- |
 | `classic` | Detailed invoice and item amounts | A4 portrait |
 | `compact` | Dense office-printer layout | A4 portrait |
-| `thermal` | Narrow receipt | 80 mm PDF width; paginated 297 mm page height |
+| `thermal` | Narrow receipt | 80 mm PDF width; 297 mm default height, optional content-length page |
 | `classic-a5` | Small invoice | A5 portrait |
-| `thermal58` | Narrow receipt | 58 × 297 mm pages; choose QR for codes |
+| `thermal58` | Narrow receipt | 58 mm width; 297 mm default height or optional content-length page; choose QR for codes |
 | `shipping-label` | Recipient label without prices | A6 portrait |
 | `packing-list` | Items, quantities, recipient; no prices | A4 portrait |
 
-Invoices use the WooCommerce order number as their reference. Data includes dates/status/currency, business and customer details, public item metadata, SKU where the product still exists, payment/shipping methods, order totals, and optional notes. Private item metadata is excluded. Amounts use the order's currency.
+Invoices use the WooCommerce order number as their reference. The authorized model includes dates/status/currency, business and customer details, current customer-account role, public item metadata, SKU where the product still exists, payment/shipping methods, order totals, and optional notes. Field switches control what appears. Email, billing/store addresses and most optional information are hidden when no explicit preference was saved. Private item metadata is excluded. Amounts use the order's currency.
 
-Item unit price/subtotal exclude tax and precede discounts. Discount equals stored subtotal minus discounted total; payable line total includes stored line tax after discount. WooCommerce order totals retain shipping, fees, discounts, and tax. Classic exposes detailed amounts; smaller layouts show a subset.
+Item unit price/subtotal exclude tax and precede discounts. Discount equals stored subtotal minus discounted total; payable line total includes stored line tax after discount. WooCommerce order totals retain shipping, fees, discounts, and tax. Invoice layouts always retain final payable amounts; optional breakdown switches do not recalculate them.
 
-RTL follows the WordPress locale, with an explicit RTL sample option. mPDF selects bundled fonts for the invoice language. Large receipts can span pages; browser receipt paper size depends on the selected printer/driver. Test long names, addresses, and notes on the physical device.
+RTL follows the WordPress locale, with an explicit RTL sample option. Choose DejaVu Sans, Serif or Sans Mono at 6–16 pt in Templates; mPDF keeps script-specific fallback fonts. Optional compact spacing reduces section and item padding. Optional one-page PDF fitting uniformly scales complete content, with a minimum 60% scale; content that cannot fit fails clearly rather than being clipped. Thermal content-height output retains 58/80 mm width and fits a roll page up to 2,000 mm high. Both modes are off by default and use a generated PDF viewer in browser output. Browser/printer media and scaling still determine physical output. Test long names, addresses, and notes on the physical device. See [display controls, bounds and driver cutting](docs/invoice-layout.md).
 
-Logo URLs use WordPress's safe HTTP API. PNG/JPEG/GIF/WebP data is validated and embedded, with limits of 2 MiB and 5,000 pixels per dimension. Successful logos are cached for one day; inaccessible or invalid images are omitted.
+Logo URLs use WordPress's safe HTTP API when logo display is enabled. PNG/JPEG/GIF/WebP data is validated and embedded, with limits of 2 MiB and 5,000 pixels per dimension. Successful logos are cached for one day; inaccessible or invalid images are omitted.
 
 ## Languages
 
@@ -288,7 +290,7 @@ add_filter( 'wcip_invoice_templates', static function ( array $templates ): arra
 
 The readable PHP file receives `$invoice` (`InvoiceData`) and `$template` (`TemplateDefinition`). Follow a bundled template's complete HTML/body/style structure. IDs use lowercase letters, digits, `_`, and `-`; orientation is `portrait`/`landscape`. Templates execute PHP and must come from trusted code.
 
-`InvoiceData` exposes read-only `order`, `store`, `customer`, `items`, `totals`, `fulfillment` arrays and an `rtl` boolean. PHP 7.4-compatible private fields and magic accessors preserve property reads and prevent replacement/unsetting. Array reads return values, so modify a copy and return a new instance to change fields. `TemplateDefinition` and `SubmissionResult` use the same approach. Match bundled escaping of plain text and restricted currency HTML.
+`InvoiceData` exposes read-only `order`, `store`, `customer`, `items`, `totals`, `fulfillment` arrays and an `rtl` boolean. PHP 7.4-compatible private fields and magic accessors preserve property reads and prevent replacement/unsetting. Array reads return values, so modify a copy and return a new instance to change fields. `TemplateDefinition` and `SubmissionResult` use the same approach. Match bundled escaping of plain text and restricted currency HTML. Version 1.4.4 adds `customer['role']` and normalized font/layout/visibility data in `fulfillment['presentation']`; adapt custom templates with bundled presentation helpers to honor saved field choices. See [the layout contract](docs/invoice-layout.md).
 
 `JobStatus` uses string constants on every PHP version: pass `JobStatus::FAILED` directly rather than reading an enum's `->value`. `JobStatus::cases()` returns the status strings, `JobStatus::is_terminal( $status )` identifies terminal states, and `JobStatus::label( $status )` returns translated display labels. Stored database values and failure-hook arguments remain the same strings.
 
@@ -330,6 +332,8 @@ The HTTP test fetches documents without executing browser scripts, so it does no
 
 The [remediation test](tests/Integration/remediation.php) exercises discovery, states, native Orders filters, fulfillment, scan permissions, outbox deduplication and all document formats against real WordPress/WooCommerce. The [upgrade test](tests/Integration/upgrade.php) requires an empty plugin job table and reconstructs the 1.1.2 schema; run it only in an expendable database. The [concurrency test](tests/Integration/concurrency.php) provides prepare, event, reconcile, confirmation, verification and cleanup phases for separate PHP workers. Commands and the executed evidence matrix are in [REMEDIATION_TRACEABILITY.md](REMEDIATION_TRACEABILITY.md).
 
+The [key-length regression](tests/Integration/schema-key-length.php) reproduces the oversized MyISAM index, verifies corrected activation and upgrades populated MyISAM jobs with exact printer-route checks. Run only in a disposable WordPress database named `wcip_*_test`: `WCIP_RUN_DB_TESTS=1 wp --skip-plugins=wc-invoice-printer eval-file tests/Integration/schema-key-length.php`. It resets the six plugin tables in that test database.
+
 | Directory/file | Responsibility |
 | --- | --- |
 | `wc-invoice-printer.php`, `src/Plugin.php` | Bootstrap, HPOS declaration, service/hook wiring |
@@ -344,7 +348,7 @@ See [architecture](docs/architecture.md), [UI specification](docs/ui-spec.md), a
 
 Localized DOCX development and template-customization guides and a companion-plugin example are in [system-development](system-development/README.md).
 
-[Review findings and verification](docs/review-1.4.1.md) records the current corrected issues, regression coverage, tested environment, and practical limits. The [earlier review](docs/review.md) is retained for historical reference.
+[Current review findings and verification](docs/review-1.4.4.md) records presentation, page sizing and printing fixes. The [1.4.3 key-length review](docs/review-1.4.3.md), [1.4.2 activation review](docs/review-1.4.2.md), [1.4.1 review](docs/review-1.4.1.md) and [earlier review](docs/review.md) are retained for historical reference.
 
 ## Packaging
 
@@ -356,11 +360,11 @@ The release builder creates a clean temporary staging directory, installs locked
 python3 scripts/build-release.py
 ```
 
-For an offline rebuild, `--production-vendor /absolute/path/to/clean/vendor` accepts only an exact locked production package set. Do not pass the development checkout's vendor directory. The plugin ZIP includes cross-platform setup, CUPS migration, operations instructions and the agent source/config example. The standalone agent ZIP contains the same local app and setup guide. Install Python and SumatraPDF or CUPS only on the printer computer. Developer DOCX guides, review evidence and companion examples are in the separate documentation bundle and source.
+For an offline rebuild, `--production-vendor /absolute/path/to/clean/vendor` accepts only an exact locked production package set. Do not pass the development checkout's vendor directory. The plugin ZIP includes all Markdown guides/review evidence, the development index/verification/manifest, companion examples and the agent source/config example. The standalone agent ZIP contains the same local app and setup guide. Install Python and SumatraPDF or CUPS only on the printer computer. The fourteen developer DOCX guides are in the separate documentation bundle and source.
 
 `build/` contains local staging files and generated release ZIPs and is ignored by Git. Source changes and tests do not regenerate archives. Build a fresh archive before distributing reviewed changes, then verify its installation/activation and a test print. Distribute release ZIPs separately from the source repository.
 
-`build/wc-invoice-printer-1.4.1.zip` is the production-dependency package. The 1.4.1 maintenance release fixes queued-delivery checks, lifecycle cleanup, recipient phone mapping and destination diagnostics. Schema/capability version 1.4.0 adds agent lease fields/index and a scoped role while preserving prior jobs, confirmations and CUPS settings. The separate commercial-provider retirement stamp remains 1.3.0. Back up the database before upgrade; review [upgrade and operations instructions](docs/operations.md).
+`build/wc-invoice-printer-1.4.4.zip` is the current production-dependency package filename produced by the builder. Version 1.4.4 adds field visibility, compact spacing, fonts, complete-content one-page fitting and thermal content-height output. It retains the 1.4.3 bounded queue indexes/InnoDB fix, 1.4.2 table verification/error reporting and 1.4.1 printing/lifecycle fixes. Schema version remains 1.4.3; capability version remains 1.4.0 and the commercial-provider retirement stamp remains 1.3.0. Back up the database before upgrade; review [upgrade and operations instructions](docs/operations.md) and your saved display choices.
 
 ## Troubleshooting
 
@@ -370,8 +374,10 @@ For an offline rebuild, `--production-vendor /absolute/path/to/clean/vendor` acc
 | Offline gateway does not print | Its paid-status/payment-hook policy; pending/on-hold is ineligible |
 | Queue stays pending | Agent: awake workstation, last seen, HTTPS/authentication, exact logical queue and private journal. CUPS: Scheduled Actions, WP-Cron, loopback and queue logs |
 | Queue failure | Restore Action Scheduler/storage, then safe Retry for `scheduler_unavailable`/`schedule_failed` |
-| Database setup notice | Check database CREATE/ALTER permissions and storage; fix the cause and reactivate. Other WooCommerce operations can continue while printing is unavailable. |
+| Database setup notice | Read the table-specific database error shown below the message. Check CREATE/ALTER/SELECT permissions and storage for that error; fix the cause and reactivate. Other WooCommerce operations can continue while printing is unavailable. |
 | Generation failure | Composer dependencies/extensions, memory/temp permissions, template/filter code; correct then reprint |
+| One-page fitting fails | Hide optional fields, use compact spacing or larger paper; the plugin rejects content that cannot fit at the bounded minimum scale |
+| Extra thermal paper or cut position | Enable optional thermal content height for PDFs, choose matching driver media and configure supported driver cutting; no raw cutter command is sent |
 | HTTP 401 | Replace/test credential and check whether the server constant overrides it |
 | Local printer missing from plugin list | Use the agent’s local printer name or Browser print dialog; the refreshed list contains CUPS queues |
 | Local printer missing from browser dialog | Install the printer/driver in the operating system and verify printing from another application |
@@ -396,7 +402,7 @@ Licensed under [GPL-2.0-or-later](LICENSE).
 
 ## Shipping workflow and integrations
 
-Open Documents & shipping for recipient fallback, mapped fields, timezone and optional fulfillment settings. Barcode & integrations provides authenticated lookup, independent warehouse stages and the default-off signed webhook outbox. Reconciliation provides a dry-run preview and explicit selection for historical orders. Diagnostics reports queue configuration and discovery progress.
+Open Templates for field display, compact spacing, fonts and optional one-page/thermal-height output. Open Documents & shipping for recipient fallback, mapped fields, timezone and optional fulfillment settings; fallback and label sender display default off when absent. Barcode & integrations provides authenticated lookup, independent warehouse stages and the default-off signed webhook outbox. Reconciliation provides a dry-run preview and explicit selection for historical orders. Diagnostics reports queue configuration and discovery progress.
 
 See [operations, API contracts and extension examples](docs/operations.md) and the [executed remediation report](REMEDIATION_TRACEABILITY.md). Automatic output uses one configured agent or CUPS destination; manual labels can use another explicit CUPS queue or the paired agent. Package splitting, measured gross weight and tracking are adapter-provided data, never inferred.
 

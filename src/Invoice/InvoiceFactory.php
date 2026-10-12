@@ -37,8 +37,9 @@ final class InvoiceFactory {
 		}
 
 		$totals = array();
-		foreach ( $order->get_order_item_totals() as $total ) {
+		foreach ( $order->get_order_item_totals() as $key => $total ) {
 			$totals[] = array(
+				'key' => (string) $key,
 				'label' => wp_strip_all_tags( (string) $total['label'] ),
 				'value' => wp_kses( (string) $total['value'], $this->price_tags() ),
 			);
@@ -53,17 +54,11 @@ final class InvoiceFactory {
 				'currency'       => $order->get_currency(),
 				'status'         => wc_get_order_status_name( $order->get_status() ),
 			),
-			array(
-				'name'       => (string) $this->settings->get( 'business_name' ),
-				'details'    => (string) $this->settings->get( 'business_details' ),
-				'phone'      => (string) $this->settings->get( 'business_phone' ),
-				'email'      => (string) $this->settings->get( 'business_email' ),
-				'logo_data_uri' => $this->safe_logo_data_uri( (string) $this->settings->get( 'logo_url' ) ),
-				'address'    => $this->store_address(),
-			),
+			$this->store_data(),
 			array(
 				'name'             => $order->get_formatted_billing_full_name(),
 				'company'          => $order->get_billing_company(),
+				'role'             => $this->customer_role( $order ),
 				'billing_components' => method_exists( $order, 'get_address' ) ? $order->get_address( 'billing' ) : array(),
 				'billing_address'  => $this->plain_address( $order->get_formatted_billing_address() ),
 				'shipping_address' => $recipient['formatted_address'],
@@ -75,11 +70,12 @@ final class InvoiceFactory {
 			$items,
 			$totals,
 			array(
+				'presentation' => $this->settings->presentation(),
 				'document_codes' => $this->document_codes( $order->get_id() ),
 				'payment_confirmed' => ( new \WCInvoicePrinter\Automation\PaymentEligibilityPolicy( $this->settings ) )->confirmed( $order ),
-				'show_paid_date' => (bool) $this->settings->get( 'show_paid_date', true ),
-				'show_shipping_phone' => (bool) $this->settings->get( 'show_shipping_phone', true ),
-				'label_show_sender' => (bool) $this->settings->get( 'label_show_sender', true ),
+				'show_paid_date' => (bool) $this->settings->get( 'show_paid_date', false ),
+				'show_shipping_phone' => (bool) $this->settings->get( 'show_shipping_phone', false ),
+				'label_show_sender' => (bool) $this->settings->get( 'label_show_sender', false ),
 				'payment_method' => $order->get_payment_method_title(),
 				'shipping_method'=> $order->get_shipping_method(),
 				'note'           => $this->settings->get( 'show_customer_note' ) ? $order->get_customer_note() : '',
@@ -92,9 +88,9 @@ final class InvoiceFactory {
 	public function sample( bool $rtl = false ): InvoiceData {
 		return new InvoiceData(
 			array( 'id' => 1042, 'number' => '1042', 'date' => __( 'September 15, 2026', 'wc-invoice-printer' ), 'paid_date' => __( 'September 15, 2026', 'wc-invoice-printer' ), 'currency' => 'USD', 'status' => __( 'Processing', 'wc-invoice-printer' ) ),
-			array( 'name' => __( 'Northstar Supply Co.', 'wc-invoice-printer' ), 'details' => __( 'Business registration and tax details', 'wc-invoice-printer' ), 'phone' => '+1 555 0142', 'email' => 'billing@example.com', 'logo_data_uri' => '', 'address' => __( '24 Market Street, Portland, OR', 'wc-invoice-printer' ) ),
+			$this->store_data(),
 			array(
-				'name' => __( 'Alex Morgan', 'wc-invoice-printer' ), 'company' => __( 'Morgan Studio', 'wc-invoice-printer' ),
+				'name' => __( 'Alex Morgan', 'wc-invoice-printer' ), 'company' => __( 'Morgan Studio', 'wc-invoice-printer' ), 'role' => __( 'Customer', 'woocommerce' ),
 				'billing_address' => __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ),
 				'shipping_address' => __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ),
 				'phone' => '+1 555 0199', 'shipping_phone' => '+1 555 0199', 'email' => 'alex@example.com',
@@ -104,10 +100,36 @@ final class InvoiceFactory {
 				array( 'name' => __( 'Professional planning notebook with an intentionally long product name', 'wc-invoice-printer' ), 'variation' => __( 'Color: Midnight / Size: Large', 'wc-invoice-printer' ), 'sku' => 'PLAN-XL-01', 'quantity' => 2, 'unit_price' => '$42.00', 'subtotal' => '$84.00', 'discount' => '$8.40', 'tax' => '$6.05', 'total' => '$81.65' ),
 				array( 'name' => __( 'Fine gel pen set', 'wc-invoice-printer' ), 'variation' => '', 'sku' => 'PEN-06', 'quantity' => 1, 'unit_price' => '$18.00', 'subtotal' => '$18.00', 'discount' => '$0.00', 'tax' => '$1.44', 'total' => '$19.44' ),
 			),
-			array( array( 'label' => __( 'Subtotal:', 'wc-invoice-printer' ), 'value' => '$102.00' ), array( 'label' => __( 'Discount:', 'wc-invoice-printer' ), 'value' => '−$8.40' ), array( 'label' => __( 'Shipping:', 'wc-invoice-printer' ), 'value' => '$7.00' ), array( 'label' => __( 'Tax:', 'wc-invoice-printer' ), 'value' => '$7.49' ), array( 'label' => __( 'Total:', 'wc-invoice-printer' ), 'value' => '<strong>$108.09</strong>' ) ),
-			array( 'payment_method' => __( 'Credit card', 'wc-invoice-printer' ), 'shipping_method' => __( 'Ground shipping', 'wc-invoice-printer' ), 'note' => __( 'Please leave the parcel at reception.', 'wc-invoice-printer' ) ),
+			array( array( 'key' => 'cart_subtotal', 'label' => __( 'Subtotal:', 'wc-invoice-printer' ), 'value' => '$102.00' ), array( 'key' => 'discount', 'label' => __( 'Discount:', 'wc-invoice-printer' ), 'value' => '−$8.40' ), array( 'key' => 'shipping', 'label' => __( 'Shipping:', 'wc-invoice-printer' ), 'value' => '$7.00' ), array( 'key' => 'tax', 'label' => __( 'Tax:', 'wc-invoice-printer' ), 'value' => '$7.49' ), array( 'key' => 'order_total', 'label' => __( 'Total:', 'wc-invoice-printer' ), 'value' => '<strong>$108.09</strong>' ) ),
+			array(
+				'presentation' => $this->settings->presentation(),
+				'payment_confirmed' => true,
+				'show_paid_date' => (bool) $this->settings->get( 'show_paid_date', false ),
+				'show_shipping_phone' => (bool) $this->settings->get( 'show_shipping_phone', false ),
+				'label_show_sender' => (bool) $this->settings->get( 'label_show_sender', false ),
+				'payment_method' => __( 'Credit card', 'wc-invoice-printer' ), 'shipping_method' => __( 'Ground shipping', 'wc-invoice-printer' ),
+				'note' => $this->settings->get( 'show_customer_note' ) ? __( 'Please leave the parcel at reception.', 'wc-invoice-printer' ) : '',
+			),
 			$rtl
 		);
+	}
+
+	private function customer_role( \WC_Order $order ): string {
+		$user = method_exists( $order, 'get_user' ) ? $order->get_user() : false;
+		if ( ! $user && method_exists( $order, 'get_customer_id' ) && function_exists( 'get_userdata' ) ) {
+			$id = (int) $order->get_customer_id();
+			$user = $id > 0 ? get_userdata( $id ) : false;
+		}
+		if ( ! $user || ! isset( $user->roles ) || ! is_array( $user->roles ) || ! $user->roles ) { return __( 'Guest', 'wc-invoice-printer' ); }
+		$registry = function_exists( 'wp_roles' ) ? wp_roles() : null;
+		$names = $registry && method_exists( $registry, 'get_names' ) ? $registry->get_names() : array();
+		$labels = array();
+		foreach ( $user->roles as $role ) {
+			if ( ! is_string( $role ) || '' === $role ) { continue; }
+			$name = $names[ $role ] ?? ucwords( str_replace( '_', ' ', $role ) );
+			$labels[] = sanitize_text_field( function_exists( 'translate_user_role' ) ? translate_user_role( $name ) : $name );
+		}
+		return $labels ? implode( ', ', array_unique( $labels ) ) : __( 'Guest', 'wc-invoice-printer' );
 	}
 
 	private function document_codes( int $order_id ): array {
@@ -135,6 +157,17 @@ final class InvoiceFactory {
 	private function store_address(): string {
 		$parts = array_filter( array( get_option( 'woocommerce_store_address' ), get_option( 'woocommerce_store_address_2' ), get_option( 'woocommerce_store_city' ), get_option( 'woocommerce_store_postcode' ) ) );
 		return implode( ', ', array_map( 'sanitize_text_field', $parts ) );
+	}
+
+	private function store_data(): array {
+		return array(
+			'name' => (string) $this->settings->get( 'business_name' ),
+			'details' => (string) $this->settings->get( 'business_details' ),
+			'phone' => (string) $this->settings->get( 'business_phone' ),
+			'email' => (string) $this->settings->get( 'business_email' ),
+			'logo_data_uri' => $this->settings->get( 'show_store_logo' ) ? $this->safe_logo_data_uri( (string) $this->settings->get( 'logo_url' ) ) : '',
+			'address' => $this->store_address(),
+		);
 	}
 
 	private function variation_text( \WC_Order_Item_Product $item ): string {

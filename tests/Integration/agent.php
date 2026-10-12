@@ -43,7 +43,7 @@ if ( 'prepare' === $phase ) {
 		$check( $expected === $job['status'], 'Wrong outcome for job ' . $index );
 		$check( empty( $job['printed_at'] ), 'Spooler acceptance never confirms physical paper.' );
 	}
-	$check( '1.4.0' === get_option( 'wcip_db_version' ), 'Agent schema migration missing.' );
+	$check( \WCInvoicePrinter\Infrastructure\Activator::DB_VERSION === get_option( 'wcip_db_version' ), 'Agent schema migration missing.' );
 	$check( ! user_can( $f['user'], 'wcip_manage_settings' ) && ! user_can( $f['user'], 'wcip_print_invoices' ) && user_can( $f['user'], 'wcip_run_print_agent' ), 'Agent account privileges are scoped.' );
 	echo 'PASS: real agent queue outcomes, no paper confirmation, schema and scoped role.';
 } elseif ( 'queue_safety' === $phase ) {

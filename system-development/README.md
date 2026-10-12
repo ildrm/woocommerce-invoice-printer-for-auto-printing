@@ -1,8 +1,10 @@
 # System development documentation
 
-Development and template-customization guides for **WooCommerce Invoice Printer 1.4.0**, reviewed against the remediation working tree based on commit `c894eb05d2120a4bba09aa3500fe2842a0e48d74` on **10 October 2026**. This folder contains documentation and an optional companion-plugin example; it is not loaded by the main plugin.
+Development and template-customization guides for **WooCommerce Invoice Printer 1.4.4**, updated against the current working tree on **12 October 2026**. This folder contains documentation and an optional companion-plugin example; it is not loaded by the main plugin.
 
 The plugin has 13 supported languages and 14 bundled locale catalogs. Every locale has a complete DOCX guide with localized explanations and shared code examples, API references, hook signatures and commands. The English edition gives additional background. Technical identifiers remain unchanged so examples can be copied. Translation wording has not been independently reviewed by native-language editors.
+
+The production plugin ZIP includes this index, verification record, manifest and companion examples. The DOCX editions are distributed in the separate development-documentation ZIP and source; the guide links below refer to that full bundle.
 
 | Language | Locale | Direction | Guide |
 | --- | --- | --- | --- |
@@ -23,7 +25,7 @@ The plugin has 13 supported languages and 14 bundled locale catalogs. Every loca
 
 Each guide explains the development environment, architecture, merchant settings, persistent template customization, invoice fields, hooks, provider limitations, protected REST API, payment triggers, job recovery, translations, tests, security and release preparation.
 
-The 1.4.0 editions also cover confirmed-payment eligibility, bounded reconciliation and historical preview, seven document formats, document-specific confirmation, opt-in warehouse stages, opaque codes, authenticated scanning, signed exports, added hooks/routes and the additive schema. The detailed English operator/receiver contract is in [docs/operations.md](../docs/operations.md); executed tests and remaining external acceptance work are in [the remediation record](../REMEDIATION_TRACEABILITY.md).
+The 1.4.4 editions retain the 1.4.0 cross-platform/operations guide and add a localized supplement for visibility defaults, field switches, fonts, compact layout, complete-content one-page PDF fitting, thermal page height and driver cutting. The supplement replaces prior display defaults and release/schema guidance: plugin 1.4.4 retains schema 1.4.3, capabilities 1.4.0 and provider retirement stamp 1.3.0. Confirmed-payment eligibility, reconciliation, seven document formats, document-specific confirmation, opt-in warehouse stages, codes/scanning and signed exports remain documented. See [display and paper controls](../docs/invoice-layout.md) and [operations](../docs/operations.md); executed tests and remaining external acceptance work are in [the remediation record](../REMEDIATION_TRACEABILITY.md).
 
 [Verification record](VERIFICATION.md) documents the review scope and checks. [Document manifest](manifest.json) records each edition's direction, rendered page count and SHA-256 checksum.
 
@@ -31,7 +33,7 @@ Persian and Arabic use Word paragraph/run language metadata, RTL text and mirror
 
 ## Companion example
 
-Copy [examples/wcip-customization](examples/wcip-customization/) into a disposable site's `wp-content/plugins/wcip-customization/`, activate WooCommerce Invoice Printer, then activate **WCIP Customization**. Select `custom-classic` in Invoice Printer settings. The example copies the classic layout and adds an optional `_purchase_order` order-meta value using WooCommerce CRUD. It does not create or populate that meta field; use the key your store actually saves. Sample previews omit the order-data filter, so test a real order. The example's own text domain is `wcip-customization`; add catalogs if translating its new labels.
+Copy [examples/wcip-customization](examples/wcip-customization/) into a disposable site's `wp-content/plugins/wcip-customization/`, activate WooCommerce Invoice Printer, then activate **WCIP Customization**. Select `custom-classic` in Invoice Printer settings. The example copies the 1.4.4 classic layout and shared presentation behavior, including field switches and fonts. It adds an optional `_purchase_order` order-meta value using WooCommerce CRUD, hidden by default. Enable its display from trusted companion code with `add_filter( 'wcip_customization_show_purchase_order', '__return_true' );`. It does not create or populate that meta field; use the key your store actually saves. Sample previews omit the order-data filter, so test a real order. The example's own text domain is `wcip-customization`; add catalogs if translating its new labels.
 
 ## Maintain the guides
 

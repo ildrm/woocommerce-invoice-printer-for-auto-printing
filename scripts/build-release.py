@@ -25,12 +25,16 @@ def main():
         for directory in ('src', 'templates', 'assets', 'languages'):
             shutil.copytree(ROOT / directory, stage / directory)
         (stage / 'docs').mkdir()
-        for filename in ('open-source-printing.md', 'cross-platform-printing.md', 'operations.md', 'review-1.4.1.md'):
-            shutil.copy2(ROOT / 'docs' / filename, stage / 'docs' / filename)
+        for path in sorted((ROOT / 'docs').glob('*.md')):
+            shutil.copy2(path, stage / 'docs' / path.name)
+        (stage / 'system-development').mkdir()
+        for filename in ('README.md', 'VERIFICATION.md', 'manifest.json'):
+            shutil.copy2(ROOT / 'system-development' / filename, stage / 'system-development' / filename)
+        shutil.copytree(ROOT / 'system-development/examples', stage / 'system-development/examples')
         (stage / 'print-agent').mkdir()
         for filename in ('wcip_agent.py', 'config.example.json', 'README.md', 'LICENSE'):
             shutil.copy2(ROOT / 'print-agent' / filename, stage / 'print-agent' / filename)
-        for filename in ('wc-invoice-printer.php', 'uninstall.php', 'readme.txt', 'README.md', 'LICENSE', 'LICENSE.md', 'LICENSE.txt'):
+        for filename in ('wc-invoice-printer.php', 'uninstall.php', 'readme.txt', 'README.md', 'REMEDIATION_TRACEABILITY.md', 'LICENSE', 'LICENSE.md', 'LICENSE.txt'):
             if (ROOT / filename).is_file():
                 shutil.copy2(ROOT / filename, stage / filename)
         for filename in ('composer.json', 'composer.lock'):
@@ -60,7 +64,7 @@ def main():
                     continue
                 if path.name in ('phpunit.xml', 'phpunit.xml.dist', '.travis.yml'):
                     continue
-                info = zipfile.ZipInfo('wc-invoice-printer/' + relative.as_posix(), date_time=(2026, 10, 10, 0, 0, 0))
+                info = zipfile.ZipInfo('wc-invoice-printer/' + relative.as_posix(), date_time=(2026, 10, 12, 0, 0, 0))
                 info.external_attr = 0o100644 << 16
                 info.compress_type = zipfile.ZIP_DEFLATED
                 archive.writestr(info, path.read_bytes())

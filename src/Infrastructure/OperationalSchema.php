@@ -5,6 +5,7 @@ namespace WCInvoicePrinter\Infrastructure;
 final class OperationalSchema {
 	public static function install(): bool {
 		global $wpdb;
+		require_once __DIR__ . '/SchemaInstaller.php';
 		$charset = $wpdb->get_charset_collate();
 		$definitions = array(
 			'wcip_runtime_leases' => "lease_name varchar(64) NOT NULL, owner char(32) NOT NULL, expires_at bigint(20) unsigned NOT NULL, PRIMARY KEY  (lease_name), KEY expires_at (expires_at)",
@@ -24,12 +25,11 @@ final class OperationalSchema {
 		foreach ( $definitions as $suffix => $columns ) {
 			$table = $wpdb->prefix . $suffix;
 			$columns = implode( ",\n", array_map( 'trim', preg_split( '/,(?![^()]*\\))/', $columns ) ) );
-			dbDelta( "CREATE TABLE {$table} (\n{$columns}\n) ENGINE=InnoDB {$charset};" );
-			if ( '' !== $wpdb->last_error || $table !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) ) { return false; }
+			if ( ! SchemaInstaller::install( $table, "CREATE TABLE {$table} (\n{$columns}\n) ENGINE=InnoDB {$charset};" ) ) { return false; }
 			if ( 'wcip_document_references' === $suffix ) {
 				$column = $wpdb->get_row( "SHOW FULL COLUMNS FROM {$table} LIKE 'reference'", ARRAY_A );
-				if ( ! $column ) { return false; }
-				if ( 'ascii_bin' !== $column['Collation'] && false === $wpdb->query( "ALTER TABLE {$table} MODIFY reference varchar(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL" ) ) { return false; }
+				if ( ! $column ) { return SchemaInstaller::fail( $table, 'The document reference column could not be read.' ); }
+				if ( 'ascii_bin' !== $column['Collation'] && false === $wpdb->query( "ALTER TABLE {$table} MODIFY reference varchar(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL" ) ) { return SchemaInstaller::fail( $table, 'The document reference collation could not be updated.' ); }
 			}
 		}
 		return true;

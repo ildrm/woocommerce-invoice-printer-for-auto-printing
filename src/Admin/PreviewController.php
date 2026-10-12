@@ -34,7 +34,7 @@ final class PreviewController {
 			wp_die( esc_html__( 'You are not allowed to print invoices.', 'wc-invoice-printer' ), '', array( 'response' => 403 ) );
 		}
 		check_admin_referer( 'wcip_preview_invoices' );
-		foreach ( array( 'order_ids', 'template', 'copies', 'sample', 'preview', 'rtl', 'print' ) as $key ) {
+		foreach ( array( 'order_ids', 'template', 'copies', 'sample', 'preview', 'rtl', 'print', 'pdf' ) as $key ) {
 			if ( isset( $_GET[ $key ] ) && ! is_scalar( $_GET[ $key ] ) ) { wp_die( esc_html__( 'Invalid preview input.', 'wc-invoice-printer' ), '', array( 'response' => 400 ) ); }
 		}
 		$selection   = isset( $_GET['order_ids'] ) && is_string( $_GET['order_ids'] ) ? sanitize_text_field( wp_unslash( $_GET['order_ids'] ) ) : '';
@@ -43,6 +43,7 @@ final class PreviewController {
 		$rtl         = isset( $_GET['rtl'] ) && '1' === $_GET['rtl'];
 		$sample      = isset( $_GET['sample'] ) && '1' === $_GET['sample'];
 		$preview     = $sample || ( isset( $_GET['preview'] ) && '1' === $_GET['preview'] );
+		$pdf_request = isset( $_GET['pdf'] ) && '1' === $_GET['pdf'];
 		$auto_print  = ! $preview && isset( $_GET['print'] ) && '1' === $_GET['print'];
 		$copies      = $_GET['copies'] ?? '1';
 		if ( ! preg_match( '/^(?:[1-9]|1[0-9]|20)$/D', (string) $copies ) ) { wp_die( esc_html__( 'Choose between 1 and 20 copies.', 'wc-invoice-printer' ), '', array( 'response' => 400 ) ); }
@@ -54,6 +55,10 @@ final class PreviewController {
 		$documents = array();
 		$orders    = array();
 		$prepared_jobs = array();
+		$settings = new \WCInvoicePrinter\Settings\SettingsRepository();
+		$definition = $this->templates->get( $template_id );
+		$pdf_mode = $pdf_request || $settings->get( 'single_page' ) || ( in_array( $definition->paper_size, array( '58mm', '80mm' ), true ) && $settings->get( 'thermal_auto_height' ) );
+		$pdf = '';
 		if ( ! $sample ) {
 			if ( count( $ids ) > 50 ) { wp_die( esc_html__( 'Select no more than 50 orders.', 'wc-invoice-printer' ), '', array( 'response' => 400 ) ); }
 			foreach ( $ids as $id ) {
@@ -71,8 +76,10 @@ final class PreviewController {
 				$document = $this->html->render( $this->invoices->from_order( $order )->with_rtl( $rtl || is_rtl() ), $template_id );
 				for ( $copy = 0; $copy < $copies; $copy++ ) { $documents[] = $document; }
 			}
+			// Validate the entire PDF selection before recording any prepared job.
+			if ( $pdf_mode && $documents ) { $pdf = ( new \WCInvoicePrinter\Pdf\MpdfRenderer() )->bundle( $documents, $definition ); }
 			// Only record browser jobs after every invoice rendered successfully.
-			if ( ! $preview ) {
+			if ( ! $preview && ! $pdf_request ) {
 				foreach ( $orders as $order ) {
 					$job = $this->job_service->create_manual( $order, $template_id, 'browser', '', $copies );
 					if ( ! $this->jobs->browser_ready( (int) $job['id'] ) ) {
@@ -82,15 +89,23 @@ final class PreviewController {
 				}
 			}
 		} catch ( \Throwable $error ) {
+			if ( $error instanceof \WCInvoicePrinter\Pdf\LayoutException ) { wp_die( esc_html( $error->getMessage() ), '', array( 'response' => 400 ) ); }
 			wp_die( esc_html__( 'The invoice could not be prepared. Review Print Jobs before trying again.', 'wc-invoice-printer' ), '', array( 'response' => 500 ) );
 		}
 		if ( ! $documents ) {
 			wp_die( esc_html__( 'No valid invoices were selected.', 'wc-invoice-printer' ), '', array( 'response' => 404 ) );
 		}
 		nocache_headers();
+		if ( $pdf_request ) {
+			header( 'Content-Type: application/pdf' );
+			header( 'Content-Disposition: inline; filename="invoice.pdf"' );
+			header( 'X-Content-Type-Options: nosniff' );
+			echo $pdf; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Generated PDF bytes.
+			exit;
+		}
 		header( 'Content-Type: text/html; charset=UTF-8' );
 		preg_match_all( '/<style[^>]*>(.*?)<\/style>/si', $documents[0], $style_matches );
-		$styles = implode( "\n", $style_matches[1] ?? array() );
+		$styles = $pdf_mode ? 'body{margin:0;font:14px sans-serif}.wcip-pdf{width:100%;height:85vh;border:0}' : implode( "\n", $style_matches[1] ?? array() );
 		$body   = array_map( static function ( string $document ): string { preg_match( '/<body[^>]*>(.*?)<\/body>/si', $document, $match ); return $match[1] ?? ''; }, $documents );
 		echo '<!doctype html><html lang="' . esc_attr( \WCInvoicePrinter\I18n\Locale::language_tag() ) . '" dir="' . ( $rtl || is_rtl() ? 'rtl' : 'ltr' ) . '"><head><meta charset="utf-8"><style>' . $styles . '.wcip-toolbar{position:sticky;top:0;z-index:5;padding:10px;background:#fff;border-bottom:1px solid #ccc;text-align:center}.wcip-document{page-break-after:always}.wcip-document:last-child{page-break-after:auto}@media print{.wcip-toolbar{display:none}}</style></head><body>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS originates from bundled, validated templates.
 		// Printing a real preview prepares a tracked job only when Print is clicked.
@@ -98,6 +113,8 @@ final class PreviewController {
 		if ( $preview && ! $sample ) {
 			$url = wp_nonce_url( add_query_arg( array( 'action' => 'wcip_preview', 'order_ids' => implode( ',', array_map( static function ( \WC_Order $order ): int { return $order->get_id(); }, $orders ) ), 'template' => $template_id, 'copies' => 1, 'rtl' => $rtl ? 1 : 0, 'print' => 1 ), admin_url( 'admin-post.php' ) ), 'wcip_preview_invoices' );
 			echo '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Print', 'wc-invoice-printer' ) . '</a>';
+		} elseif ( $pdf_mode ) {
+			echo '<button onclick="document.getElementById(\'wcip-pdf\').contentWindow.print()">' . esc_html__( 'Print', 'wc-invoice-printer' ) . '</button>';
 		} else {
 			echo '<button onclick="window.print()">' . esc_html__( 'Print', 'wc-invoice-printer' ) . '</button>';
 		}
@@ -107,8 +124,15 @@ final class PreviewController {
 			echo '<script src="' . esc_url( WCIP_URL . 'assets/js/confirmation.js?ver=' . WCIP_VERSION ) . '" defer></script>';
 		}
 		echo '</div>';
-		foreach ( $body as $document ) { echo '<section class="wcip-document">' . $document . '</section>'; } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered template escapes normalized data.
-		if ( $auto_print ) { echo '<script>window.addEventListener("load",function(){window.print();});</script>'; }
+		if ( $pdf_mode ) {
+			$args = array( 'action' => 'wcip_preview', 'template' => $template_id, 'order_ids' => $selection, 'copies' => $copies, 'sample' => $sample ? 1 : 0, 'rtl' => $rtl ? 1 : 0, 'pdf' => 1 );
+			$url = wp_nonce_url( add_query_arg( $args, admin_url( 'admin-post.php' ) ), 'wcip_preview_invoices' );
+			echo '<p><a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html__( 'Open PDF', 'wc-invoice-printer' ) . '</a></p><iframe id="wcip-pdf" class="wcip-pdf" title="' . esc_attr__( 'Invoice PDF', 'wc-invoice-printer' ) . '" src="' . esc_url( $url ) . '"></iframe>';
+			if ( $auto_print ) { echo '<script>document.getElementById("wcip-pdf").addEventListener("load",function(){this.contentWindow.print();});</script>'; }
+		} else {
+			foreach ( $body as $document ) { echo '<section class="wcip-document">' . $document . '</section>'; } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered template escapes normalized data.
+			if ( $auto_print ) { echo '<script>window.addEventListener("load",function(){window.print();});</script>'; }
+		}
 		echo '</body></html>';
 		exit;
 	}

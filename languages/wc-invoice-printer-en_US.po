@@ -1,1008 +1,1547 @@
 msgid ""
-msgstr "Project-Id-Version: WooCommerce Invoice Printer 1.4.0\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2026-10-10 12:00+0330\nPO-Revision-Date: 2026-10-10 12:00+0330\nLast-Translator: WooCommerce Invoice Printer contributors\nLanguage-Team: English\nLanguage: en_US\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\nX-Domain: wc-invoice-printer\n"
+msgstr ""
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
+"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
+"PO-Revision-Date: 2026-10-12 15:00+0330\n"
+"Last-Translator: WooCommerce Invoice Printer contributors\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wc-invoice-printer\n"
 
+#. translators: %d: number of invoices added to the print queue.
+#: src/Admin/AdminPage.php:52
 #, php-format
 msgid "%d invoice(s) queued."
 msgstr "%d invoice(s) queued."
 
+#. translators: %d: number of printers returned by CUPS.
+#: src/Admin/AdminPage.php:50
 #, php-format
 msgid "%d printer(s) found."
 msgstr "%d printer(s) found."
 
-msgid "24 Market Street, Portland, OR"
-msgstr "24 Market Street, Portland, OR"
-
+#: src/Invoice/InvoiceFactory.php:94 src/Invoice/InvoiceFactory.php:95
+#: src/Invoice/InvoiceFactory.php:97
 msgid "840 Evergreen Terrace, Seattle, WA"
 msgstr "840 Evergreen Terrace, Seattle, WA"
 
+#: src/Template/TemplateRegistry.php:10
 msgid "A polished full invoice for office printers."
 msgstr "A polished full invoice for office printers."
 
+#: src/Rest/RestController.php:124
 msgid "A print job could not be queued. Review Print Jobs before trying again."
 msgstr "A print job could not be queued. Review Print Jobs before trying again."
 
+#: src/Pdf/MpdfRenderer.php:17 src/Pdf/MpdfRenderer.php:96
 msgid "A secure PDF working directory could not be created."
 msgstr "A secure PDF working directory could not be created."
 
+#: src/Template/TemplateRegistry.php:13
 msgid "A5 invoice for smaller sheets."
 msgstr "A5 invoice for smaller sheets."
 
+#: src/Admin/AdminPage.php:197
 msgid "After verified payment, queue an invoice without delaying checkout."
 msgstr "After verified payment, queue an invoice without delaying checkout."
 
+#: src/Admin/AdminPage.php:209
 msgid "Agent queue"
 msgstr "Agent queue"
 
+#: src/Admin/AdminPage.php:210
 msgid "Agent user ID"
 msgstr "Agent user ID"
 
+#: src/Invoice/InvoiceFactory.php:93 src/Invoice/InvoiceFactory.php:97
 msgid "Alex Morgan"
 msgstr "Alex Morgan"
 
+#: src/Admin/AdminPage.php:227
 msgid "All"
 msgstr "All"
 
+#: src/Admin/OrderPrintFilters.php:13
 msgid "All invoice print states"
 msgstr "All invoice print states"
 
+#: src/Admin/OperationsConsole.php:63
 msgid "Allowed destination hostname"
 msgstr "Allowed destination hostname"
 
+#: src/Admin/AdminPage.php:229
 msgid "Attempts"
 msgstr "Attempts"
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Automatic"
 msgstr "Automatic"
 
+#: src/Admin/AdminPage.php:102
 msgid "Automatic Printing"
 msgstr "Automatic Printing"
 
+#: src/Admin/OperationsConsole.php:54
 msgid "Automatic eligibility"
 msgstr "Automatic eligibility"
 
+#: src/Admin/OrderIntegration.php:57
 msgid "Automatic job:"
 msgstr "Automatic job:"
 
+#: src/Admin/AdminPage.php:197
 msgid "Automatic printing"
 msgstr "Automatic printing"
 
+#: src/Admin/AdminPage.php:107
 msgid "Automatic printing remains disabled until a print destination is configured."
 msgstr "Automatic printing remains disabled until a print destination is configured."
 
+#: src/Admin/AdminPage.php:196
 msgid "Automatic printing uses the local print agent or a self-hosted CUPS server. Browser printing uses your print dialog."
 msgstr "Automatic printing uses the local print agent or a self-hosted CUPS server. Browser printing uses your print dialog."
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:24
 msgid "Awaiting confirmation"
 msgstr "Awaiting confirmation"
 
+#: src/Admin/AdminPage.php:102
 msgid "Barcode & integrations"
 msgstr "Barcode & integrations"
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Barcode scanner"
 msgstr "Barcode scanner"
 
+#: templates/shared/customer.php:5
 msgid "Bill to"
 msgstr "Bill to"
 
+#: src/Admin/AdminPage.php:166
+msgid "Billing address"
+msgstr "Billing address"
+
+#: src/Admin/AdminPage.php:166
+msgid "Billing phone"
+msgstr "Billing phone"
+
+#: src/Admin/AdminPage.php:229 src/PrintJob/PrintConfirmationService.php:35
 msgid "Browser"
 msgstr "Browser"
 
+#: src/Admin/AdminPage.php:246
 msgid "Browser output is combined into one document. CUPS and the print agent create controlled individual jobs."
 msgstr "Browser output is combined into one document. CUPS and the print agent create controlled individual jobs."
 
+#: src/Admin/AdminPage.php:248 src/Admin/OrderIntegration.php:58
 msgid "Browser print dialog"
 msgstr "Browser print dialog"
 
+#: src/Admin/AdminPage.php:131 src/Admin/AdminPage.php:160
 msgid "Business and tax details"
 msgstr "Business and tax details"
 
-msgid "Business details shown to customers on every invoice."
-msgstr "Business details shown to customers on every invoice."
-
+#: src/Admin/AdminPage.php:131
 msgid "Business name"
 msgstr "Business name"
 
-msgid "Business registration and tax details"
-msgstr "Business registration and tax details"
-
+#: src/Admin/AdminPage.php:213
 msgid "CUPS connection"
 msgstr "CUPS connection"
 
+#: src/Admin/AdminPage.php:48
 msgid "CUPS connection verified."
 msgstr "CUPS connection verified."
 
+#: src/Printing/Cups/CupsProvider.php:99
 msgid "CUPS did not accept the requested print options. Check its queue before reprinting."
 msgstr "CUPS did not accept the requested print options. Check its queue before reprinting."
 
+#: src/Admin/AdminPage.php:213
 msgid "CUPS open-source automatic printing"
 msgstr "CUPS open-source automatic printing"
 
+#: src/Admin/AdminPage.php:216
 msgid "CUPS password"
 msgstr "CUPS password"
 
+#: src/Admin/AdminPage.php:219
 msgid "CUPS printers"
 msgstr "CUPS printers"
 
+#: src/Printing/Cups/CupsProvider.php:109
 msgid "CUPS returned an invalid response. Check its queue before reprinting."
 msgstr "CUPS returned an invalid response. Check its queue before reprinting."
 
+#: src/Admin/AdminPage.php:214
 msgid "CUPS server address"
 msgstr "CUPS server address"
 
+#: src/Admin/AdminPage.php:215
 msgid "CUPS username"
 msgstr "CUPS username"
 
+#. translators: %s: the selected printer's name.
+#: src/Admin/AdminPage.php:251 src/Admin/OrderIntegration.php:58
 #, php-format
 msgid "CUPS: %s"
 msgstr "CUPS: %s"
 
+#: src/Admin/AdminPage.php:229
 msgid "Cancel queued job"
 msgstr "Cancel queued job"
 
+#: src/PrintJob/DocumentPrintState.php:25 src/PrintJob/JobStatus.php:31
 msgid "Cancelled"
 msgstr "Cancelled"
 
+#: src/Admin/AdminPage.php:45
 msgid "Choose a printer"
 msgstr "Choose a printer"
 
+#: src/PrintJob/PrintJobService.php:69
 msgid "Choose a valid invoice template."
 msgstr "Choose a valid invoice template."
 
+#: src/PrintJob/PrintJobService.php:72
 msgid "Choose a valid print destination."
 msgstr "Choose a valid print destination."
 
+#: src/PrintJob/PrintJobService.php:75 src/Rest/RestController.php:80
 msgid "Choose a valid printer."
 msgstr "Choose a valid printer."
 
+#: src/Rest/RestController.php:101
 msgid "Choose a valid template, printer, destination, and number of copies."
 msgstr "Choose a valid template, printer, destination, and number of copies."
 
+#: src/Admin/AdminPage.php:136
 msgid "Choose an invoice layout"
 msgstr "Choose an invoice layout"
 
+#: src/Admin/AdminPage.php:43 src/Admin/OrderIntegration.php:89
+#: src/Admin/PreviewController.php:49 src/PrintJob/PrintJobService.php:82
 msgid "Choose between 1 and 20 copies."
 msgstr "Choose between 1 and 20 copies."
 
+#: src/Admin/AdminPage.php:206
 msgid "Choose local printers in your browser dialog. The list below contains shared CUPS queues. Install missing local printers in your operating system."
 msgstr "Choose local printers in your browser dialog. The list below contains shared CUPS queues. Install missing local printers in your operating system."
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/OrderIntegration.php:89
 msgid "Choose your local printer in the browser dialog. No API key is required."
 msgstr "Choose your local printer in the browser dialog. No API key is required."
 
+#: src/Template/TemplateRegistry.php:10
 msgid "Classic"
 msgstr "Classic"
 
+#: src/Template/TemplateRegistry.php:13
 msgid "Classic A5"
 msgstr "Classic A5"
 
+#: src/Admin/OrderIntegration.php:58
 msgid "Close print dialog"
 msgstr "Close print dialog"
 
+#: src/Admin/OperationsConsole.php:59
 msgid "Code format"
 msgstr "Code format"
 
+#: src/Invoice/InvoiceFactory.php:100
 msgid "Color: Midnight / Size: Large"
 msgstr "Color: Midnight / Size: Large"
 
+#: src/Template/TemplateRegistry.php:11
 msgid "Compact"
 msgstr "Compact"
 
+#: src/Printing/Cups/CupsProvider.php:66
 msgid "Configure a valid HTTPS CUPS server address."
 msgstr "Configure a valid HTTPS CUPS server address."
 
+#: src/Rest/RestController.php:104
 msgid "Configure the CUPS credential before printing."
 msgstr "Configure the CUPS credential before printing."
 
+#: src/Printing/Cups/CupsProvider.php:68
 msgid "Configure the CUPS password before printing."
 msgstr "Configure the CUPS password before printing."
 
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Confirm only after checking the paper output. Closing the print dialog does not confirm printing."
 msgstr "Confirm only after checking the paper output. Closing the print dialog does not confirm printing."
 
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Confirm printed"
 msgstr "Confirm printed"
 
+#: src/PrintJob/PrintJobService.php:78
 msgid "Connect CUPS before printing."
 msgstr "Connect CUPS before printing."
 
+#: src/Admin/AdminPage.php:197
 msgid "Connection"
 msgstr "Connection"
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:255
+#: src/Admin/OrderIntegration.php:58
 msgid "Copies"
 msgstr "Copies"
 
+#: src/Admin/AdminPage.php:211
 msgid "Create a user with the Print agent role and an Application Password. Pair its user ID and queue here; configure the same queue in the local agent. Keep the computer awake."
 msgstr "Create a user with the Print agent role and an Application Password. Pair its user ID and queue here; configure the same queue in the local agent. Keep the computer awake."
 
+#: src/Admin/AdminPage.php:105
 msgid "Create consistent invoices and send them to the right printer."
 msgstr "Create consistent invoices and send them to the right printer."
 
+#: src/Invoice/InvoiceFactory.php:110
 msgid "Credit card"
 msgstr "Credit card"
 
-msgid "Customer"
-msgstr "Customer"
+#: src/Admin/AdminPage.php:163
+msgid "Customer and shipping information"
+msgstr "Customer and shipping information"
 
+#: src/Admin/AdminPage.php:164
+msgid "Customer company"
+msgstr "Customer company"
+
+#: src/Admin/AdminPage.php:167
+msgid "Customer email"
+msgstr "Customer email"
+
+#: src/Admin/AdminPage.php:164
+msgid "Customer name"
+msgstr "Customer name"
+
+#: src/Admin/AdminPage.php:173 templates/classic/invoice.php:60
+#: templates/compact/invoice.php:56
 msgid "Customer note"
 msgstr "Customer note"
 
-msgid "Date"
-msgstr "Date"
+#: src/Admin/AdminPage.php:165 templates/packing-list/document.php:12
+#: templates/shared/customer.php:3 templates/shipping-label/document.php:13
+msgid "Customer role"
+msgstr "Customer role"
 
+#: src/Admin/AdminPage.php:219
 msgid "Default CUPS printer"
 msgstr "Default CUPS printer"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Delivered"
 msgstr "Delivered"
 
+#: src/Template/TemplateRegistry.php:11
 msgid "Dense and readable for high-volume operations."
 msgstr "Dense and readable for high-volume operations."
 
-msgid "Description"
-msgstr "Description"
-
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:248
+#: src/Admin/OrderIntegration.php:58
 msgid "Destination"
 msgstr "Destination"
 
+#: src/Admin/AdminPage.php:229
 msgid "Details"
 msgstr "Details"
 
+#: src/Admin/AdminPage.php:102 src/Admin/OperationsConsole.php:32
 msgid "Diagnostics"
 msgstr "Diagnostics"
 
+#: templates/classic/invoice.php:42 templates/compact/invoice.php:38
+#: templates/thermal/invoice.php:32
 msgid "Discount"
 msgstr "Discount"
 
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Discount:"
 msgstr "Discount:"
 
+#: src/Admin/OperationsConsole.php:55
 msgid "Discovery interval in seconds 300 to 3600"
 msgstr "Discovery interval in seconds 300 to 3600"
 
+#: src/PrintJob/PrintConfirmationService.php:39
 #, php-format
 msgid "Document printed: %1$s. Job #%2$d; confirmed by the operator."
 msgstr "Document printed: %1$s. Job #%2$d; confirmed by the operator."
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Document reference"
 msgstr "Document reference"
 
+#: src/Admin/OperationsConsole.php:45
 msgid "Document timezone"
 msgstr "Document timezone"
 
+#: src/Admin/AdminPage.php:227
 msgid "Document type"
 msgstr "Document type"
 
+#: src/Admin/AdminPage.php:102
 msgid "Documents & shipping"
 msgstr "Documents & shipping"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Eligible"
 msgstr "Eligible"
 
+#: src/Admin/OrderPrintFilters.php:13
 msgid "Eligible without an invoice job"
 msgstr "Eligible without an invoice job"
 
+#: src/Admin/AdminPage.php:131
 msgid "Email"
 msgstr "Email"
 
+#: src/Admin/OperationsConsole.php:61
 msgid "Enable generic webhook export"
 msgstr "Enable generic webhook export"
 
+#: src/Admin/AdminPage.php:197
 msgid "Enabled"
 msgstr "Enabled"
 
+#: src/Admin/OperationsConsole.php:56
 msgid "Enabling automation starts discovery from that time. Older payments require explicit preview and selection. A gateway adapter may be needed for partial payments or missing payment dates."
 msgstr "Enabling automation starts discovery from that time. Older payments require explicit preview and selection. A gateway adapter may be needed for partial payments or missing payment dates."
 
+#: src/Admin/AdminPage.php:154
+msgid "End thermal paper after the invoice content"
+msgstr "End thermal paper after the invoice content"
+
+#: src/Admin/OperationsConsole.php:19
 msgid "Enqueue selected missing invoices"
 msgstr "Enqueue selected missing invoices"
 
+#: src/Admin/AdminPage.php:229
 msgid "Error"
 msgstr "Error"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Existing job"
 msgstr "Existing job"
 
+#: src/Admin/OperationsConsole.php:30
 msgid "Export history"
 msgstr "Export history"
 
+#: src/Admin/OperationsConsole.php:66
 msgid "Export on authorized scan once per reference"
 msgstr "Export on authorized scan once per reference"
 
+#: src/Admin/OperationsConsole.php:67
 msgid "Export on confirmed packed transition"
 msgstr "Export on confirmed packed transition"
 
+#: src/Admin/OperationsConsole.php:27
 msgid "Export scanned order"
 msgstr "Export scanned order"
 
+#: src/Admin/OperationsConsole.php:68
 msgid "Exports are off by default. The receiver must implement the documented HMAC signature, replay protection and idempotency receipt contract. Acceptance does not prove shipping or picking. Credentials are not encrypted in the database; use WCIP_EXPORT_SIGNING_SECRET for managed configuration."
 msgstr "Exports are off by default. The receiver must implement the documented HMAC signature, replay protection and idempotency receipt contract. Acceptance does not prove shipping or picking. Credentials are not encrypted in the database; use WCIP_EXPORT_SIGNING_SECRET for managed configuration."
 
+#: src/Admin/AdminPage.php:229
 msgid "External job ID"
 msgstr "External job ID"
 
+#: src/PrintJob/JobStatus.php:29
 msgid "Failed"
 msgstr "Failed"
 
+#: src/Admin/AdminPage.php:227
 msgid "Filter"
 msgstr "Filter"
 
+#: src/Invoice/InvoiceFactory.php:101
 msgid "Fine gel pen set"
 msgstr "Fine gel pen set"
 
+#: src/Admin/AdminPage.php:153
+msgid "Fit each invoice on one sheet"
+msgstr "Fit each invoice on one sheet"
+
+#: src/Admin/AdminPage.php:146
+msgid "Font family"
+msgstr "Font family"
+
+#: src/Admin/AdminPage.php:150
+msgid "Font size (pt)"
+msgstr "Font size (pt)"
+
+#: src/Admin/OperationsConsole.php:60
 msgid "For 58 mm receipts choose QR. Code 128 is shown on wider paper only."
 msgstr "For 58 mm receipts choose QR. Code 128 is shown on wider paper only."
 
+#: src/Admin/AdminPage.php:206
 msgid "For orders, choose Browser print dialog when printing an invoice or a bulk selection."
 msgstr "For orders, choose Browser print dialog when printing an invoice or a bulk selection."
 
+#: src/Admin/OperationsConsole.php:19
 msgid "From"
 msgstr "From"
 
+#: src/Admin/OperationsConsole.php:54
 msgid "Fulfillment eligible including unpaid collection methods"
 msgstr "Fulfillment eligible including unpaid collection methods"
 
+#: src/Admin/OperationsConsole.php:24
 msgid "Fulfillment stage"
 msgstr "Fulfillment stage"
 
+#: src/Admin/OperationsConsole.php:52
 msgid "Fulfillment uses separate plugin storage. Native WooCommerce payment, order status and dates are unchanged."
 msgstr "Fulfillment uses separate plugin storage. Native WooCommerce payment, order status and dates are unchanged."
 
+#: src/Admin/AdminPage.php:102
 msgid "General"
 msgstr "General"
 
+#: src/Invoice/InvoiceFactory.php:110
 msgid "Ground shipping"
 msgstr "Ground shipping"
 
+#: src/Invoice/InvoiceFactory.php:123 src/Invoice/InvoiceFactory.php:132
+msgid "Guest"
+msgstr "Guest"
+
+#: src/Admin/OperationsConsole.php:62
 msgid "HTTPS export endpoint"
 msgstr "HTTPS export endpoint"
 
+#: src/Admin/OperationsConsole.php:19
 msgid "I reviewed the selected orders and authorize physical print submission."
 msgstr "I reviewed the selected orders and authorize physical print submission."
 
+#: templates/classic/invoice.php:32 templates/thermal/invoice.php:22
 msgid "INVOICE"
 msgstr "INVOICE"
 
+#: src/Admin/AdminPage.php:132
 msgid "Include customer notes on invoices"
 msgstr "Include customer notes on invoices"
 
+#: src/Admin/OperationsConsole.php:58
 msgid "Include opaque document codes"
 msgstr "Include opaque document codes"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Ineligible"
 msgstr "Ineligible"
 
+#: src/Admin/PreviewController.php:53
 msgid "Invalid invoice template."
 msgstr "Invalid invoice template."
 
+#: src/Admin/AdminPage.php:240 src/Admin/PreviewController.php:65
 msgid "Invalid order selection."
 msgstr "Invalid order selection."
 
+#: src/Admin/PreviewController.php:38
 msgid "Invalid preview input."
 msgstr "Invalid preview input."
 
+#: src/Admin/AdminPage.php:61 src/Admin/OperationsConsole.php:77
+#: src/Admin/OperationsConsole.php:84
 msgid "Invalid settings input."
 msgstr "Invalid settings input."
 
+#: src/Admin/AdminPage.php:64 src/Admin/OperationsConsole.php:80
 msgid "Invalid settings section."
 msgstr "Invalid settings section."
 
+#: src/Admin/AdminPage.php:227 templates/compact/invoice.php:28
 msgid "Invoice"
 msgstr "Invoice"
 
+#. translators: %s: WooCommerce order number.
+#: src/Automation/PrintWorker.php:98
 #, php-format
 msgid "Invoice %s"
 msgstr "Invoice %s"
 
+#: src/Admin/PreviewController.php:130
+msgid "Invoice PDF"
+msgstr "Invoice PDF"
+
+#: src/Admin/AdminPage.php:213
 msgid "Invoice PDFs contain customer data and are sent only to your configured CUPS server when this destination is used."
 msgstr "Invoice PDFs contain customer data and are sent only to your configured CUPS server when this destination is used."
 
+#: src/Admin/AdminPage.php:24 src/Admin/AdminPage.php:105
 msgid "Invoice Printer"
 msgstr "Invoice Printer"
 
+#: src/Admin/AdminPage.php:108
 msgid "Invoice Printer sections"
 msgstr "Invoice Printer sections"
 
+#: src/Admin/AdminPage.php:179
+msgid "Invoice footer"
+msgstr "Invoice footer"
+
+#: src/Admin/AdminPage.php:130
 msgid "Invoice identity"
 msgstr "Invoice identity"
 
+#: src/Admin/AdminPage.php:145
+msgid "Invoice layout"
+msgstr "Invoice layout"
+
+#: src/Admin/OrderPrintFilters.php:14
 msgid "Invoice print state"
 msgstr "Invoice print state"
 
+#. translators: 1: print job ID, 2: destination name, 3: number of copies.
+#: src/PrintJob/PrintConfirmationService.php:37
 #, php-format
 msgid "Invoice printed. Job #%1$d; destination: %2$s; copies: %3$d. Confirmed by the operator."
 msgstr "Invoice printed. Job #%1$d; destination: %2$s; copies: %3$d. Confirmed by the operator."
 
+#: src/Rest/RestController.php:85
 msgid "Invoice printer test page"
 msgstr "Invoice printer test page"
 
+#: src/Admin/OrderIntegration.php:24
 msgid "Invoice printing"
 msgstr "Invoice printing"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Invoice queued. Check Print Jobs for delivery status."
 msgstr "Invoice queued. Check Print Jobs for delivery status."
 
+#: src/Admin/AdminPage.php:279
 msgid "Invoice template"
 msgstr "Invoice template"
 
+#: src/Admin/OperationsConsole.php:14 templates/classic/invoice.php:38
+#: templates/compact/invoice.php:34 templates/packing-list/document.php:13
 msgid "Item"
 msgstr "Item"
 
+#: src/Template/TemplateRegistry.php:16
 msgid "Items and quantities without commercial amounts."
 msgstr "Items and quantities without commercial amounts."
 
+#: src/Admin/AdminPage.php:175
+msgid "Items and totals"
+msgstr "Items and totals"
+
+#: src/Admin/AdminPage.php:211
 msgid "Last seen"
 msgstr "Last seen"
 
+#: src/Admin/OrderIntegration.php:41
 msgid "Latest reprint failed"
 msgstr "Latest reprint failed"
 
+#: src/Admin/AdminPage.php:177
+msgid "Line discount"
+msgstr "Line discount"
+
+#: src/Admin/AdminPage.php:178
+msgid "Line tax"
+msgstr "Line tax"
+
+#: src/Admin/AdminPage.php:206
 msgid "Local browser printing"
 msgstr "Local browser printing"
 
+#: src/Admin/AdminPage.php:131
 msgid "Logo URL"
 msgstr "Logo URL"
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Look up"
 msgstr "Look up"
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Manual"
 msgstr "Manual"
 
+#: src/Admin/AdminPage.php:228
 msgid "Manual and automatic jobs will appear here with their delivery status."
 msgstr "Manual and automatic jobs will appear here with their delivery status."
 
+#: src/Admin/AdminPage.php:132
 msgid "Manual printing defaults"
 msgstr "Manual printing defaults"
 
+#: src/Admin/AdminPage.php:168
+msgid "Mapped recipient details"
+msgstr "Mapped recipient details"
+
+#: src/Admin/AdminPage.php:147
+msgid "Monospace"
+msgstr "Monospace"
+
+#: src/Invoice/InvoiceFactory.php:93 src/Invoice/InvoiceFactory.php:97
 msgid "Morgan Studio"
 msgstr "Morgan Studio"
 
+#: src/Template/TemplateRegistry.php:14
 msgid "Narrow receipt with paginated output."
 msgstr "Narrow receipt with paginated output."
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:24
 msgid "Needs review"
 msgstr "Needs review"
 
+#: src/Admin/AdminPage.php:242
 msgid "No orders selected"
 msgstr "No orders selected"
 
+#: src/Admin/AdminPage.php:228
 msgid "No print jobs yet"
 msgstr "No print jobs yet"
 
+#: src/Admin/AdminPage.php:197
 msgid "No printer selected"
 msgstr "No printer selected"
 
+#: src/Admin/AdminPage.php:46
 msgid "No printers were found. Check shared queues on your CUPS server."
 msgstr "No printers were found. Check shared queues on your CUPS server."
 
+#: src/Admin/PreviewController.php:96
 msgid "No valid invoices were selected."
 msgstr "No valid invoices were selected."
 
-msgid "Northstar Supply Co."
-msgstr "Northstar Supply Co."
-
+#: src/Admin/AdminPage.php:197
 msgid "Not configured"
 msgstr "Not configured"
 
+#: src/Admin/AdminPage.php:213
 msgid "Not connected"
 msgstr "Not connected"
 
+#: src/Admin/AdminPage.php:229 src/Admin/OperationsConsole.php:14
+#: src/PrintJob/DocumentPrintState.php:22
 msgid "Not printed"
 msgstr "Not printed"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Not started"
 msgstr "Not started"
 
-msgid "Note"
-msgstr "Note"
-
+#: templates/thermal/invoice.php:38
 msgid "Note:"
 msgstr "Note:"
 
+#: src/Admin/AdminPage.php:38
 msgid "Offline"
 msgstr "Offline"
 
+#: src/Rest/RestController.php:110
 msgid "One of the selected order IDs is invalid."
 msgstr "One of the selected order IDs is invalid."
 
+#: src/Admin/PreviewController.php:68 src/Rest/RestController.php:114
 msgid "One of the selected orders does not exist or cannot be printed."
 msgstr "One of the selected orders does not exist or cannot be printed."
 
+#: src/Admin/AdminPage.php:37
 msgid "Online"
 msgstr "Online"
 
+#: src/Admin/AdminPage.php:197
 msgid "Only orders WooCommerce confirms as paid are eligible."
 msgstr "Only orders WooCommerce confirms as paid are eligible."
 
+#: src/PrintJob/PrintConfirmationService.php:29 src/Rest/RestController.php:147
 msgid "Only prepared or submitted print jobs can be confirmed. Check the paper output first."
 msgstr "Only prepared or submitted print jobs can be confirmed. Check the paper output first."
 
+#: src/Rest/RestController.php:173
 msgid "Only queued jobs can be cancelled."
 msgstr "Only queued jobs can be cancelled."
 
+#: src/Admin/PreviewController.php:130
+msgid "Open PDF"
+msgstr "Open PDF"
+
+#: src/Admin/AdminPage.php:206
 msgid "Open local test page"
 msgstr "Open local test page"
 
+#: src/Admin/AdminPage.php:206
 msgid "Open the test page, click Print, and choose your printer in the browser dialog."
 msgstr "Open the test page, click Print, and choose your printer in the browser dialog."
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Operation completed."
 msgstr "Operation completed."
 
+#: src/Admin/AdminPage.php:229 src/Admin/OperationsConsole.php:14
 msgid "Order"
 msgstr "Order"
 
+#: src/Admin/AdminPage.php:227
 msgid "Order ID"
 msgstr "Order ID"
 
+#: src/Admin/AdminPage.php:171
+msgid "Order date"
+msgstr "Order date"
+
+#: src/Admin/AdminPage.php:170
+msgid "Order information"
+msgstr "Order information"
+
+#: src/Admin/AdminPage.php:102 src/Admin/OperationsConsole.php:18
 msgid "Order reconciliation"
 msgstr "Order reconciliation"
 
+#: src/Admin/AdminPage.php:172
+msgid "Order status"
+msgstr "Order status"
+
+#: src/Pdf/MpdfRenderer.php:11
 msgid "PDF support is unavailable. Install the Composer dependencies."
 msgstr "PDF support is unavailable. Install the Composer dependencies."
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Packed"
 msgstr "Packed"
 
+#: src/Admin/AdminPage.php:227 src/Template/TemplateRegistry.php:16
+#: templates/packing-list/document.php:9
 msgid "Packing list"
 msgstr "Packing list"
 
-msgid "Payment & shipping"
-msgstr "Payment & shipping"
+#: src/Admin/AdminPage.php:171
+msgid "Paid date"
+msgstr "Paid date"
 
-msgid "Payment / delivery"
-msgstr "Payment / delivery"
-
+#: src/Admin/AdminPage.php:197
 msgid "Payment completed"
 msgstr "Payment completed"
 
+#: templates/shared/details.php:2
 msgid "Payment date"
 msgstr "Payment date"
 
+#: src/Admin/OrderIntegration.php:42
 msgid "Payment eligibility changed"
 msgstr "Payment eligibility changed"
 
+#: src/Admin/AdminPage.php:172
+msgid "Payment method"
+msgstr "Payment method"
+
+#: src/Admin/AdminPage.php:131
 msgid "Phone"
 msgstr "Phone"
 
+#: src/Invoice/InvoiceFactory.php:111
 msgid "Please leave the parcel at reception."
 msgstr "Please leave the parcel at reception."
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Preparing"
 msgstr "Preparing"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Preparing invoice…"
 msgstr "Preparing invoice…"
 
+#: src/Admin/AdminPage.php:137 src/Admin/OrderIntegration.php:58
 msgid "Preview"
 msgstr "Preview"
 
+#: src/Admin/OperationsConsole.php:18
 msgid "Preview missing automatic invoices before selecting historical orders. Nothing prints during preview. Date bounds use UTC and span at most 31 days."
 msgstr "Preview missing automatic invoices before selecting historical orders. Nothing prints during preview. Date bounds use UTC and span at most 31 days."
 
+#: src/Admin/OperationsConsole.php:19
 msgid "Preview missing prints"
 msgstr "Preview missing prints"
 
+#: src/Admin/AdminPage.php:136
 msgid "Preview uses realistic sample data and can switch to RTL."
 msgstr "Preview uses realistic sample data and can switch to RTL."
 
-msgid "Price"
-msgstr "Price"
+#: src/Admin/AdminPage.php:178
+msgid "Price explanation"
+msgstr "Price explanation"
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/PreviewController.php:115
+#: src/Admin/PreviewController.php:117 src/Admin/PreviewController.php:119
 msgid "Print"
 msgstr "Print"
 
+#. translators: %d: number of selected invoices.
+#: src/Admin/AdminPage.php:245
 #, php-format
 msgid "Print %d invoice"
 msgid_plural "Print %d invoices"
 msgstr[0] "Print %d invoice"
 msgstr[1] "Print %d invoices"
 
+#: src/Admin/AdminPage.php:102
 msgid "Print Jobs"
 msgstr "Print Jobs"
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:208
+#: src/Admin/AdminPage.php:254 src/Admin/OrderIntegration.php:58
+#: src/Infrastructure/Activator.php:163
 msgid "Print agent"
 msgstr "Print agent"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:25
 msgid "Print failed"
 msgstr "Print failed"
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/OrderIntegration.php:64
 msgid "Print invoice"
 msgstr "Print invoice"
 
+#: src/Admin/OrderIntegration.php:69
 msgid "Print invoices"
 msgstr "Print invoices"
 
+#: src/PrintJob/PrintConfirmationService.php:23 src/Rest/RestController.php:145
+#: src/Rest/RestController.php:170 src/Rest/RestController.php:182
 msgid "Print job not found."
 msgstr "Print job not found."
 
+#: src/Admin/AdminPage.php:227
 msgid "Print jobs"
 msgstr "Print jobs"
 
+#: src/Admin/AdminPage.php:219
 msgid "Print test page"
 msgstr "Print test page"
 
+#: src/Admin/AdminPage.php:229 src/Admin/OrderIntegration.php:29
+#: src/Admin/OrderPrintFilters.php:13 src/Admin/PrintConfirmationUi.php:12
+#: src/PrintJob/DocumentPrintState.php:26
 msgid "Printed"
 msgstr "Printed"
 
+#: src/Admin/OrderIntegration.php:39
 msgid "Printed means an operator confirmed the paper output."
 msgstr "Printed means an operator confirmed the paper output."
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:229
 msgid "Printer"
 msgstr "Printer"
 
+#: src/Admin/AdminPage.php:102
 msgid "Printers"
 msgstr "Printers"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:23
 msgid "Printing"
 msgstr "Printing"
 
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Printing confirmed. A private order note has been added."
 msgstr "Printing confirmed. A private order note has been added."
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Printing failed. Review the message and try again."
 msgstr "Printing failed. Review the message and try again."
 
+#: src/Invoice/InvoiceFactory.php:90 src/PrintJob/JobStatus.php:27
 msgid "Processing"
 msgstr "Processing"
 
+#: src/Admin/AdminPage.php:176
+msgid "Product SKU"
+msgstr "Product SKU"
+
+#: src/Admin/AdminPage.php:176
+msgid "Product variations"
+msgstr "Product variations"
+
+#: src/Invoice/InvoiceFactory.php:100
 msgid "Professional planning notebook with an intentionally long product name"
 msgstr "Professional planning notebook with an intentionally long product name"
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:229
 msgid "Provider"
 msgstr "Provider"
 
+#: src/Template/TemplateRegistry.php:12
 msgid "Purpose-built for narrow receipt printers."
 msgstr "Purpose-built for narrow receipt printers."
 
+#: templates/classic/invoice.php:40 templates/compact/invoice.php:36
+#: templates/packing-list/document.php:13
 msgid "Qty"
 msgstr "Qty"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Quantity"
 msgstr "Quantity"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:23
+#: src/PrintJob/JobStatus.php:26
 msgid "Queued"
 msgstr "Queued"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Queuing invoice…"
 msgstr "Queuing invoice…"
 
+#: src/Admin/AdminPage.php:137
 msgid "RTL preview"
 msgstr "RTL preview"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Ready to ship"
 msgstr "Ready to ship"
 
+#: templates/shipping-label/document.php:12
 msgid "Recipient"
 msgstr "Recipient"
 
+#: src/Template/TemplateRegistry.php:15
 msgid "Recipient label without prices."
 msgstr "Recipient label without prices."
 
+#: templates/shared/details.php:3
 msgid "Recipient phone"
 msgstr "Recipient phone"
 
+#: src/Admin/OperationsConsole.php:54
 msgid "Recorded payment confirmed"
 msgstr "Recorded payment confirmed"
 
+#: src/Admin/OperationsConsole.php:32
 msgid "Refresh diagnostics"
 msgstr "Refresh diagnostics"
 
+#: src/Admin/AdminPage.php:219
 msgid "Refresh printers"
 msgstr "Refresh printers"
 
+#: src/Admin/AdminPage.php:219
 msgid "Refresh to load printers"
 msgstr "Refresh to load printers"
 
+#: src/Admin/OperationsConsole.php:64
 msgid "Replace signing secret leave blank to retain"
 msgstr "Replace signing secret leave blank to retain"
 
+#: src/Admin/OrderIntegration.php:58
 msgid "Reprint invoice"
 msgstr "Reprint invoice"
 
+#: src/Admin/AdminPage.php:229
 msgid "Retry if safe"
 msgstr "Retry if safe"
 
+#: src/Admin/OperationsConsole.php:32
 msgid "Review queue health, discovery progress and printer configuration. Cron-disabled sites need an external scheduled runner."
 msgstr "Review queue health, discovery progress and printer configuration. Cron-disabled sites need an external scheduled runner."
 
+#: src/Admin/OperationsConsole.php:14 templates/classic/invoice.php:39
+#: templates/compact/invoice.php:35 templates/packing-list/document.php:13
 msgid "SKU"
 msgstr "SKU"
 
+#: src/Admin/AdminPage.php:147
+msgid "Sans serif"
+msgstr "Sans serif"
+
+#: src/Admin/AdminPage.php:220
 msgid "Save printer settings"
 msgstr "Save printer settings"
 
-msgid "Save selected template"
-msgstr "Save selected template"
+#: src/Admin/AdminPage.php:140
+msgid "Save template settings"
+msgstr "Save template settings"
 
+#: src/Admin/AdminPage.php:217
 msgid "Save the server settings before testing. Leave the password blank to retain it. HTTPS certificates must be trusted by WordPress."
 msgstr "Save the server settings before testing. Leave the password blank to retain it. HTTPS certificates must be trusted by WordPress."
 
+#: src/Admin/AdminPage.php:145
+msgid "Save these settings before opening a preview. Layout options apply to invoices."
+msgstr "Save these settings before opening a preview. Layout options apply to invoices."
+
+#. Description of the plugin
+#: wc-invoice-printer.php
 msgid "Secure manual and automatic invoice printing for WooCommerce."
 msgstr "Secure manual and automatic invoice printing for WooCommerce."
 
+#: src/Admin/AdminPage.php:137
 msgid "Select"
 msgstr "Select"
 
+#: src/Rest/RestController.php:95
 msgid "Select between 1 and 50 orders."
 msgstr "Select between 1 and 50 orders."
 
+#: src/Rest/RestController.php:139
 msgid "Select between 1 and 50 print jobs."
 msgstr "Select between 1 and 50 print jobs."
 
+#: src/Admin/AdminPage.php:238 src/Admin/PreviewController.php:63
 msgid "Select no more than 50 orders."
 msgstr "Select no more than 50 orders."
 
+#: src/Admin/AdminPage.php:182
+msgid "Select the information to print. Product names, quantities, line totals and the grand total always appear."
+msgstr "Select the information to print. Product names, quantities, line totals and the grand total always appear."
+
+#: src/Rest/RestController.php:143
 msgid "Select valid print jobs."
 msgstr "Select valid print jobs."
 
+#: src/Admin/AdminPage.php:137
 msgid "Selected"
 msgstr "Selected"
 
+#: src/Printing/Cups/CupsProvider.php:19
 msgid "Self-hosted CUPS server"
 msgstr "Self-hosted CUPS server"
 
+#: src/Invoice/InvoiceFactory.php:90
 msgid "September 15, 2026"
 msgstr "September 15, 2026"
 
+#: src/Admin/AdminPage.php:147
+msgid "Serif"
+msgstr "Serif"
+
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:213
 msgid "Server configured"
 msgstr "Server configured"
 
+#: src/Admin/AdminPage.php:106
 msgid "Settings saved."
 msgstr "Settings saved."
 
+#. Author of the plugin
+#: wc-invoice-printer.php
 msgid "Shahin Ilderemi"
 msgstr "Shahin Ilderemi"
 
+#: src/Admin/OperationsConsole.php:65
 msgid "Share recipient data with the configured receiver"
 msgstr "Share recipient data with the configured receiver"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Shipped"
 msgstr "Shipped"
 
+#: src/Admin/AdminPage.php:165 templates/shared/customer.php:6
+msgid "Shipping address"
+msgstr "Shipping address"
+
+#: src/Admin/AdminPage.php:227 src/Template/TemplateRegistry.php:15
+#: templates/shipping-label/document.php:9
 msgid "Shipping label"
 msgstr "Shipping label"
 
+#: src/Admin/OperationsConsole.php:46
 msgid "Shipping metadata mapping as JSON"
 msgstr "Shipping metadata mapping as JSON"
 
+#: src/Admin/AdminPage.php:173
+msgid "Shipping method"
+msgstr "Shipping method"
+
+#: src/Admin/AdminPage.php:167
+msgid "Shipping phone"
+msgstr "Shipping phone"
+
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Shipping:"
 msgstr "Shipping:"
 
+#: src/Admin/OperationsConsole.php:42
 msgid "Show payment date and time"
 msgstr "Show payment date and time"
 
+#: src/Admin/OperationsConsole.php:43
 msgid "Show recipient phone"
 msgstr "Show recipient phone"
 
+#: src/Admin/OperationsConsole.php:44
 msgid "Show sender on labels"
 msgstr "Show sender on labels"
 
+#: src/Admin/AdminPage.php:155
+msgid "Single-sheet output may reduce text size. Thermal paper length depends on the printer driver; automatic cutting is controlled by the printer."
+msgstr "Single-sheet output may reduce text size. Thermal paper length depends on the printer driver; automatic cutting is controlled by the printer."
+
+#: src/Admin/AdminPage.php:44
 msgid "Something went wrong. Check the details and try again."
 msgstr "Something went wrong. Check the details and try again."
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Source"
 msgstr "Source"
 
+#: src/Admin/OperationsConsole.php:49
 msgid "Stage after invoice confirmation"
 msgstr "Stage after invoice confirmation"
 
+#: src/Admin/AdminPage.php:256
 msgid "Start bulk printing"
 msgstr "Start bulk printing"
 
+#: src/Admin/OperationsConsole.php:48
 msgid "Start preparation after physical invoice confirmation"
 msgstr "Start preparation after physical invoice confirmation"
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Status"
 msgstr "Status"
 
+#: src/Admin/AdminPage.php:161
+msgid "Store address"
+msgstr "Store address"
+
+#: src/Admin/AdminPage.php:130
+msgid "Store details are shown only when enabled in the Templates tab."
+msgstr "Store details are shown only when enabled in the Templates tab."
+
+#: src/Admin/AdminPage.php:161
+msgid "Store email"
+msgstr "Store email"
+
+#: src/Admin/AdminPage.php:158
+msgid "Store information"
+msgstr "Store information"
+
+#: src/Admin/AdminPage.php:159
+msgid "Store logo"
+msgstr "Store logo"
+
+#: src/Admin/AdminPage.php:159
+msgid "Store name"
+msgstr "Store name"
+
+#: src/Admin/AdminPage.php:160
+msgid "Store phone"
+msgstr "Store phone"
+
+#: src/PrintJob/JobStatus.php:28
 msgid "Submitted"
 msgstr "Submitted"
 
+#: src/Admin/AdminPage.php:227
 msgid "Submitted means the local spooler or CUPS accepted the PDF, or the browser invoice was prepared. It does not confirm paper output."
 msgstr "Submitted means the local spooler or CUPS accepted the PDF, or the browser invoice was prepared. It does not confirm paper output."
 
+#: src/Admin/AdminPage.php:47
 msgid "Submitted to CUPS."
 msgstr "Submitted to CUPS."
 
+#: src/Admin/AdminPage.php:179
+msgid "Subtotal, shipping, discounts and tax totals"
+msgstr "Subtotal, shipping, discounts and tax totals"
+
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Subtotal:"
 msgstr "Subtotal:"
 
+#: templates/classic/invoice.php:43 templates/compact/invoice.php:39
+#: templates/thermal/invoice.php:32
 msgid "Tax"
 msgstr "Tax"
 
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Tax:"
 msgstr "Tax:"
 
+#: src/Admin/AdminPage.php:229 src/Admin/OrderIntegration.php:58
 msgid "Template"
 msgstr "Template"
 
+#: src/Admin/AdminPage.php:102
 msgid "Templates"
 msgstr "Templates"
 
+#: src/Admin/AdminPage.php:219
 msgid "Test connection"
 msgstr "Test connection"
 
+#: src/Admin/OperationsConsole.php:30
 msgid "Test webhook with demo data"
 msgstr "Test webhook with demo data"
 
+#: templates/classic/invoice.php:61 templates/compact/invoice.php:57
+#: templates/thermal/invoice.php:39
 msgid "Thank you for your order."
 msgstr "Thank you for your order."
 
+#: src/Printing/Cups/CupsProvider.php:77
 msgid "The CUPS certificate bundle is unavailable."
 msgstr "The CUPS certificate bundle is unavailable."
 
+#: src/Admin/AdminPage.php:213
 msgid "The CUPS password is managed with WCIP_CUPS_PASSWORD and cannot be edited here."
 msgstr "The CUPS password is managed with WCIP_CUPS_PASSWORD and cannot be edited here."
 
+#: src/Printing/Cups/CupsProvider.php:85
 msgid "The CUPS request could not be completed. Check the server and paper output before reprinting."
 msgstr "The CUPS request could not be completed. Check the server and paper output before reprinting."
 
+#: src/Printing/Cups/CupsProvider.php:89
 msgid "The CUPS server rejected the request or returned an uncertain result."
 msgstr "The CUPS server rejected the request or returned an uncertain result."
 
+#: src/Automation/Scheduler.php:25
 msgid "The background queue is unavailable."
 msgstr "The background queue is unavailable."
 
+#: src/Pdf/MpdfRenderer.php:62
+msgid "The document cannot fit legibly on one sheet. Enable compact layout, hide optional fields or use a smaller font."
+msgstr "The document cannot fit legibly on one sheet. Enable compact layout, hide optional fields or use a smaller font."
+
+#: src/Pdf/MpdfRenderer.php:9 src/Pdf/MpdfRenderer.php:66
+#: src/Pdf/MpdfRenderer.php:74 src/Pdf/MpdfRenderer.php:104
+#: src/Pdf/MpdfRenderer.php:113
 msgid "The document exceeds the safe rendering limit."
 msgstr "The document exceeds the safe rendering limit."
 
+#: src/Pdf/MpdfRenderer.php:41 src/Pdf/MpdfRenderer.php:45
+#: src/Pdf/MpdfRenderer.php:56
+msgid "The document is too long for one page. Hide optional fields or use a smaller font."
+msgstr "The document is too long for one page. Hide optional fields or use a smaller font."
+
+#: src/Admin/PreviewController.php:93
 msgid "The invoice could not be prepared. Review Print Jobs before trying again."
 msgstr "The invoice could not be prepared. Review Print Jobs before trying again."
 
+#: src/Infrastructure/Activator.php:11
 msgid "The invoice printer database could not be installed. Check database permissions and try activation again."
 msgstr "The invoice printer database could not be installed. Check database permissions and try activation again."
 
+#: src/Admin/OrderIntegration.php:89
 msgid "The invoice will be queued for the configured physical printer."
 msgstr "The invoice will be queued for the configured physical printer."
 
+#: src/Admin/OperationsConsole.php:14 src/Rest/OperationsController.php:64
 msgid "The operation could not complete. Check permissions, input and configuration, then review diagnostics."
 msgstr "The operation could not complete. Check permissions, input and configuration, then review diagnostics."
 
+#: src/Automation/PrintWorker.php:75 src/Automation/PrintWorker.php:93
 msgid "The order is no longer paid, so automatic printing was stopped."
 msgstr "The order is no longer paid, so automatic printing was stopped."
 
+#: src/Automation/PrintWorker.php:71 src/Automation/PrintWorker.php:86
+#: src/PrintJob/PrintConfirmationService.php:33 src/Rest/RestController.php:151
 msgid "The order no longer exists."
 msgstr "The order no longer exists."
 
+#: src/Admin/PrintConfirmationUi.php:12 src/Rest/RestController.php:160
 msgid "The print confirmation could not be saved. Review Print Jobs and try again."
 msgstr "The print confirmation could not be saved. Review Print Jobs and try again."
 
+#: src/Printing/Cups/CupsProvider.php:43
 msgid "The print document or copy count is invalid."
 msgstr "The print document or copy count is invalid."
 
+#: src/Automation/Scheduler.php:59
 msgid "The print job could not be queued."
 msgstr "The print job could not be queued."
 
+#: src/Rest/RestController.php:188
 msgid "The print job could not be queued. Review Print Jobs before trying again."
 msgstr "The print job could not be queued. Review Print Jobs before trying again."
 
+#: src/PrintJob/PrintJobRepository.php:54
 msgid "The print job could not be saved."
 msgstr "The print job could not be saved."
 
+#: src/Rest/RestController.php:204
 msgid "The print operation failed. Check the configuration and try again."
 msgstr "The print operation failed. Check the configuration and try again."
 
+#: src/Rest/RestController.php:129
 msgid "The print request stopped. Review Print Jobs before trying again."
 msgstr "The print request stopped. Review Print Jobs before trying again."
 
+#: src/Infrastructure/Activator.php:16
 msgid "The printing configuration migration failed. Check database permissions."
 msgstr "The printing configuration migration failed. Check database permissions."
 
+#: src/Automation/PrintWorker.php:100
 msgid "The provider accepted the print job, but its result could not be saved. Check CUPS before reprinting."
 msgstr "The provider accepted the print job, but its result could not be saved. Check CUPS before reprinting."
 
+#: src/Printing/Cups/CupsProvider.php:42
 msgid "The selected printer is invalid."
 msgstr "The selected printer is invalid."
 
+#: src/Admin/AdminPage.php:213
 msgid "The stored password is never displayed or returned to the browser."
 msgstr "The stored password is never displayed or returned to the browser."
 
+#: src/Automation/PrintWorker.php:128 src/Automation/Scheduler.php:81
 msgid "The worker stopped before recording a result. Check CUPS before reprinting."
 msgstr "The worker stopped before recording a result. Check CUPS before reprinting."
 
+#: src/Template/TemplateRegistry.php:14
 msgid "Thermal 58 mm"
 msgstr "Thermal 58 mm"
 
+#: src/Template/TemplateRegistry.php:12
 msgid "Thermal 80 mm"
 msgstr "Thermal 80 mm"
 
+#: src/Rest/RestController.php:185
 msgid "This job is not eligible for a safe retry. Reprint intentionally instead."
 msgstr "This job is not eligible for a safe retry. Reprint intentionally instead."
 
+#: src/Admin/AdminPage.php:219
 msgid "This list contains queues shared by your CUPS server. Configure and test the printer in CUPS, save its HTTPS address here, then refresh."
 msgstr "This list contains queues shared by your CUPS server. Configure and test the printer in CUPS, save its HTTPS address here, then refresh."
 
+#: src/PrintJob/PrintJobService.php:85
 msgid "This order does not require a shipping label."
 msgstr "This order does not require a shipping label."
 
+#: src/Admin/OrderIntegration.php:39 src/Automation/PrintWorker.php:75
+#: src/Automation/PrintWorker.php:93
 msgid "This order is not eligible under the configured payment policy."
 msgstr "This order is not eligible under the configured payment policy."
 
+#: src/Admin/OperationsConsole.php:19
 msgid "To"
 msgstr "To"
 
+#: templates/classic/invoice.php:44 templates/compact/invoice.php:40
 msgid "Total"
 msgstr "Total"
 
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Total:"
 msgstr "Total:"
 
+#: src/Admin/AdminPage.php:197
 msgid "Trigger"
 msgstr "Trigger"
 
+#: templates/classic/invoice.php:41 templates/compact/invoice.php:37
 msgid "Unit"
 msgstr "Unit"
 
+#: src/Admin/AdminPage.php:177
+msgid "Unit price"
+msgstr "Unit price"
+
+#: templates/classic/invoice.php:55 templates/compact/invoice.php:51
 msgid "Unit prices and discounts exclude tax; line totals include tax."
 msgstr "Unit prices and discounts exclude tax; line totals include tax."
 
+#: templates/thermal/invoice.php:34
 msgid "Unit prices exclude tax; line totals include discounts and tax."
 msgstr "Unit prices exclude tax; line totals include discounts and tax."
 
+#: src/Admin/AdminPage.php:39 src/Admin/OperationsConsole.php:14
+#: src/PrintJob/JobStatus.php:30 templates/packing-list/document.php:14
 msgid "Unknown"
 msgstr "Unknown"
 
+#: src/Admin/OperationsConsole.php:26
 msgid "Update fulfillment"
 msgstr "Update fulfillment"
 
+#: src/Admin/AdminPage.php:229
 msgid "Updated"
 msgstr "Updated"
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Use a keyboard scanner or enter the opaque reference. Scanning requires sign-in and never confirms physical printing."
 msgstr "Use a keyboard scanner or enter the opaque reference. Scanning requires sign-in and never confirms physical printing."
 
+#: src/Admin/AdminPage.php:206
 msgid "Use a printer installed on this computer through your browser. No account or subscription is needed."
 msgstr "Use a printer installed on this computer through your browser. No account or subscription is needed."
 
+#: src/Admin/OperationsConsole.php:41
 msgid "Use billing values for missing recipient fields"
 msgstr "Use billing values for missing recipient fields"
 
+#: src/Admin/AdminPage.php:152
+msgid "Use compact spacing"
+msgstr "Use compact spacing"
+
+#: src/Admin/OperationsConsole.php:47
 msgid "Use site or an IANA timezone. Map named fields to trusted order metadata keys. Extra address fields are printed only when mapped."
 msgstr "Use site or an IANA timezone. Map named fields to trusted order metadata keys. Extra address fields are printed only when mapped."
 
+#: src/Admin/AdminPage.php:208
 msgid "Use the free local print agent on Windows, Linux or macOS. It connects to this site over HTTPS and works with shared hosting, VPS and dedicated servers."
 msgstr "Use the free local print agent on Windows, Linux or macOS. It connects to this site over HTTPS and works with shared hosting, VPS and dedicated servers."
 
+#: src/Admin/AdminPage.php:229
 msgid "View"
 msgstr "View"
 
+#: src/Admin/AdminPage.php:182
+msgid "Visible invoice fields"
+msgstr "Visible invoice fields"
+
+#: templates/packing-list/document.php:13
 msgid "Weight"
 msgstr "Weight"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Weight in kg"
 msgstr "Weight in kg"
 
+#. Plugin Name of the plugin
+#: wc-invoice-printer.php
 msgid "WooCommerce Invoice Printer"
 msgstr "WooCommerce Invoice Printer"
 
+#: src/Plugin.php:129
 msgid "WooCommerce Invoice Printer could not prepare its database. Printing is unavailable; check database permissions and reactivate the plugin."
 msgstr "WooCommerce Invoice Printer could not prepare its database. Printing is unavailable; check database permissions and reactivate the plugin."
 
+#: src/Plugin.php:124
 msgid "WooCommerce Invoice Printer needs its Composer dependencies for PDF and automatic printing. Browser printing remains available."
 msgstr "WooCommerce Invoice Printer needs its Composer dependencies for PDF and automatic printing. Browser printing remains available."
 
+#: src/Plugin.php:120
 msgid "WooCommerce Invoice Printer requires WooCommerce 9.0 or newer."
 msgstr "WooCommerce Invoice Printer requires WooCommerce 9.0 or newer."
 
+#: src/Plugin.php:116
 msgid "WooCommerce Invoice Printer requires WooCommerce to be installed and active."
 msgstr "WooCommerce Invoice Printer requires WooCommerce to be installed and active."
 
+#: src/Admin/AdminPage.php:42 src/Admin/OperationsConsole.php:14
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Working…"
 msgstr "Working…"
 
+#: src/Admin/AdminPage.php:58 src/Admin/OperationsConsole.php:75
 msgid "You are not allowed to change these settings."
 msgstr "You are not allowed to change these settings."
 
+#: src/Admin/AdminPage.php:234 src/Admin/PreviewController.php:34
 msgid "You are not allowed to print invoices."
 msgstr "You are not allowed to print invoices."
 
+#: src/Admin/AdminPage.php:225
 msgid "You are not allowed to view print jobs."
 msgstr "You are not allowed to view print jobs."
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/OrderIntegration.php:89
 msgid "Your browser print dialog will open."
 msgstr "Your browser print dialog will open."
 
+#. Author URI of the plugin
+#: wc-invoice-printer.php
 msgid "https://ildrm.com"
 msgstr "https://ildrm.com"
-

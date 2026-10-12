@@ -44,6 +44,45 @@ final class SettingsRepositoryTest extends TestCase {
 		self::assertSame( '', $settings->cups_endpoint() );
 	}
 
+	public function test_optional_invoice_fields_and_layout_options_are_disabled_by_default(): void {
+		$settings = new SettingsRepository();
+		$presentation = $settings->presentation();
+		foreach ( array( 'show_customer_name', 'show_customer_role', 'show_store_email', 'show_customer_email', 'show_store_address', 'show_billing_address', 'show_store_logo', 'show_paid_date', 'show_shipping_phone', 'compact_layout', 'single_page', 'thermal_auto_height' ) as $key ) { self::assertFalse( $presentation[ $key ], $key ); }
+		self::assertTrue( $presentation['show_shipping_address'] );
+		self::assertFalse( $settings->get( 'shipping_billing_fallback' ) );
+		self::assertFalse( $settings->get( 'label_show_sender' ) );
+		self::assertSame( 'dejavusans', $presentation['invoice_font'] );
+		self::assertSame( 10, $presentation['invoice_font_size'] );
+		self::assertArrayNotHasKey( 'cups_password', $presentation );
+	}
+
+	public function test_presentation_rejects_css_input_and_normalizes_each_toggle(): void {
+		$settings = new SettingsRepository();
+		$settings->update( array( 'invoice_font' => 'serif; background: url(https://example.test)', 'invoice_font_size' => 'large', 'compact_layout' => 'true', 'single_page' => '1', 'show_customer_email' => '1', 'show_customer_role' => 'false' ) );
+		self::assertSame( 'dejavusans', $settings->get( 'invoice_font' ) );
+		self::assertSame( 10, $settings->get( 'invoice_font_size' ) );
+		self::assertFalse( $settings->get( 'compact_layout' ) );
+		self::assertTrue( $settings->get( 'single_page' ) );
+		self::assertTrue( $settings->get( 'show_customer_email' ) );
+		self::assertFalse( $settings->get( 'show_customer_role' ) );
+		$settings->update( array( 'invoice_font' => 'dejavuserif', 'invoice_font_size' => 99 ) );
+		self::assertSame( 'dejavuserif', $settings->get( 'invoice_font' ) );
+		self::assertSame( 16, $settings->get( 'invoice_font_size' ) );
+		$settings->update( array( 'invoice_font_size' => -1 ) );
+		self::assertSame( 6, $settings->get( 'invoice_font_size' ) );
+	}
+
+	public function test_saved_opt_in_choices_are_preserved_when_other_settings_change(): void {
+		$settings = new SettingsRepository();
+		$settings->update( array( 'show_customer_email' => true, 'show_shipping_address' => false, 'shipping_billing_fallback' => true, 'label_show_sender' => true, 'invoice_font' => 'dejavusansmono' ) );
+		$settings->update( array( 'business_name' => 'Updated Store' ) );
+		self::assertTrue( $settings->get( 'show_customer_email' ) );
+		self::assertFalse( $settings->get( 'show_shipping_address' ) );
+		self::assertTrue( $settings->get( 'shipping_billing_fallback' ) );
+		self::assertTrue( $settings->get( 'label_show_sender' ) );
+		self::assertSame( 'dejavusansmono', $settings->get( 'invoice_font' ) );
+	}
+
 	public function test_credential_change_invalidates_both_account_caches(): void {
 		$settings = new SettingsRepository();
 		$settings->update( array( 'cups_password' => 'old' ) ); $old = $settings->cups_fingerprint();

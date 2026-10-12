@@ -5,14 +5,62 @@ namespace WCInvoicePrinter\Settings;
 final class SettingsRepository {
 	private const OPTION = 'wcip_settings';
 
+	/** Safe PDF font families bundled with mPDF. */
+	public const INVOICE_FONTS = array( 'dejavusans', 'dejavuserif', 'dejavusansmono' );
+
+	/** Optional customer information is opt-in; only the shipping address appears by default. */
+	public static function visibility_defaults(): array {
+		return array(
+			'show_store_name' => true,
+			'show_store_logo' => false,
+			'show_store_details' => false,
+			'show_store_phone' => false,
+			'show_store_email' => false,
+			'show_store_address' => false,
+			'show_customer_name' => false,
+			'show_customer_company' => false,
+			'show_billing_address' => false,
+			'show_customer_phone' => false,
+			'show_customer_email' => false,
+			'show_shipping_address' => true,
+			'show_customer_role' => false,
+			'show_payment_method' => false,
+			'show_shipping_method' => false,
+			'show_order_date' => false,
+			'show_order_status' => false,
+			'show_paid_date' => false,
+			'show_shipping_phone' => false,
+			'show_item_sku' => false,
+			'show_item_variation' => false,
+			'show_item_unit_price' => false,
+			'show_item_discount' => false,
+			'show_item_tax' => false,
+			'show_price_note' => false,
+			'show_totals_breakdown' => false,
+			'show_footer' => false,
+			'show_recipient_extras' => false,
+			'show_customer_note' => false,
+		);
+	}
+
+	/** One presentation contract shared by previews, browser output and PDF output. */
+	public function presentation(): array {
+		$settings = $this->all();
+		$keys = array_merge( array_keys( self::visibility_defaults() ), array( 'invoice_font', 'invoice_font_size', 'compact_layout', 'single_page', 'thermal_auto_height' ) );
+		return array_intersect_key( $settings, array_flip( $keys ) );
+	}
+
 	public function all(): array {
-		$defaults = array(
+		$defaults = array_merge( self::visibility_defaults(), array(
 			'document_timezone' => 'site',
-			'shipping_billing_fallback' => true,
+			'shipping_billing_fallback' => false,
 			'shipping_field_mapping' => '{}',
-			'show_paid_date' => true,
-			'show_shipping_phone' => true,
-			'label_show_sender' => true,
+			'label_show_sender' => false,
+			'invoice_font' => 'dejavusans',
+			'invoice_font_size' => 10,
+			'compact_layout' => false,
+			'single_page' => false,
+			'thermal_auto_height' => false,
 			'automatic_eligibility' => 'confirmed_payment',
 			'reconciliation_interval' => 600,
 			'fulfillment_on_confirmation' => false,
@@ -32,7 +80,6 @@ final class SettingsRepository {
 			'business_email'         => get_option( 'admin_email', '' ),
 			'logo_url'               => '',
 			'default_template'       => 'classic',
-			'show_customer_note'     => false,
 			'automatic_enabled'      => false,
 			'automatic_template'     => 'classic',
 			'automatic_copies'       => 1,
@@ -44,7 +91,7 @@ final class SettingsRepository {
 			'cups_password'      => '',
 			'cups_printer_id'   => '',
 			'cups_printer_name' => '',
-		);
+		) );
 		$value = get_option( self::OPTION, array() );
 		return array_merge( $defaults, $this->sanitize( is_array( $value ) ? $value : array() ) );
 	}
@@ -113,7 +160,15 @@ final class SettingsRepository {
 			if ( ! is_scalar( $value ) && null !== $value ) {
 				continue;
 			}
+			if ( array_key_exists( $key, self::visibility_defaults() ) ) {
+				$clean[ $key ] = in_array( $value, array( true, 1, '1' ), true );
+				continue;
+			}
 				switch ( $key ) {
+				case 'invoice_font':
+					$clean[ $key ] = in_array( $value, self::INVOICE_FONTS, true ) ? $value : 'dejavusans'; break;
+				case 'invoice_font_size':
+					$clean[ $key ] = is_numeric( $value ) ? max( 6, min( 16, (int) $value ) ) : 10; break;
 				case 'automatic_provider':
 					$clean[ $key ] = 'agent' === $value ? 'agent' : 'cups'; break;
 				case 'agent_user_id':
@@ -163,8 +218,9 @@ final class SettingsRepository {
 					$clean[ $key ] = sanitize_key( (string) $value ) ?: 'classic';
 					break;
 				case 'shipping_billing_fallback':
-				case 'show_paid_date':
-				case 'show_shipping_phone':
+				case 'compact_layout':
+				case 'single_page':
+				case 'thermal_auto_height':
 				case 'label_show_sender':
 				case 'fulfillment_on_confirmation':
 				case 'barcode_enabled':
@@ -172,7 +228,6 @@ final class SettingsRepository {
 				case 'export_on_scan':
 				case 'export_on_packed':
 				case 'export_include_recipient':
-				case 'show_customer_note':
 				case 'automatic_enabled':
 					$clean[ $key ] = in_array( $value, array( true, 1, '1' ), true );
 					break;

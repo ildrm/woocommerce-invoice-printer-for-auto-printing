@@ -19,7 +19,7 @@ final class RecipientResolverTest extends JobTestCase {
 		};
 	}
 	public function test_shipping_phone_wins_over_mapping_and_billing(): void {
-		$this->settings->update( array( 'shipping_field_mapping' => '{"phone":"_phone","unit":"_unit"}' ) );
+		$this->settings->update( array( 'shipping_field_mapping' => '{"phone":"_phone","unit":"_unit"}', 'shipping_billing_fallback' => true ) );
 		$data = ( new RecipientResolver( $this->settings ) )->resolve( $this->order( '+81 3 123' ) );
 		$this->assertSame( '+81 3 123', $data['phone'] );
 		$this->assertSame( 'Gift recipient', $data['name'] );

@@ -125,6 +125,10 @@ final class Plugin {
 	}
 
 	public static function database_notice(): void {
-		if ( current_user_can( 'activate_plugins' ) ) { echo '<div class="notice notice-error"><p>' . esc_html__( 'WooCommerce Invoice Printer could not prepare its database. Printing is unavailable; check database permissions and reactivate the plugin.', 'wc-invoice-printer' ) . '</p></div>'; }
+		if ( current_user_can( 'activate_plugins' ) ) {
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'WooCommerce Invoice Printer could not prepare its database. Printing is unavailable; check database permissions and reactivate the plugin.', 'wc-invoice-printer' ) . '</p>';
+			if ( '' !== Activator::schema_error() ) { echo '<p><code>' . esc_html( Activator::schema_error() ) . '</code></p>'; }
+			echo '</div>';
+		}
 	}
 }

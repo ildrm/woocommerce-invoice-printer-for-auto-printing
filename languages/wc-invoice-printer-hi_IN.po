@@ -1,1008 +1,1547 @@
 msgid ""
-msgstr "Project-Id-Version: WooCommerce Invoice Printer 1.4.0\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2026-10-10 12:00+0330\nPO-Revision-Date: 2026-10-10 12:00+0330\nLast-Translator: WooCommerce Invoice Printer contributors\nLanguage-Team: Hindi\nLanguage: hi_IN\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\nX-Domain: wc-invoice-printer\n"
+msgstr ""
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
+"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
+"PO-Revision-Date: 2026-10-12 15:00+0330\n"
+"Last-Translator: WooCommerce Invoice Printer contributors\n"
+"Language-Team: Hindi\n"
+"Language: hi_IN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wc-invoice-printer\n"
 
+#. translators: %d: number of invoices added to the print queue.
+#: src/Admin/AdminPage.php:52
 #, php-format
 msgid "%d invoice(s) queued."
 msgstr "कतार में जोड़े गए इनवॉइस की संख्या: %d"
 
+#. translators: %d: number of printers returned by CUPS.
+#: src/Admin/AdminPage.php:50
 #, php-format
 msgid "%d printer(s) found."
 msgstr "मिले प्रिंटरों की संख्या: %d"
 
-msgid "24 Market Street, Portland, OR"
-msgstr "24 मार्केट स्ट्रीट, पोर्टलैंड, ओरेगन"
-
+#: src/Invoice/InvoiceFactory.php:94 src/Invoice/InvoiceFactory.php:95
+#: src/Invoice/InvoiceFactory.php:97
 msgid "840 Evergreen Terrace, Seattle, WA"
 msgstr "840 एवरग्रीन टेरेस, सिएटल, वॉशिंगटन"
 
+#: src/Template/TemplateRegistry.php:10
 msgid "A polished full invoice for office printers."
 msgstr "ऑफ़िस प्रिंटरों के लिए आकर्षक पूर्ण इनवॉइस।"
 
+#: src/Rest/RestController.php:124
 msgid "A print job could not be queued. Review Print Jobs before trying again."
 msgstr "एक प्रिंट कार्य कतार में नहीं जुड़ सका। फिर कोशिश करने से पहले प्रिंट कार्य देखें।"
 
+#: src/Pdf/MpdfRenderer.php:17 src/Pdf/MpdfRenderer.php:96
 msgid "A secure PDF working directory could not be created."
 msgstr "सुरक्षित PDF कार्य निर्देशिका नहीं बन सकी।"
 
+#: src/Template/TemplateRegistry.php:13
 msgid "A5 invoice for smaller sheets."
 msgstr "छोटे कागज़ के लिए A5 इनवॉइस।"
 
+#: src/Admin/AdminPage.php:197
 msgid "After verified payment, queue an invoice without delaying checkout."
 msgstr "भुगतान सत्यापित होने पर, चेकआउट में देरी किए बिना इनवॉइस कतार में जोड़ें।"
 
+#: src/Admin/AdminPage.php:209
 msgid "Agent queue"
 msgstr "एजेंट कतार"
 
+#: src/Admin/AdminPage.php:210
 msgid "Agent user ID"
 msgstr "एजेंट उपयोगकर्ता ID"
 
+#: src/Invoice/InvoiceFactory.php:93 src/Invoice/InvoiceFactory.php:97
 msgid "Alex Morgan"
 msgstr "एलेक्स मॉर्गन"
 
+#: src/Admin/AdminPage.php:227
 msgid "All"
 msgstr "सभी"
 
+#: src/Admin/OrderPrintFilters.php:13
 msgid "All invoice print states"
 msgstr "सभी इनवॉइस प्रिंट स्थितियाँ"
 
+#: src/Admin/OperationsConsole.php:63
 msgid "Allowed destination hostname"
 msgstr "अनुमत गंतव्य होस्ट नाम"
 
+#: src/Admin/AdminPage.php:229
 msgid "Attempts"
 msgstr "प्रयास"
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Automatic"
 msgstr "स्वचालित"
 
+#: src/Admin/AdminPage.php:102
 msgid "Automatic Printing"
 msgstr "स्वचालित प्रिंटिंग"
 
+#: src/Admin/OperationsConsole.php:54
 msgid "Automatic eligibility"
 msgstr "स्वचालित प्रिंट पात्रता"
 
+#: src/Admin/OrderIntegration.php:57
 msgid "Automatic job:"
 msgstr "स्वचालित कार्य:"
 
+#: src/Admin/AdminPage.php:197
 msgid "Automatic printing"
 msgstr "स्वचालित प्रिंटिंग"
 
+#: src/Admin/AdminPage.php:107
 msgid "Automatic printing remains disabled until a print destination is configured."
 msgstr "प्रिंट गंतव्य सेट होने तक स्वचालित प्रिंट बंद रहता है।"
 
+#: src/Admin/AdminPage.php:196
 msgid "Automatic printing uses the local print agent or a self-hosted CUPS server. Browser printing uses your print dialog."
 msgstr "स्वचालित प्रिंट स्थानीय एजेंट या आपके CUPS सर्वर से होता है। ब्राउज़र प्रिंट संवाद का उपयोग करता है।"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:24
 msgid "Awaiting confirmation"
 msgstr "पुष्टि की प्रतीक्षा"
 
+#: src/Admin/AdminPage.php:102
 msgid "Barcode & integrations"
 msgstr "बारकोड और एकीकरण"
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Barcode scanner"
 msgstr "बारकोड स्कैनर"
 
+#: templates/shared/customer.php:5
 msgid "Bill to"
 msgstr "बिल प्राप्तकर्ता"
 
+#: src/Admin/AdminPage.php:166
+msgid "Billing address"
+msgstr "बिलिंग का पता"
+
+#: src/Admin/AdminPage.php:166
+msgid "Billing phone"
+msgstr "बिलिंग का फ़ोन"
+
+#: src/Admin/AdminPage.php:229 src/PrintJob/PrintConfirmationService.php:35
 msgid "Browser"
 msgstr "ब्राउज़र"
 
+#: src/Admin/AdminPage.php:246
 msgid "Browser output is combined into one document. CUPS and the print agent create controlled individual jobs."
 msgstr "ब्राउज़र आउटपुट एक दस्तावेज़ में जुड़ता है। CUPS और प्रिंट एजेंट अलग नियंत्रित कार्य बनाते हैं।"
 
+#: src/Admin/AdminPage.php:248 src/Admin/OrderIntegration.php:58
 msgid "Browser print dialog"
 msgstr "ब्राउज़र प्रिंट संवाद"
 
+#: src/Admin/AdminPage.php:131 src/Admin/AdminPage.php:160
 msgid "Business and tax details"
 msgstr "व्यवसाय और कर के विवरण"
 
-msgid "Business details shown to customers on every invoice."
-msgstr "हर इनवॉइस पर ग्राहक को दिखाए जाने वाले व्यवसाय के विवरण।"
-
+#: src/Admin/AdminPage.php:131
 msgid "Business name"
 msgstr "व्यवसाय का नाम"
 
-msgid "Business registration and tax details"
-msgstr "व्यवसाय पंजीकरण और कर के विवरण"
-
+#: src/Admin/AdminPage.php:213
 msgid "CUPS connection"
 msgstr "CUPS कनेक्शन"
 
+#: src/Admin/AdminPage.php:48
 msgid "CUPS connection verified."
 msgstr "CUPS कनेक्शन सत्यापित हुआ।"
 
+#: src/Printing/Cups/CupsProvider.php:99
 msgid "CUPS did not accept the requested print options. Check its queue before reprinting."
 msgstr "CUPS ने प्रिंट विकल्प स्वीकार नहीं किए। दोबारा प्रिंट से पहले कतार जाँचें।"
 
+#: src/Admin/AdminPage.php:213
 msgid "CUPS open-source automatic printing"
 msgstr "CUPS ओपन सोर्स स्वचालित प्रिंट"
 
+#: src/Admin/AdminPage.php:216
 msgid "CUPS password"
 msgstr "CUPS पासवर्ड"
 
+#: src/Admin/AdminPage.php:219
 msgid "CUPS printers"
 msgstr "CUPS प्रिंटर"
 
+#: src/Printing/Cups/CupsProvider.php:109
 msgid "CUPS returned an invalid response. Check its queue before reprinting."
 msgstr "CUPS ने अमान्य जवाब दिया। दोबारा प्रिंट से पहले कतार जाँचें।"
 
+#: src/Admin/AdminPage.php:214
 msgid "CUPS server address"
 msgstr "CUPS सर्वर पता"
 
+#: src/Admin/AdminPage.php:215
 msgid "CUPS username"
 msgstr "CUPS उपयोगकर्ता नाम"
 
+#. translators: %s: the selected printer's name.
+#: src/Admin/AdminPage.php:251 src/Admin/OrderIntegration.php:58
 #, php-format
 msgid "CUPS: %s"
 msgstr "CUPS: %s"
 
+#: src/Admin/AdminPage.php:229
 msgid "Cancel queued job"
 msgstr "कतार का कार्य रद्द करें"
 
+#: src/PrintJob/DocumentPrintState.php:25 src/PrintJob/JobStatus.php:31
 msgid "Cancelled"
 msgstr "रद्द"
 
+#: src/Admin/AdminPage.php:45
 msgid "Choose a printer"
 msgstr "प्रिंटर चुनें"
 
+#: src/PrintJob/PrintJobService.php:69
 msgid "Choose a valid invoice template."
 msgstr "मान्य इनवॉइस टेम्पलेट चुनें।"
 
+#: src/PrintJob/PrintJobService.php:72
 msgid "Choose a valid print destination."
 msgstr "मान्य प्रिंट गंतव्य चुनें।"
 
+#: src/PrintJob/PrintJobService.php:75 src/Rest/RestController.php:80
 msgid "Choose a valid printer."
 msgstr "मान्य प्रिंटर चुनें।"
 
+#: src/Rest/RestController.php:101
 msgid "Choose a valid template, printer, destination, and number of copies."
 msgstr "मान्य टेम्पलेट, प्रिंटर, गंतव्य और प्रतियों की संख्या चुनें।"
 
+#: src/Admin/AdminPage.php:136
 msgid "Choose an invoice layout"
 msgstr "इनवॉइस का लेआउट चुनें"
 
+#: src/Admin/AdminPage.php:43 src/Admin/OrderIntegration.php:89
+#: src/Admin/PreviewController.php:49 src/PrintJob/PrintJobService.php:82
 msgid "Choose between 1 and 20 copies."
 msgstr "1 से 20 के बीच प्रतियाँ चुनें।"
 
+#: src/Admin/AdminPage.php:206
 msgid "Choose local printers in your browser dialog. The list below contains shared CUPS queues. Install missing local printers in your operating system."
 msgstr "स्थानीय प्रिंटर ब्राउज़र संवाद में चुनें। नीचे साझा CUPS कतारें हैं। गायब प्रिंटर ऑपरेटिंग सिस्टम में इंस्टॉल करें।"
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/OrderIntegration.php:89
 msgid "Choose your local printer in the browser dialog. No API key is required."
 msgstr "ब्राउज़र के प्रिंट संवाद में अपना स्थानीय प्रिंटर चुनें। API कुंजी आवश्यक नहीं है।"
 
+#: src/Template/TemplateRegistry.php:10
 msgid "Classic"
 msgstr "क्लासिक"
 
+#: src/Template/TemplateRegistry.php:13
 msgid "Classic A5"
 msgstr "क्लासिक A5"
 
+#: src/Admin/OrderIntegration.php:58
 msgid "Close print dialog"
 msgstr "प्रिंट संवाद बंद करें"
 
+#: src/Admin/OperationsConsole.php:59
 msgid "Code format"
 msgstr "कोड प्रारूप"
 
+#: src/Invoice/InvoiceFactory.php:100
 msgid "Color: Midnight / Size: Large"
 msgstr "रंग: गहरा नीला / आकार: बड़ा"
 
+#: src/Template/TemplateRegistry.php:11
 msgid "Compact"
 msgstr "कॉम्पैक्ट"
 
+#: src/Printing/Cups/CupsProvider.php:66
 msgid "Configure a valid HTTPS CUPS server address."
 msgstr "वैध HTTPS CUPS सर्वर पता सेट करें।"
 
+#: src/Rest/RestController.php:104
 msgid "Configure the CUPS credential before printing."
 msgstr "प्रिंटिंग से पहले CUPS के प्रमाणीकरण विवरण सेट करें।"
 
+#: src/Printing/Cups/CupsProvider.php:68
 msgid "Configure the CUPS password before printing."
 msgstr "प्रिंट से पहले CUPS पासवर्ड सेट करें।"
 
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Confirm only after checking the paper output. Closing the print dialog does not confirm printing."
 msgstr "कागज़ पर निकले प्रिंट की जाँच के बाद ही पुष्टि करें। प्रिंट संवाद बंद करने से प्रिंटिंग की पुष्टि नहीं होती।"
 
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Confirm printed"
 msgstr "प्रिंटिंग की पुष्टि करें"
 
+#: src/PrintJob/PrintJobService.php:78
 msgid "Connect CUPS before printing."
 msgstr "प्रिंटिंग से पहले CUPS कनेक्ट करें।"
 
+#: src/Admin/AdminPage.php:197
 msgid "Connection"
 msgstr "कनेक्शन"
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:255
+#: src/Admin/OrderIntegration.php:58
 msgid "Copies"
 msgstr "प्रतियाँ"
 
+#: src/Admin/AdminPage.php:211
 msgid "Create a user with the Print agent role and an Application Password. Pair its user ID and queue here; configure the same queue in the local agent. Keep the computer awake."
 msgstr "प्रिंट एजेंट भूमिका वाला उपयोगकर्ता और ऐप पासवर्ड बनाएं। यहां उसका ID और कतार जोड़ें और स्थानीय एजेंट में वही कतार सेट करें। कंप्यूटर को चालू और जागा रखें।"
 
+#: src/Admin/AdminPage.php:105
 msgid "Create consistent invoices and send them to the right printer."
 msgstr "एकसमान इनवॉइस बनाएँ और सही प्रिंटर को भेजें।"
 
+#: src/Invoice/InvoiceFactory.php:110
 msgid "Credit card"
 msgstr "क्रेडिट कार्ड"
 
-msgid "Customer"
-msgstr "ग्राहक"
+#: src/Admin/AdminPage.php:163
+msgid "Customer and shipping information"
+msgstr "ग्राहक और शिपिंग की जानकारी"
 
+#: src/Admin/AdminPage.php:164
+msgid "Customer company"
+msgstr "ग्राहक की कंपनी"
+
+#: src/Admin/AdminPage.php:167
+msgid "Customer email"
+msgstr "ग्राहक का ईमेल"
+
+#: src/Admin/AdminPage.php:164
+msgid "Customer name"
+msgstr "ग्राहक का नाम"
+
+#: src/Admin/AdminPage.php:173 templates/classic/invoice.php:60
+#: templates/compact/invoice.php:56
 msgid "Customer note"
 msgstr "ग्राहक की टिप्पणी"
 
-msgid "Date"
-msgstr "तारीख"
+#: src/Admin/AdminPage.php:165 templates/packing-list/document.php:12
+#: templates/shared/customer.php:3 templates/shipping-label/document.php:13
+msgid "Customer role"
+msgstr "ग्राहक की भूमिका"
 
+#: src/Admin/AdminPage.php:219
 msgid "Default CUPS printer"
 msgstr "डिफ़ॉल्ट CUPS प्रिंटर"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Delivered"
 msgstr "वितरित"
 
+#: src/Template/TemplateRegistry.php:11
 msgid "Dense and readable for high-volume operations."
 msgstr "अधिक मात्रा के काम के लिए सघन और पढ़ने योग्य लेआउट।"
 
-msgid "Description"
-msgstr "विवरण"
-
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:248
+#: src/Admin/OrderIntegration.php:58
 msgid "Destination"
 msgstr "गंतव्य"
 
+#: src/Admin/AdminPage.php:229
 msgid "Details"
 msgstr "विवरण"
 
+#: src/Admin/AdminPage.php:102 src/Admin/OperationsConsole.php:32
 msgid "Diagnostics"
 msgstr "निदान"
 
+#: templates/classic/invoice.php:42 templates/compact/invoice.php:38
+#: templates/thermal/invoice.php:32
 msgid "Discount"
 msgstr "छूट"
 
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Discount:"
 msgstr "छूट:"
 
+#: src/Admin/OperationsConsole.php:55
 msgid "Discovery interval in seconds 300 to 3600"
 msgstr "खोज अंतराल 300 से 3600 सेकंड"
 
+#: src/PrintJob/PrintConfirmationService.php:39
 #, php-format
 msgid "Document printed: %1$s. Job #%2$d; confirmed by the operator."
 msgstr "दस्तावेज़ मुद्रित: %1$s। कार्य #%2$d; ऑपरेटर ने पुष्टि की।"
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Document reference"
 msgstr "दस्तावेज़ संदर्भ"
 
+#: src/Admin/OperationsConsole.php:45
 msgid "Document timezone"
 msgstr "दस्तावेज़ समय क्षेत्र"
 
+#: src/Admin/AdminPage.php:227
 msgid "Document type"
 msgstr "दस्तावेज़ प्रकार"
 
+#: src/Admin/AdminPage.php:102
 msgid "Documents & shipping"
 msgstr "दस्तावेज़ और शिपिंग"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Eligible"
 msgstr "पात्र"
 
+#: src/Admin/OrderPrintFilters.php:13
 msgid "Eligible without an invoice job"
 msgstr "पात्र लेकिन इनवॉइस कार्य नहीं"
 
+#: src/Admin/AdminPage.php:131
 msgid "Email"
 msgstr "ईमेल"
 
+#: src/Admin/OperationsConsole.php:61
 msgid "Enable generic webhook export"
 msgstr "सामान्य वेबहुक निर्यात सक्षम करें"
 
+#: src/Admin/AdminPage.php:197
 msgid "Enabled"
 msgstr "सक्षम"
 
+#: src/Admin/OperationsConsole.php:56
 msgid "Enabling automation starts discovery from that time. Older payments require explicit preview and selection. A gateway adapter may be needed for partial payments or missing payment dates."
 msgstr "सक्षम करने के समय से खोज शुरू होती है। पुराने भुगतान के लिए पूर्वावलोकन और चयन चाहिए। आंशिक भुगतान या अनुपलब्ध तिथि के लिए गेटवे एडाप्टर चाहिए हो सकता है।"
 
+#: src/Admin/AdminPage.php:154
+msgid "End thermal paper after the invoice content"
+msgstr "थर्मल कागज़ की लंबाई इनवॉइस की सामग्री के अंत तक रखें"
+
+#: src/Admin/OperationsConsole.php:19
 msgid "Enqueue selected missing invoices"
 msgstr "चयनित छूटे इनवॉइस कतार में डालें"
 
+#: src/Admin/AdminPage.php:229
 msgid "Error"
 msgstr "त्रुटि"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Existing job"
 msgstr "मौजूदा कार्य"
 
+#: src/Admin/OperationsConsole.php:30
 msgid "Export history"
 msgstr "निर्यात इतिहास"
 
+#: src/Admin/OperationsConsole.php:66
 msgid "Export on authorized scan once per reference"
 msgstr "अधिकृत स्कैन पर हर संदर्भ के लिए एक बार निर्यात"
 
+#: src/Admin/OperationsConsole.php:67
 msgid "Export on confirmed packed transition"
 msgstr "पुष्ट पैक्ड स्थिति बदलाव पर निर्यात"
 
+#: src/Admin/OperationsConsole.php:27
 msgid "Export scanned order"
 msgstr "स्कैन किया ऑर्डर निर्यात करें"
 
+#: src/Admin/OperationsConsole.php:68
 msgid "Exports are off by default. The receiver must implement the documented HMAC signature, replay protection and idempotency receipt contract. Acceptance does not prove shipping or picking. Credentials are not encrypted in the database; use WCIP_EXPORT_SIGNING_SECRET for managed configuration."
 msgstr "निर्यात डिफ़ॉल्ट बंद है। रिसीवर को HMAC, रीप्ले सुरक्षा और इडेम्पोटेंसी रसीद लागू करनी होगी। स्वीकृति शिपिंग का प्रमाण नहीं। डेटाबेस कुंजियाँ एन्क्रिप्ट नहीं हैं; WCIP_EXPORT_SIGNING_SECRET प्रयोग करें।"
 
+#: src/Admin/AdminPage.php:229
 msgid "External job ID"
 msgstr "बाहरी कार्य ID"
 
+#: src/PrintJob/JobStatus.php:29
 msgid "Failed"
 msgstr "असफल"
 
+#: src/Admin/AdminPage.php:227
 msgid "Filter"
 msgstr "फ़िल्टर करें"
 
+#: src/Invoice/InvoiceFactory.php:101
 msgid "Fine gel pen set"
 msgstr "बारीक जेल पेन का सेट"
 
+#: src/Admin/AdminPage.php:153
+msgid "Fit each invoice on one sheet"
+msgstr "हर इनवॉइस को एक शीट में फ़िट करें"
+
+#: src/Admin/AdminPage.php:146
+msgid "Font family"
+msgstr "फ़ॉन्ट परिवार"
+
+#: src/Admin/AdminPage.php:150
+msgid "Font size (pt)"
+msgstr "फ़ॉन्ट का आकार (pt)"
+
+#: src/Admin/OperationsConsole.php:60
 msgid "For 58 mm receipts choose QR. Code 128 is shown on wider paper only."
 msgstr "58 मिमी रसीद के लिए QR चुनें। Code 128 केवल चौड़े कागज़ पर दिखता है।"
 
+#: src/Admin/AdminPage.php:206
 msgid "For orders, choose Browser print dialog when printing an invoice or a bulk selection."
 msgstr "ऑर्डर के लिए, एक इनवॉइस या चुने हुए कई ऑर्डर प्रिंट करते समय ब्राउज़र प्रिंट संवाद चुनें।"
 
+#: src/Admin/OperationsConsole.php:19
 msgid "From"
 msgstr "से"
 
+#: src/Admin/OperationsConsole.php:54
 msgid "Fulfillment eligible including unpaid collection methods"
 msgstr "पूर्ति पात्र, अवैतनिक संग्रह विधियों सहित"
 
+#: src/Admin/OperationsConsole.php:24
 msgid "Fulfillment stage"
 msgstr "पूर्ति चरण"
 
+#: src/Admin/OperationsConsole.php:52
 msgid "Fulfillment uses separate plugin storage. Native WooCommerce payment, order status and dates are unchanged."
 msgstr "पूर्ति अलग प्लगइन संग्रह में है। WooCommerce भुगतान, स्थिति और तिथियाँ नहीं बदलतीं।"
 
+#: src/Admin/AdminPage.php:102
 msgid "General"
 msgstr "सामान्य"
 
+#: src/Invoice/InvoiceFactory.php:110
 msgid "Ground shipping"
 msgstr "ज़मीनी शिपिंग"
 
+#: src/Invoice/InvoiceFactory.php:123 src/Invoice/InvoiceFactory.php:132
+msgid "Guest"
+msgstr "अतिथि"
+
+#: src/Admin/OperationsConsole.php:62
 msgid "HTTPS export endpoint"
 msgstr "HTTPS निर्यात एंडपॉइंट"
 
+#: src/Admin/OperationsConsole.php:19
 msgid "I reviewed the selected orders and authorize physical print submission."
 msgstr "मैंने चयनित ऑर्डर जाँचे और प्रिंट भेजने की अनुमति देता हूँ।"
 
+#: templates/classic/invoice.php:32 templates/thermal/invoice.php:22
 msgid "INVOICE"
 msgstr "इनवॉइस"
 
+#: src/Admin/AdminPage.php:132
 msgid "Include customer notes on invoices"
 msgstr "इनवॉइस में ग्राहक की टिप्पणियाँ शामिल करें"
 
+#: src/Admin/OperationsConsole.php:58
 msgid "Include opaque document codes"
 msgstr "अपारदर्शी दस्तावेज़ कोड शामिल करें"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Ineligible"
 msgstr "अपात्र"
 
+#: src/Admin/PreviewController.php:53
 msgid "Invalid invoice template."
 msgstr "इनवॉइस टेम्पलेट अमान्य है।"
 
+#: src/Admin/AdminPage.php:240 src/Admin/PreviewController.php:65
 msgid "Invalid order selection."
 msgstr "ऑर्डर चयन अमान्य है।"
 
+#: src/Admin/PreviewController.php:38
 msgid "Invalid preview input."
 msgstr "पूर्वावलोकन इनपुट अमान्य है।"
 
+#: src/Admin/AdminPage.php:61 src/Admin/OperationsConsole.php:77
+#: src/Admin/OperationsConsole.php:84
 msgid "Invalid settings input."
 msgstr "सेटिंग इनपुट अमान्य है।"
 
+#: src/Admin/AdminPage.php:64 src/Admin/OperationsConsole.php:80
 msgid "Invalid settings section."
 msgstr "सेटिंग अनुभाग अमान्य है।"
 
+#: src/Admin/AdminPage.php:227 templates/compact/invoice.php:28
 msgid "Invoice"
 msgstr "इनवॉइस"
 
+#. translators: %s: WooCommerce order number.
+#: src/Automation/PrintWorker.php:98
 #, php-format
 msgid "Invoice %s"
 msgstr "इनवॉइस %s"
 
+#: src/Admin/PreviewController.php:130
+msgid "Invoice PDF"
+msgstr "इनवॉइस PDF"
+
+#: src/Admin/AdminPage.php:213
 msgid "Invoice PDFs contain customer data and are sent only to your configured CUPS server when this destination is used."
 msgstr "इस गंतव्य पर ग्राहक डेटा वाली PDF केवल आपके कॉन्फ़िगर किए CUPS सर्वर को भेजी जाती है।"
 
+#: src/Admin/AdminPage.php:24 src/Admin/AdminPage.php:105
 msgid "Invoice Printer"
 msgstr "इनवॉइस प्रिंटर"
 
+#: src/Admin/AdminPage.php:108
 msgid "Invoice Printer sections"
 msgstr "इनवॉइस प्रिंटर के अनुभाग"
 
+#: src/Admin/AdminPage.php:179
+msgid "Invoice footer"
+msgstr "इनवॉइस का फ़ुटर"
+
+#: src/Admin/AdminPage.php:130
 msgid "Invoice identity"
 msgstr "इनवॉइस की पहचान"
 
+#: src/Admin/AdminPage.php:145
+msgid "Invoice layout"
+msgstr "इनवॉइस का लेआउट"
+
+#: src/Admin/OrderPrintFilters.php:14
 msgid "Invoice print state"
 msgstr "इनवॉइस प्रिंट स्थिति"
 
+#. translators: 1: print job ID, 2: destination name, 3: number of copies.
+#: src/PrintJob/PrintConfirmationService.php:37
 #, php-format
 msgid "Invoice printed. Job #%1$d; destination: %2$s; copies: %3$d. Confirmed by the operator."
 msgstr "इनवॉइस प्रिंट किया गया। जॉब #%1$d; गंतव्य: %2$s; प्रतियाँ: %3$d। ऑपरेटर द्वारा पुष्टि की गई।"
 
+#: src/Rest/RestController.php:85
 msgid "Invoice printer test page"
 msgstr "इनवॉइस प्रिंटर टेस्ट पेज"
 
+#: src/Admin/OrderIntegration.php:24
 msgid "Invoice printing"
 msgstr "इनवॉइस प्रिंटिंग"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Invoice queued. Check Print Jobs for delivery status."
 msgstr "इनवॉइस कतार में जुड़ गया। भेजने की स्थिति के लिए प्रिंट कार्य देखें।"
 
+#: src/Admin/AdminPage.php:279
 msgid "Invoice template"
 msgstr "इनवॉइस टेम्पलेट"
 
+#: src/Admin/OperationsConsole.php:14 templates/classic/invoice.php:38
+#: templates/compact/invoice.php:34 templates/packing-list/document.php:13
 msgid "Item"
 msgstr "वस्तु"
 
+#: src/Template/TemplateRegistry.php:16
 msgid "Items and quantities without commercial amounts."
 msgstr "वस्तुएँ और मात्राएँ, बिना कीमत।"
 
+#: src/Admin/AdminPage.php:175
+msgid "Items and totals"
+msgstr "आइटम और कुल राशि"
+
+#: src/Admin/AdminPage.php:211
 msgid "Last seen"
 msgstr "अंतिम संपर्क"
 
+#: src/Admin/OrderIntegration.php:41
 msgid "Latest reprint failed"
 msgstr "अंतिम पुनःप्रिंट विफल"
 
+#: src/Admin/AdminPage.php:177
+msgid "Line discount"
+msgstr "पंक्ति की छूट"
+
+#: src/Admin/AdminPage.php:178
+msgid "Line tax"
+msgstr "पंक्ति का कर"
+
+#: src/Admin/AdminPage.php:206
 msgid "Local browser printing"
 msgstr "स्थानीय ब्राउज़र प्रिंट"
 
+#: src/Admin/AdminPage.php:131
 msgid "Logo URL"
 msgstr "लोगो URL"
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Look up"
 msgstr "खोजें"
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Manual"
 msgstr "मैन्युअल"
 
+#: src/Admin/AdminPage.php:228
 msgid "Manual and automatic jobs will appear here with their delivery status."
 msgstr "मैन्युअल और स्वचालित कार्य अपनी भेजने की स्थिति के साथ यहाँ दिखेंगे।"
 
+#: src/Admin/AdminPage.php:132
 msgid "Manual printing defaults"
 msgstr "मैन्युअल प्रिंटिंग के डिफ़ॉल्ट"
 
+#: src/Admin/AdminPage.php:168
+msgid "Mapped recipient details"
+msgstr "मैप किया गया प्राप्तकर्ता विवरण"
+
+#: src/Admin/AdminPage.php:147
+msgid "Monospace"
+msgstr "समान चौड़ाई"
+
+#: src/Invoice/InvoiceFactory.php:93 src/Invoice/InvoiceFactory.php:97
 msgid "Morgan Studio"
 msgstr "मॉर्गन स्टूडियो"
 
+#: src/Template/TemplateRegistry.php:14
 msgid "Narrow receipt with paginated output."
 msgstr "पृष्ठों में विभाजित संकरी रसीद।"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:24
 msgid "Needs review"
 msgstr "समीक्षा आवश्यक"
 
+#: src/Admin/AdminPage.php:242
 msgid "No orders selected"
 msgstr "कोई ऑर्डर चयनित नहीं"
 
+#: src/Admin/AdminPage.php:228
 msgid "No print jobs yet"
 msgstr "अभी कोई प्रिंट कार्य नहीं"
 
+#: src/Admin/AdminPage.php:197
 msgid "No printer selected"
 msgstr "कोई प्रिंटर चयनित नहीं"
 
+#: src/Admin/AdminPage.php:46
 msgid "No printers were found. Check shared queues on your CUPS server."
 msgstr "प्रिंटर नहीं मिले। CUPS सर्वर की साझा कतारें जाँचें।"
 
+#: src/Admin/PreviewController.php:96
 msgid "No valid invoices were selected."
 msgstr "कोई मान्य इनवॉइस चयनित नहीं है।"
 
-msgid "Northstar Supply Co."
-msgstr "नॉर्थस्टार सप्लाई कंपनी"
-
+#: src/Admin/AdminPage.php:197
 msgid "Not configured"
 msgstr "सेट नहीं है"
 
+#: src/Admin/AdminPage.php:213
 msgid "Not connected"
 msgstr "कनेक्ट नहीं है"
 
+#: src/Admin/AdminPage.php:229 src/Admin/OperationsConsole.php:14
+#: src/PrintJob/DocumentPrintState.php:22
 msgid "Not printed"
 msgstr "प्रिंट नहीं किया गया"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Not started"
 msgstr "शुरू नहीं हुआ"
 
-msgid "Note"
-msgstr "टिप्पणी"
-
+#: templates/thermal/invoice.php:38
 msgid "Note:"
 msgstr "टिप्पणी:"
 
+#: src/Admin/AdminPage.php:38
 msgid "Offline"
 msgstr "ऑफ़लाइन"
 
+#: src/Rest/RestController.php:110
 msgid "One of the selected order IDs is invalid."
 msgstr "चयनित ऑर्डर ID में से एक अमान्य है।"
 
+#: src/Admin/PreviewController.php:68 src/Rest/RestController.php:114
 msgid "One of the selected orders does not exist or cannot be printed."
 msgstr "चयनित ऑर्डरों में से एक मौजूद नहीं है या प्रिंट नहीं हो सकता।"
 
+#: src/Admin/AdminPage.php:37
 msgid "Online"
 msgstr "ऑनलाइन"
 
+#: src/Admin/AdminPage.php:197
 msgid "Only orders WooCommerce confirms as paid are eligible."
 msgstr "केवल वे ऑर्डर पात्र हैं जिनका भुगतान WooCommerce ने सत्यापित किया है।"
 
+#: src/PrintJob/PrintConfirmationService.php:29 src/Rest/RestController.php:147
 msgid "Only prepared or submitted print jobs can be confirmed. Check the paper output first."
 msgstr "केवल तैयार या भेजे गए प्रिंट जॉब की पुष्टि की जा सकती है। पहले कागज़ पर निकले प्रिंट की जाँच करें।"
 
+#: src/Rest/RestController.php:173
 msgid "Only queued jobs can be cancelled."
 msgstr "केवल कतार में मौजूद कार्य रद्द हो सकते हैं।"
 
+#: src/Admin/PreviewController.php:130
+msgid "Open PDF"
+msgstr "PDF खोलें"
+
+#: src/Admin/AdminPage.php:206
 msgid "Open local test page"
 msgstr "स्थानीय परीक्षण पृष्ठ खोलें"
 
+#: src/Admin/AdminPage.php:206
 msgid "Open the test page, click Print, and choose your printer in the browser dialog."
 msgstr "परीक्षण पृष्ठ खोलें, प्रिंट पर क्लिक करें और ब्राउज़र के प्रिंट संवाद में अपना प्रिंटर चुनें।"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Operation completed."
 msgstr "कार्य पूरा हुआ।"
 
+#: src/Admin/AdminPage.php:229 src/Admin/OperationsConsole.php:14
 msgid "Order"
 msgstr "ऑर्डर"
 
+#: src/Admin/AdminPage.php:227
 msgid "Order ID"
 msgstr "ऑर्डर ID"
 
+#: src/Admin/AdminPage.php:171
+msgid "Order date"
+msgstr "ऑर्डर की तारीख"
+
+#: src/Admin/AdminPage.php:170
+msgid "Order information"
+msgstr "ऑर्डर की जानकारी"
+
+#: src/Admin/AdminPage.php:102 src/Admin/OperationsConsole.php:18
 msgid "Order reconciliation"
 msgstr "ऑर्डर मिलान"
 
+#: src/Admin/AdminPage.php:172
+msgid "Order status"
+msgstr "ऑर्डर की स्थिति"
+
+#: src/Pdf/MpdfRenderer.php:11
 msgid "PDF support is unavailable. Install the Composer dependencies."
 msgstr "PDF सुविधा उपलब्ध नहीं है। Composer निर्भरताएँ इंस्टॉल करें।"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Packed"
 msgstr "पैक किया गया"
 
+#: src/Admin/AdminPage.php:227 src/Template/TemplateRegistry.php:16
+#: templates/packing-list/document.php:9
 msgid "Packing list"
 msgstr "पैकिंग सूची"
 
-msgid "Payment & shipping"
-msgstr "भुगतान और शिपिंग"
+#: src/Admin/AdminPage.php:171
+msgid "Paid date"
+msgstr "भुगतान की तारीख"
 
-msgid "Payment / delivery"
-msgstr "भुगतान / डिलीवरी"
-
+#: src/Admin/AdminPage.php:197
 msgid "Payment completed"
 msgstr "भुगतान पूरा हुआ"
 
+#: templates/shared/details.php:2
 msgid "Payment date"
 msgstr "भुगतान तिथि"
 
+#: src/Admin/OrderIntegration.php:42
 msgid "Payment eligibility changed"
 msgstr "भुगतान पात्रता बदली"
 
+#: src/Admin/AdminPage.php:172
+msgid "Payment method"
+msgstr "भुगतान का तरीका"
+
+#: src/Admin/AdminPage.php:131
 msgid "Phone"
 msgstr "फ़ोन"
 
+#: src/Invoice/InvoiceFactory.php:111
 msgid "Please leave the parcel at reception."
 msgstr "कृपया पार्सल रिसेप्शन पर छोड़ दें।"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Preparing"
 msgstr "तैयारी जारी"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Preparing invoice…"
 msgstr "इनवॉइस तैयार हो रहा है…"
 
+#: src/Admin/AdminPage.php:137 src/Admin/OrderIntegration.php:58
 msgid "Preview"
 msgstr "पूर्वावलोकन"
 
+#: src/Admin/OperationsConsole.php:18
 msgid "Preview missing automatic invoices before selecting historical orders. Nothing prints during preview. Date bounds use UTC and span at most 31 days."
 msgstr "पुराने ऑर्डर चुनने से पहले छूटे इनवॉइस देखें। पूर्वावलोकन प्रिंट नहीं करता। UTC सीमा अधिकतम 31 दिन है।"
 
+#: src/Admin/OperationsConsole.php:19
 msgid "Preview missing prints"
 msgstr "छूटे प्रिंट का पूर्वावलोकन"
 
+#: src/Admin/AdminPage.php:136
 msgid "Preview uses realistic sample data and can switch to RTL."
 msgstr "पूर्वावलोकन में यथार्थपरक नमूना डेटा है और दाएँ से बाएँ दृश्य चुन सकते हैं।"
 
-msgid "Price"
-msgstr "मूल्य"
+#: src/Admin/AdminPage.php:178
+msgid "Price explanation"
+msgstr "मूल्य का स्पष्टीकरण"
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/PreviewController.php:115
+#: src/Admin/PreviewController.php:117 src/Admin/PreviewController.php:119
 msgid "Print"
 msgstr "प्रिंट करें"
 
+#. translators: %d: number of selected invoices.
+#: src/Admin/AdminPage.php:245
 #, php-format
 msgid "Print %d invoice"
 msgid_plural "Print %d invoices"
 msgstr[0] "%d इनवॉइस प्रिंट करें"
 msgstr[1] "%d इनवॉइस प्रिंट करें"
 
+#: src/Admin/AdminPage.php:102
 msgid "Print Jobs"
 msgstr "प्रिंट कार्य"
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:208
+#: src/Admin/AdminPage.php:254 src/Admin/OrderIntegration.php:58
+#: src/Infrastructure/Activator.php:163
 msgid "Print agent"
 msgstr "प्रिंट एजेंट"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:25
 msgid "Print failed"
 msgstr "प्रिंट विफल"
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/OrderIntegration.php:64
 msgid "Print invoice"
 msgstr "इनवॉइस प्रिंट करें"
 
+#: src/Admin/OrderIntegration.php:69
 msgid "Print invoices"
 msgstr "इनवॉइस प्रिंट करें"
 
+#: src/PrintJob/PrintConfirmationService.php:23 src/Rest/RestController.php:145
+#: src/Rest/RestController.php:170 src/Rest/RestController.php:182
 msgid "Print job not found."
 msgstr "प्रिंट कार्य नहीं मिला।"
 
+#: src/Admin/AdminPage.php:227
 msgid "Print jobs"
 msgstr "प्रिंट कार्य"
 
+#: src/Admin/AdminPage.php:219
 msgid "Print test page"
 msgstr "टेस्ट पेज प्रिंट करें"
 
+#: src/Admin/AdminPage.php:229 src/Admin/OrderIntegration.php:29
+#: src/Admin/OrderPrintFilters.php:13 src/Admin/PrintConfirmationUi.php:12
+#: src/PrintJob/DocumentPrintState.php:26
 msgid "Printed"
 msgstr "प्रिंट किया गया"
 
+#: src/Admin/OrderIntegration.php:39
 msgid "Printed means an operator confirmed the paper output."
 msgstr "प्रिंट किया गया का अर्थ है कि किसी ऑपरेटर ने कागज़ पर निकले प्रिंट की पुष्टि की है।"
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:229
 msgid "Printer"
 msgstr "प्रिंटर"
 
+#: src/Admin/AdminPage.php:102
 msgid "Printers"
 msgstr "प्रिंटर"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:23
 msgid "Printing"
 msgstr "प्रिंट जारी"
 
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Printing confirmed. A private order note has been added."
 msgstr "प्रिंटिंग की पुष्टि हो गई। ऑर्डर में एक निजी नोट जोड़ दिया गया है।"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Printing failed. Review the message and try again."
 msgstr "प्रिंटिंग असफल हुई। संदेश पढ़ें और फिर कोशिश करें।"
 
+#: src/Invoice/InvoiceFactory.php:90 src/PrintJob/JobStatus.php:27
 msgid "Processing"
 msgstr "प्रक्रियाधीन"
 
+#: src/Admin/AdminPage.php:176
+msgid "Product SKU"
+msgstr "उत्पाद का SKU"
+
+#: src/Admin/AdminPage.php:176
+msgid "Product variations"
+msgstr "उत्पाद के विकल्प"
+
+#: src/Invoice/InvoiceFactory.php:100
 msgid "Professional planning notebook with an intentionally long product name"
 msgstr "जानबूझकर बहुत लंबे उत्पाद नाम वाली पेशेवर योजना नोटबुक"
 
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:229
 msgid "Provider"
 msgstr "प्रदाता"
 
+#: src/Template/TemplateRegistry.php:12
 msgid "Purpose-built for narrow receipt printers."
 msgstr "सँकरे रसीद प्रिंटरों के लिए विशेष रूप से बना।"
 
+#: templates/classic/invoice.php:40 templates/compact/invoice.php:36
+#: templates/packing-list/document.php:13
 msgid "Qty"
 msgstr "मात्रा"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Quantity"
 msgstr "मात्रा"
 
+#: src/Admin/OrderPrintFilters.php:13 src/PrintJob/DocumentPrintState.php:23
+#: src/PrintJob/JobStatus.php:26
 msgid "Queued"
 msgstr "कतार में"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "Queuing invoice…"
 msgstr "इनवॉइस कतार में जोड़ा जा रहा है…"
 
+#: src/Admin/AdminPage.php:137
 msgid "RTL preview"
 msgstr "दाएँ से बाएँ पूर्वावलोकन"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Ready to ship"
 msgstr "भेजने को तैयार"
 
+#: templates/shipping-label/document.php:12
 msgid "Recipient"
 msgstr "प्राप्तकर्ता"
 
+#: src/Template/TemplateRegistry.php:15
 msgid "Recipient label without prices."
 msgstr "बिना कीमत वाला प्राप्तकर्ता लेबल।"
 
+#: templates/shared/details.php:3
 msgid "Recipient phone"
 msgstr "प्राप्तकर्ता फ़ोन"
 
+#: src/Admin/OperationsConsole.php:54
 msgid "Recorded payment confirmed"
 msgstr "दर्ज भुगतान की पुष्टि"
 
+#: src/Admin/OperationsConsole.php:32
 msgid "Refresh diagnostics"
 msgstr "निदान रीफ़्रेश करें"
 
+#: src/Admin/AdminPage.php:219
 msgid "Refresh printers"
 msgstr "प्रिंटर सूची ताज़ा करें"
 
+#: src/Admin/AdminPage.php:219
 msgid "Refresh to load printers"
 msgstr "प्रिंटर लोड करने के लिए सूची ताज़ा करें"
 
+#: src/Admin/OperationsConsole.php:64
 msgid "Replace signing secret leave blank to retain"
 msgstr "हस्ताक्षर गुप्त कुंजी बदलें; रखने के लिए खाली छोड़ें"
 
+#: src/Admin/OrderIntegration.php:58
 msgid "Reprint invoice"
 msgstr "इनवॉइस फिर प्रिंट करें"
 
+#: src/Admin/AdminPage.php:229
 msgid "Retry if safe"
 msgstr "सुरक्षित हो तो फिर कोशिश करें"
 
+#: src/Admin/OperationsConsole.php:32
 msgid "Review queue health, discovery progress and printer configuration. Cron-disabled sites need an external scheduled runner."
 msgstr "कतार, खोज और प्रिंटर जाँचें। Cron बंद हो तो बाहरी निर्धारित रनर चाहिए।"
 
+#: src/Admin/OperationsConsole.php:14 templates/classic/invoice.php:39
+#: templates/compact/invoice.php:35 templates/packing-list/document.php:13
 msgid "SKU"
 msgstr "स्टॉक कोड"
 
+#: src/Admin/AdminPage.php:147
+msgid "Sans serif"
+msgstr "बिना सेरिफ़"
+
+#: src/Admin/AdminPage.php:220
 msgid "Save printer settings"
 msgstr "प्रिंटर सेटिंग सहेजें"
 
-msgid "Save selected template"
-msgstr "चयनित टेम्पलेट सहेजें"
+#: src/Admin/AdminPage.php:140
+msgid "Save template settings"
+msgstr "टेम्पलेट सेटिंग सहेजें"
 
+#: src/Admin/AdminPage.php:217
 msgid "Save the server settings before testing. Leave the password blank to retain it. HTTPS certificates must be trusted by WordPress."
 msgstr "परीक्षण से पहले सर्वर सेटिंग सहेजें। खाली पासवर्ड पुराना रखता है। WordPress को HTTPS प्रमाणपत्र पर भरोसा होना चाहिए।"
 
+#: src/Admin/AdminPage.php:145
+msgid "Save these settings before opening a preview. Layout options apply to invoices."
+msgstr "पूर्वावलोकन खोलने से पहले ये सेटिंग सहेजें। लेआउट विकल्प इनवॉइस पर लागू होते हैं।"
+
+#. Description of the plugin
+#: wc-invoice-printer.php
 msgid "Secure manual and automatic invoice printing for WooCommerce."
 msgstr "WooCommerce के लिए सुरक्षित मैन्युअल और स्वचालित इनवॉइस प्रिंटिंग।"
 
+#: src/Admin/AdminPage.php:137
 msgid "Select"
 msgstr "चुनें"
 
+#: src/Rest/RestController.php:95
 msgid "Select between 1 and 50 orders."
 msgstr "1 से 50 के बीच ऑर्डर चुनें।"
 
+#: src/Rest/RestController.php:139
 msgid "Select between 1 and 50 print jobs."
 msgstr "1 से 50 प्रिंट जॉब चुनें।"
 
+#: src/Admin/AdminPage.php:238 src/Admin/PreviewController.php:63
 msgid "Select no more than 50 orders."
 msgstr "अधिकतम 50 ऑर्डर चुनें।"
 
+#: src/Admin/AdminPage.php:182
+msgid "Select the information to print. Product names, quantities, line totals and the grand total always appear."
+msgstr "प्रिंट की जाने वाली जानकारी चुनें। उत्पादों के नाम, मात्रा, पंक्तियों की कुल राशि और अंतिम कुल राशि हमेशा दिखाई देती हैं।"
+
+#: src/Rest/RestController.php:143
 msgid "Select valid print jobs."
 msgstr "मान्य प्रिंट जॉब चुनें।"
 
+#: src/Admin/AdminPage.php:137
 msgid "Selected"
 msgstr "चयनित"
 
+#: src/Printing/Cups/CupsProvider.php:19
 msgid "Self-hosted CUPS server"
 msgstr "स्वयं होस्ट किया CUPS सर्वर"
 
+#: src/Invoice/InvoiceFactory.php:90
 msgid "September 15, 2026"
 msgstr "15 सितंबर 2026"
 
+#: src/Admin/AdminPage.php:147
+msgid "Serif"
+msgstr "सेरिफ़"
+
+#: src/Admin/AdminPage.php:197 src/Admin/AdminPage.php:213
 msgid "Server configured"
 msgstr "सर्वर कॉन्फ़िगर है"
 
+#: src/Admin/AdminPage.php:106
 msgid "Settings saved."
 msgstr "सेटिंग सहेज दी गई।"
 
+#. Author of the plugin
+#: wc-invoice-printer.php
 msgid "Shahin Ilderemi"
 msgstr "Shahin Ilderemi"
 
+#: src/Admin/OperationsConsole.php:65
 msgid "Share recipient data with the configured receiver"
 msgstr "प्राप्तकर्ता डेटा निर्धारित रिसीवर से साझा करें"
 
+#: src/Fulfillment/FulfillmentService.php:13
 msgid "Shipped"
 msgstr "भेजा गया"
 
+#: src/Admin/AdminPage.php:165 templates/shared/customer.php:6
+msgid "Shipping address"
+msgstr "शिपिंग का पता"
+
+#: src/Admin/AdminPage.php:227 src/Template/TemplateRegistry.php:15
+#: templates/shipping-label/document.php:9
 msgid "Shipping label"
 msgstr "शिपिंग लेबल"
 
+#: src/Admin/OperationsConsole.php:46
 msgid "Shipping metadata mapping as JSON"
 msgstr "शिपिंग मेटाडेटा मैपिंग JSON में"
 
+#: src/Admin/AdminPage.php:173
+msgid "Shipping method"
+msgstr "शिपिंग का तरीका"
+
+#: src/Admin/AdminPage.php:167
+msgid "Shipping phone"
+msgstr "शिपिंग का फ़ोन"
+
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Shipping:"
 msgstr "शिपिंग:"
 
+#: src/Admin/OperationsConsole.php:42
 msgid "Show payment date and time"
 msgstr "भुगतान दिनांक और समय दिखाएँ"
 
+#: src/Admin/OperationsConsole.php:43
 msgid "Show recipient phone"
 msgstr "प्राप्तकर्ता फ़ोन दिखाएँ"
 
+#: src/Admin/OperationsConsole.php:44
 msgid "Show sender on labels"
 msgstr "लेबल पर प्रेषक दिखाएँ"
 
+#: src/Admin/AdminPage.php:155
+msgid "Single-sheet output may reduce text size. Thermal paper length depends on the printer driver; automatic cutting is controlled by the printer."
+msgstr "एक शीट में प्रिंट करने से टेक्स्ट का आकार छोटा हो सकता है। थर्मल कागज़ की लंबाई प्रिंटर ड्राइवर पर निर्भर करती है; स्वचालित कटाई प्रिंटर द्वारा नियंत्रित होती है।"
+
+#: src/Admin/AdminPage.php:44
 msgid "Something went wrong. Check the details and try again."
 msgstr "कुछ गलत हुआ। विवरण जाँचें और फिर कोशिश करें।"
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Source"
 msgstr "स्रोत"
 
+#: src/Admin/OperationsConsole.php:49
 msgid "Stage after invoice confirmation"
 msgstr "इनवॉइस पुष्टि के बाद चरण"
 
+#: src/Admin/AdminPage.php:256
 msgid "Start bulk printing"
 msgstr "सामूहिक प्रिंटिंग शुरू करें"
 
+#: src/Admin/OperationsConsole.php:48
 msgid "Start preparation after physical invoice confirmation"
 msgstr "कागज़ इनवॉइस की पुष्टि पर तैयारी शुरू करें"
 
+#: src/Admin/AdminPage.php:227 src/Admin/AdminPage.php:229
 msgid "Status"
 msgstr "स्थिति"
 
+#: src/Admin/AdminPage.php:161
+msgid "Store address"
+msgstr "स्टोर का पता"
+
+#: src/Admin/AdminPage.php:130
+msgid "Store details are shown only when enabled in the Templates tab."
+msgstr "स्टोर का विवरण केवल तभी दिखाया जाता है जब उसे टेम्पलेट टैब में सक्षम किया गया हो।"
+
+#: src/Admin/AdminPage.php:161
+msgid "Store email"
+msgstr "स्टोर का ईमेल"
+
+#: src/Admin/AdminPage.php:158
+msgid "Store information"
+msgstr "स्टोर की जानकारी"
+
+#: src/Admin/AdminPage.php:159
+msgid "Store logo"
+msgstr "स्टोर का लोगो"
+
+#: src/Admin/AdminPage.php:159
+msgid "Store name"
+msgstr "स्टोर का नाम"
+
+#: src/Admin/AdminPage.php:160
+msgid "Store phone"
+msgstr "स्टोर का फ़ोन"
+
+#: src/PrintJob/JobStatus.php:28
 msgid "Submitted"
 msgstr "भेजा गया"
 
+#: src/Admin/AdminPage.php:227
 msgid "Submitted means the local spooler or CUPS accepted the PDF, or the browser invoice was prepared. It does not confirm paper output."
 msgstr "भेजा गया का मतलब स्थानीय स्पूलर या CUPS ने PDF स्वीकार किया या ब्राउज़र चालान तैयार हुआ। यह कागज़ पर छपने की पुष्टि नहीं है।"
 
+#: src/Admin/AdminPage.php:47
 msgid "Submitted to CUPS."
 msgstr "CUPS को भेज दिया गया।"
 
+#: src/Admin/AdminPage.php:179
+msgid "Subtotal, shipping, discounts and tax totals"
+msgstr "उप-योग, शिपिंग, छूट और कुल कर"
+
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Subtotal:"
 msgstr "उप-योग:"
 
+#: templates/classic/invoice.php:43 templates/compact/invoice.php:39
+#: templates/thermal/invoice.php:32
 msgid "Tax"
 msgstr "कर"
 
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Tax:"
 msgstr "कर:"
 
+#: src/Admin/AdminPage.php:229 src/Admin/OrderIntegration.php:58
 msgid "Template"
 msgstr "टेम्पलेट"
 
+#: src/Admin/AdminPage.php:102
 msgid "Templates"
 msgstr "टेम्पलेट"
 
+#: src/Admin/AdminPage.php:219
 msgid "Test connection"
 msgstr "कनेक्शन जाँचें"
 
+#: src/Admin/OperationsConsole.php:30
 msgid "Test webhook with demo data"
 msgstr "डेमो डेटा से वेबहुक जाँचें"
 
+#: templates/classic/invoice.php:61 templates/compact/invoice.php:57
+#: templates/thermal/invoice.php:39
 msgid "Thank you for your order."
 msgstr "आपके ऑर्डर के लिए धन्यवाद।"
 
+#: src/Printing/Cups/CupsProvider.php:77
 msgid "The CUPS certificate bundle is unavailable."
 msgstr "CUPS प्रमाणपत्र बंडल उपलब्ध नहीं है।"
 
+#: src/Admin/AdminPage.php:213
 msgid "The CUPS password is managed with WCIP_CUPS_PASSWORD and cannot be edited here."
 msgstr "CUPS पासवर्ड WCIP_CUPS_PASSWORD से प्रबंधित है और यहाँ नहीं बदला जा सकता।"
 
+#: src/Printing/Cups/CupsProvider.php:85
 msgid "The CUPS request could not be completed. Check the server and paper output before reprinting."
 msgstr "CUPS अनुरोध पूरा नहीं हुआ। दोबारा प्रिंट से पहले सर्वर और कागज़ जाँचें।"
 
+#: src/Printing/Cups/CupsProvider.php:89
 msgid "The CUPS server rejected the request or returned an uncertain result."
 msgstr "CUPS सर्वर ने अनुरोध अस्वीकार किया या अनिश्चित परिणाम दिया।"
 
+#: src/Automation/Scheduler.php:25
 msgid "The background queue is unavailable."
 msgstr "पृष्ठभूमि कतार उपलब्ध नहीं है।"
 
+#: src/Pdf/MpdfRenderer.php:62
+msgid "The document cannot fit legibly on one sheet. Enable compact layout, hide optional fields or use a smaller font."
+msgstr "दस्तावेज़ को एक शीट पर पठनीय रूप में फ़िट नहीं किया जा सकता। कॉम्पैक्ट लेआउट सक्षम करें, वैकल्पिक फ़ील्ड छिपाएँ या छोटे फ़ॉन्ट का उपयोग करें।"
+
+#: src/Pdf/MpdfRenderer.php:9 src/Pdf/MpdfRenderer.php:66
+#: src/Pdf/MpdfRenderer.php:74 src/Pdf/MpdfRenderer.php:104
+#: src/Pdf/MpdfRenderer.php:113
 msgid "The document exceeds the safe rendering limit."
 msgstr "दस्तावेज़ सुरक्षित रेंडर सीमा से बड़ा है।"
 
+#: src/Pdf/MpdfRenderer.php:41 src/Pdf/MpdfRenderer.php:45
+#: src/Pdf/MpdfRenderer.php:56
+msgid "The document is too long for one page. Hide optional fields or use a smaller font."
+msgstr "दस्तावेज़ एक पेज के लिए बहुत लंबा है। वैकल्पिक फ़ील्ड छिपाएँ या छोटे फ़ॉन्ट का उपयोग करें।"
+
+#: src/Admin/PreviewController.php:93
 msgid "The invoice could not be prepared. Review Print Jobs before trying again."
 msgstr "इनवॉइस तैयार नहीं हो सका। फिर कोशिश करने से पहले प्रिंट कार्य देखें।"
 
+#: src/Infrastructure/Activator.php:11
 msgid "The invoice printer database could not be installed. Check database permissions and try activation again."
 msgstr "इनवॉइस प्रिंटर का डेटाबेस इंस्टॉल नहीं हुआ। डेटाबेस अनुमतियाँ जाँचें और फिर सक्रिय करें।"
 
+#: src/Admin/OrderIntegration.php:89
 msgid "The invoice will be queued for the configured physical printer."
 msgstr "इनवॉइस सेट किए गए भौतिक प्रिंटर की कतार में जोड़ा जाएगा।"
 
+#: src/Admin/OperationsConsole.php:14 src/Rest/OperationsController.php:64
 msgid "The operation could not complete. Check permissions, input and configuration, then review diagnostics."
 msgstr "कार्य पूरा नहीं हुआ। अधिकार, इनपुट और सेटिंग जाँचें, फिर निदान देखें।"
 
+#: src/Automation/PrintWorker.php:75 src/Automation/PrintWorker.php:93
 msgid "The order is no longer paid, so automatic printing was stopped."
 msgstr "ऑर्डर अब भुगतान किया हुआ नहीं है, इसलिए स्वचालित प्रिंटिंग रोक दी गई।"
 
+#: src/Automation/PrintWorker.php:71 src/Automation/PrintWorker.php:86
+#: src/PrintJob/PrintConfirmationService.php:33 src/Rest/RestController.php:151
 msgid "The order no longer exists."
 msgstr "ऑर्डर अब मौजूद नहीं है।"
 
+#: src/Admin/PrintConfirmationUi.php:12 src/Rest/RestController.php:160
 msgid "The print confirmation could not be saved. Review Print Jobs and try again."
 msgstr "प्रिंटिंग की पुष्टि सहेजी नहीं जा सकी। प्रिंट जॉब की समीक्षा करें और फिर से कोशिश करें।"
 
+#: src/Printing/Cups/CupsProvider.php:43
 msgid "The print document or copy count is invalid."
 msgstr "प्रिंट दस्तावेज़ या प्रतियों की संख्या गलत है।"
 
+#: src/Automation/Scheduler.php:59
 msgid "The print job could not be queued."
 msgstr "प्रिंट कार्य कतार में नहीं जुड़ सका।"
 
+#: src/Rest/RestController.php:188
 msgid "The print job could not be queued. Review Print Jobs before trying again."
 msgstr "प्रिंट कार्य कतार में नहीं जुड़ सका। फिर कोशिश करने से पहले प्रिंट कार्य देखें।"
 
+#: src/PrintJob/PrintJobRepository.php:54
 msgid "The print job could not be saved."
 msgstr "प्रिंट कार्य सहेजा नहीं जा सका।"
 
+#: src/Rest/RestController.php:204
 msgid "The print operation failed. Check the configuration and try again."
 msgstr "प्रिंट प्रक्रिया असफल हुई। कॉन्फ़िगरेशन जाँचें और फिर कोशिश करें।"
 
+#: src/Rest/RestController.php:129
 msgid "The print request stopped. Review Print Jobs before trying again."
 msgstr "प्रिंट अनुरोध रुक गया। फिर कोशिश करने से पहले प्रिंट कार्य देखें।"
 
+#: src/Infrastructure/Activator.php:16
 msgid "The printing configuration migration failed. Check database permissions."
 msgstr "प्रिंट कॉन्फ़िगरेशन माइग्रेशन विफल हुआ। डेटाबेस अनुमति जाँचें।"
 
+#: src/Automation/PrintWorker.php:100
 msgid "The provider accepted the print job, but its result could not be saved. Check CUPS before reprinting."
 msgstr "प्रदाता ने प्रिंट कार्य स्वीकार किया, लेकिन परिणाम सहेजा नहीं जा सका। फिर प्रिंट करने से पहले CUPS जाँचें।"
 
+#: src/Printing/Cups/CupsProvider.php:42
 msgid "The selected printer is invalid."
 msgstr "चयनित प्रिंटर अमान्य है।"
 
+#: src/Admin/AdminPage.php:213
 msgid "The stored password is never displayed or returned to the browser."
 msgstr "सहेजा पासवर्ड कभी दिखाया या ब्राउज़र को लौटाया नहीं जाता।"
 
+#: src/Automation/PrintWorker.php:128 src/Automation/Scheduler.php:81
 msgid "The worker stopped before recording a result. Check CUPS before reprinting."
 msgstr "परिणाम दर्ज होने से पहले प्रक्रिया रुक गई। फिर प्रिंट करने से पहले CUPS जाँचें।"
 
+#: src/Template/TemplateRegistry.php:14
 msgid "Thermal 58 mm"
 msgstr "थर्मल 58 मिमी"
 
+#: src/Template/TemplateRegistry.php:12
 msgid "Thermal 80 mm"
 msgstr "थर्मल 80 मिमी"
 
+#: src/Rest/RestController.php:185
 msgid "This job is not eligible for a safe retry. Reprint intentionally instead."
 msgstr "इस कार्य को सुरक्षित रूप से दोबारा नहीं भेज सकते। आवश्यकता हो तो जानबूझकर नया प्रिंट कार्य बनाएँ।"
 
+#: src/Admin/AdminPage.php:219
 msgid "This list contains queues shared by your CUPS server. Configure and test the printer in CUPS, save its HTTPS address here, then refresh."
 msgstr "सूची में CUPS सर्वर की साझा कतारें हैं। CUPS में प्रिंटर सेट और जाँचें, HTTPS पता सहेजें, फिर रीफ़्रेश करें।"
 
+#: src/PrintJob/PrintJobService.php:85
 msgid "This order does not require a shipping label."
 msgstr "इस ऑर्डर को शिपिंग लेबल नहीं चाहिए।"
 
+#: src/Admin/OrderIntegration.php:39 src/Automation/PrintWorker.php:75
+#: src/Automation/PrintWorker.php:93
 msgid "This order is not eligible under the configured payment policy."
 msgstr "यह ऑर्डर निर्धारित भुगतान नीति के अनुसार पात्र नहीं है।"
 
+#: src/Admin/OperationsConsole.php:19
 msgid "To"
 msgstr "तक"
 
+#: templates/classic/invoice.php:44 templates/compact/invoice.php:40
 msgid "Total"
 msgstr "कुल"
 
+#: src/Invoice/InvoiceFactory.php:103
 msgid "Total:"
 msgstr "कुल:"
 
+#: src/Admin/AdminPage.php:197
 msgid "Trigger"
 msgstr "शुरू करने वाला इवेंट"
 
+#: templates/classic/invoice.php:41 templates/compact/invoice.php:37
 msgid "Unit"
 msgstr "इकाई मूल्य"
 
+#: src/Admin/AdminPage.php:177
+msgid "Unit price"
+msgstr "इकाई मूल्य"
+
+#: templates/classic/invoice.php:55 templates/compact/invoice.php:51
 msgid "Unit prices and discounts exclude tax; line totals include tax."
 msgstr "इकाई मूल्य और छूट में कर शामिल नहीं है; पंक्ति के कुल में कर शामिल है।"
 
+#: templates/thermal/invoice.php:34
 msgid "Unit prices exclude tax; line totals include discounts and tax."
 msgstr "इकाई मूल्य में कर शामिल नहीं है; पंक्ति के कुल में छूट और कर शामिल हैं।"
 
+#: src/Admin/AdminPage.php:39 src/Admin/OperationsConsole.php:14
+#: src/PrintJob/JobStatus.php:30 templates/packing-list/document.php:14
 msgid "Unknown"
 msgstr "अज्ञात"
 
+#: src/Admin/OperationsConsole.php:26
 msgid "Update fulfillment"
 msgstr "पूर्ति अपडेट करें"
 
+#: src/Admin/AdminPage.php:229
 msgid "Updated"
 msgstr "अपडेट हुआ"
 
+#: src/Admin/OperationsConsole.php:23
 msgid "Use a keyboard scanner or enter the opaque reference. Scanning requires sign-in and never confirms physical printing."
 msgstr "कीबोर्ड स्कैनर या संदर्भ दर्ज करें। लॉगिन आवश्यक है; स्कैन कागज़ प्रिंट की पुष्टि नहीं करता।"
 
+#: src/Admin/AdminPage.php:206
 msgid "Use a printer installed on this computer through your browser. No account or subscription is needed."
 msgstr "ब्राउज़र से इस कंप्यूटर पर इंस्टॉल प्रिंटर उपयोग करें। खाता या सदस्यता नहीं चाहिए।"
 
+#: src/Admin/OperationsConsole.php:41
 msgid "Use billing values for missing recipient fields"
 msgstr "खाली प्राप्तकर्ता फ़ील्ड में बिलिंग मान प्रयोग करें"
 
+#: src/Admin/AdminPage.php:152
+msgid "Use compact spacing"
+msgstr "कम अंतराल का उपयोग करें"
+
+#: src/Admin/OperationsConsole.php:47
 msgid "Use site or an IANA timezone. Map named fields to trusted order metadata keys. Extra address fields are printed only when mapped."
 msgstr "site या IANA क्षेत्र प्रयोग करें। फ़ील्ड विश्वसनीय ऑर्डर मेटाडेटा से जोड़ें। अतिरिक्त पता फ़ील्ड केवल मैप होने पर छपते हैं।"
 
+#: src/Admin/AdminPage.php:208
 msgid "Use the free local print agent on Windows, Linux or macOS. It connects to this site over HTTPS and works with shared hosting, VPS and dedicated servers."
 msgstr "Windows, Linux या macOS पर निःशुल्क स्थानीय प्रिंट एजेंट उपयोग करें। यह HTTPS से साइट से जुड़ता है और साझा होस्टिंग, VPS तथा समर्पित सर्वर पर काम करता है।"
 
+#: src/Admin/AdminPage.php:229
 msgid "View"
 msgstr "देखें"
 
+#: src/Admin/AdminPage.php:182
+msgid "Visible invoice fields"
+msgstr "इनवॉइस के दिखाई देने वाले फ़ील्ड"
+
+#: templates/packing-list/document.php:13
 msgid "Weight"
 msgstr "वज़न"
 
+#: src/Admin/OperationsConsole.php:14
 msgid "Weight in kg"
 msgstr "वज़न किलोग्राम में"
 
+#. Plugin Name of the plugin
+#: wc-invoice-printer.php
 msgid "WooCommerce Invoice Printer"
 msgstr "WooCommerce इनवॉइस प्रिंटर"
 
+#: src/Plugin.php:129
 msgid "WooCommerce Invoice Printer could not prepare its database. Printing is unavailable; check database permissions and reactivate the plugin."
 msgstr "WooCommerce इनवॉइस प्रिंटर अपना डेटाबेस तैयार नहीं कर सका। प्रिंटिंग उपलब्ध नहीं है; डेटाबेस अनुमतियाँ जाँचें और प्लगइन फिर सक्रिय करें।"
 
+#: src/Plugin.php:124
 msgid "WooCommerce Invoice Printer needs its Composer dependencies for PDF and automatic printing. Browser printing remains available."
 msgstr "PDF और स्वचालित प्रिंट के लिए Composer निर्भरताएं चाहिए। ब्राउज़र प्रिंट उपलब्ध रहता है।"
 
+#: src/Plugin.php:120
 msgid "WooCommerce Invoice Printer requires WooCommerce 9.0 or newer."
 msgstr "WooCommerce इनवॉइस प्रिंटर के लिए WooCommerce 9.0 या नया संस्करण चाहिए।"
 
+#: src/Plugin.php:116
 msgid "WooCommerce Invoice Printer requires WooCommerce to be installed and active."
 msgstr "WooCommerce इनवॉइस प्रिंटर के लिए WooCommerce इंस्टॉल और सक्रिय होना चाहिए।"
 
+#: src/Admin/AdminPage.php:42 src/Admin/OperationsConsole.php:14
+#: src/Admin/PrintConfirmationUi.php:12
 msgid "Working…"
 msgstr "काम जारी है…"
 
+#: src/Admin/AdminPage.php:58 src/Admin/OperationsConsole.php:75
 msgid "You are not allowed to change these settings."
 msgstr "आपको ये सेटिंग बदलने की अनुमति नहीं है।"
 
+#: src/Admin/AdminPage.php:234 src/Admin/PreviewController.php:34
 msgid "You are not allowed to print invoices."
 msgstr "आपको इनवॉइस प्रिंट करने की अनुमति नहीं है।"
 
+#: src/Admin/AdminPage.php:225
 msgid "You are not allowed to view print jobs."
 msgstr "आपको प्रिंट कार्य देखने की अनुमति नहीं है।"
 
+#: src/Admin/OrderIntegration.php:58 src/Admin/OrderIntegration.php:89
 msgid "Your browser print dialog will open."
 msgstr "आपके ब्राउज़र का प्रिंट संवाद खुलेगा।"
 
+#. Author URI of the plugin
+#: wc-invoice-printer.php
 msgid "https://ildrm.com"
 msgstr "https://ildrm.com"
-

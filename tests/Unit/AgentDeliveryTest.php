@@ -7,7 +7,13 @@ use WCInvoicePrinter\Tests\Support\JobTestCase;
 
 final class AgentDeliveryTest extends JobTestCase {
 	private string $token;
-	protected function setUp(): void { parent::setUp(); $this->token = str_repeat( 'a', 64 ); $this->settings->update( array( 'automatic_provider' => 'agent', 'agent_queue' => 'Office', 'agent_user_id' => 42, 'cups_endpoint' => '' ) ); }
+	protected function setUp(): void {
+		parent::setUp();
+		$GLOBALS['wcip_test_users'] = array( 42 => new class { public function has_cap( string $capability ): bool { return 'wcip_run_print_agent' === $capability; } } );
+		$this->token = str_repeat( 'a', 64 );
+		$this->settings->update( array( 'automatic_provider' => 'agent', 'agent_queue' => 'Office', 'agent_user_id' => 42, 'cups_endpoint' => '' ) );
+	}
+	protected function tearDown(): void { parent::tearDown(); unset( $GLOBALS['wcip_test_users'] ); }
 	public function test_pull_jobs_require_no_cups_or_background_scheduler_and_deduplicate_payments(): void {
 		\ActionScheduler::$initialized = false;
 		$first = $this->service->create_automatic( new \WC_Order( 42 ) );

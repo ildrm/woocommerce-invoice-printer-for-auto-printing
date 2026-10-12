@@ -1,6 +1,6 @@
 # PHP compatibility review
 
-This is a historical review of the retired cloud provider. Version 1.4.0 uses the open-source local agent or direct CUPS; the commercial provider was removed in 1.3.0. Provider-specific findings below are historical evidence, not current setup instructions. Current 1.4.0 changes and executed results are recorded in [the remediation report](../REMEDIATION_TRACEABILITY.md). Its earlier counts and archive statements describe that review only.
+This is a historical review of the retired cloud provider. Version 1.4.4 uses the open-source local agent or direct CUPS; the commercial provider was removed in 1.3.0. Provider-specific findings below are historical evidence, not current setup instructions. Current 1.4.4 changes and executed results are recorded in [the remediation report](../REMEDIATION_TRACEABILITY.md). Its earlier counts and archive statements describe that review only.
 
 Review date: October 7, 2026. Target: PHP 7.4 and currently available PHP 8 releases through 8.5.
 

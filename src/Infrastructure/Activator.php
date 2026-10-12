@@ -3,12 +3,14 @@
 namespace WCInvoicePrinter\Infrastructure;
 
 final class Activator {
-	public const DB_VERSION = '1.4.0';
+	public const DB_VERSION = '1.4.3';
 	public const CAPABILITIES_VERSION = '1.4.0';
 
 	public static function activate(): void {
 		if ( ! self::install_schema() ) {
-			wp_die( esc_html__( 'The invoice printer database could not be installed. Check database permissions and try activation again.', 'wc-invoice-printer' ), '', array( 'response' => 500 ) );
+			$message = esc_html__( 'The invoice printer database could not be installed. Check database permissions and try activation again.', 'wc-invoice-printer' );
+			if ( '' !== self::schema_error() ) { $message .= '<p><code>' . esc_html( self::schema_error() ) . '</code></p>'; }
+			wp_die( $message, '', array( 'response' => 500 ) );
 		}
 		self::add_capabilities();
 		if ( ! PrintingMigration::run() ) { wp_die( esc_html__( 'The printing configuration migration failed. Check database permissions.', 'wc-invoice-printer' ) ); }
@@ -40,8 +42,10 @@ final class Activator {
 	private static function install_schema(): bool {
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		require_once __DIR__ . '/SchemaInstaller.php';
 		$table   = $wpdb->prefix . 'wc_invoice_print_jobs';
 		$charset = $wpdb->get_charset_collate();
+		// Keep the non-unique queue index below legacy key limits without shortening stored printer IDs.
 		$sql     = "CREATE TABLE {$table} (
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 			order_id bigint(20) unsigned NOT NULL,
@@ -78,33 +82,81 @@ final class Activator {
 			KEY document_created (order_id, document_type, created_at),
 			KEY trigger_created (trigger_type, created_at),
 			KEY action_id (action_id),
-			KEY agent_queue (provider_id, printer_id, status, id)
-		) {$charset};";
+			KEY agent_queue (provider_id(64), printer_id(96), status(20), id)
+		) ENGINE=InnoDB {$charset};";
 		try {
-			dbDelta( $sql );
-			// Save the CREATE/ALTER error before the existence query clears it.
-			$error = $wpdb->last_error;
-			if ( '' !== $error || ! self::table_exists() ) { return false; }
-			if ( 'document_type' !== $wpdb->get_var( "SHOW COLUMNS FROM {$table} LIKE 'document_type'" ) ) { return false; }
-			foreach ( array( 'agent_token', 'agent_user', 'agent_phase', 'agent_claimed_at' ) as $column ) { if ( $column !== $wpdb->get_var( "SHOW COLUMNS FROM {$table} LIKE '{$column}'" ) ) { return false; } }
+			// dbDelta resizes columns before comparing indexes and ignores prefix differences.
+			// Repair the old full-width key first, so a printer-column expansion cannot exceed its limit.
+			if ( ! self::repair_queue_index( $table, true ) ) { return false; }
+			if ( ! SchemaInstaller::install( $table, $sql ) ) { return false; }
+			if ( ! self::repair_queue_index( $table, false ) ) { return false; }
+			foreach ( array( 'document_type', 'agent_token', 'agent_user', 'agent_phase', 'agent_claimed_at' ) as $column ) {
+				if ( $column !== $wpdb->get_var( $wpdb->prepare( "SHOW COLUMNS FROM {$table} LIKE %s", $wpdb->esc_like( $column ) ) ) ) {
+					return SchemaInstaller::fail( $table, 'Missing required column: ' . $column );
+				}
+			}
 			require_once __DIR__ . '/OperationalSchema.php';
 			if ( ! OperationalSchema::install() ) { return false; }
 		} catch ( \Throwable $error ) {
-			return false;
+			return SchemaInstaller::fail( $table, $error->getMessage() );
 		}
 		update_option( 'wcip_db_version', self::DB_VERSION, false );
 		if ( ! get_option( 'wcip_discovery_since' ) ) { update_option( 'wcip_discovery_since', time(), false ); }
 		return true;
 	}
 
+	private static function repair_queue_index( string $table, bool $before_columns ): bool {
+		global $wpdb;
+		if ( ! SchemaInstaller::table_exists( $table ) ) { return $before_columns; }
+		$name = '`' . str_replace( '`', '``', $table ) . '`';
+		$index = $wpdb->get_results( "SHOW INDEX FROM {$name} WHERE Key_name = 'agent_queue'", ARRAY_A );
+		if ( '' !== (string) $wpdb->last_error ) { return SchemaInstaller::fail( $table ); }
+		if ( ! $index ) { return $before_columns ? true : SchemaInstaller::fail( $table, 'Missing required index: agent_queue' ); }
+		foreach ( $index as $part ) {
+			if ( 1 !== (int) $part['Non_unique'] ) { return SchemaInstaller::fail( $table, 'The agent_queue index is unexpectedly unique; it was preserved.' ); }
+		}
+		$columns = $wpdb->get_results( "SHOW FULL COLUMNS FROM {$name}", ARRAY_A );
+		if ( '' !== (string) $wpdb->last_error ) { return SchemaInstaller::fail( $table ); }
+		$lengths = array();
+		foreach ( $columns ?: array() as $column ) {
+			if ( preg_match( '/^(?:var)?char\((\d+)\)/i', $column['Type'], $match ) ) { $lengths[$column['Field']] = (int) $match[1]; }
+		}
+		$prefixes = array();
+		foreach ( array( 'provider_id' => 64, 'printer_id' => 96, 'status' => 20 ) as $column => $bound ) {
+			$length = $lengths[$column] ?? 0;
+			if ( $length < 1 ) { return SchemaInstaller::fail( $table, 'Cannot inspect queue index column: ' . $column ); }
+			$prefixes[$column] = min( $bound, $length );
+			// A prefix equal to the old column width may be normalized to a full index.
+			// Use a smaller temporary prefix until dbDelta has expanded that column.
+			$target_length = 'printer_id' === $column ? 191 : $bound;
+			if ( $before_columns && $length < $target_length ) { $prefixes[$column] = min( $bound, $length - 1 ); }
+		}
+		if ( in_array( 0, $prefixes, true ) ) {
+			// One-character legacy columns have no smaller prefix; dbDelta rebuilds this nonunique key.
+			return false !== $wpdb->query( "ALTER TABLE {$name} DROP INDEX agent_queue" ) || SchemaInstaller::fail( $table );
+		}
+		usort( $index, static function ( array $a, array $b ): int { return (int) $a['Seq_in_index'] <=> (int) $b['Seq_in_index']; } );
+		$expected = array( 'provider_id', 'printer_id', 'status', 'id' );
+		$repair = count( $index ) !== count( $expected );
+		foreach ( $index as $offset => $part ) {
+			$column = $part['Column_name'];
+			if ( $column !== ( $expected[$offset] ?? null ) || 'BTREE' !== strtoupper( $part['Index_type'] ) ) { $repair = true; continue; }
+			if ( isset( $prefixes[$column] ) && (int) ( $part['Sub_part'] ?? $lengths[$column] ) !== $prefixes[$column] ) { $repair = true; }
+		}
+		if ( ! $repair ) { return true; }
+		$sql = "ALTER TABLE {$name} DROP INDEX agent_queue, ADD KEY agent_queue (provider_id({$prefixes['provider_id']}), printer_id({$prefixes['printer_id']}), status({$prefixes['status']}), id)";
+		return false !== $wpdb->query( $sql ) || SchemaInstaller::fail( $table );
+	}
+
 	private static function table_exists(): bool {
 		global $wpdb;
-		$table = $wpdb->prefix . 'wc_invoice_print_jobs';
-		try {
-			return $table === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) );
-		} catch ( \Throwable $error ) {
-			return false;
-		}
+		require_once __DIR__ . '/SchemaInstaller.php';
+		return SchemaInstaller::table_exists( $wpdb->prefix . 'wc_invoice_print_jobs' );
+	}
+
+	public static function schema_error(): string {
+		require_once __DIR__ . '/SchemaInstaller.php';
+		return SchemaInstaller::error();
 	}
 
 	private static function add_capabilities(): void {

@@ -4,7 +4,7 @@ Tags: woocommerce, invoice, print, cups, pdf
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.4.1
+Stable tag: 1.4.4
 License: GPLv2 or later
 
 Browser and free cross-platform automatic invoice printing for WooCommerce.
@@ -16,6 +16,8 @@ WooCommerce Invoice Printer creates invoices from WooCommerce's public order API
 Local printers use the browser dialog without accounts or subscriptions. Unattended printing uses the open-source local agent: Python 3.10+ with SumatraPDF on Windows or CUPS lp on Linux/macOS. The printer computer connects outbound to WordPress over HTTPS. Shared hosting, VPS and dedicated servers use the same plugin without hosting-side printer software. A reachable HTTPS CUPS server remains optional. No commercial application, cloud account or paid printing service is required.
 
 The paired workstation or CUPS server receives the generated invoice PDF when selected. This may include customer names, addresses, contact details, and purchased items. Protect workstation/server access, the Application Password and the agent journal, and include them in your data-retention procedures.
+
+Version 1.4.4 adds field visibility controls in Templates. New display defaults show only the shipping address in the customer block, and hide customer name/role, email, billing/store addresses and other optional information. Saved explicit display choices are retained. Choose optional compact spacing, a bundled font and size, one-page PDF fitting or content-length thermal PDFs. Layout options are disabled by default. Invoices retain all selected information and saved amounts; invoices that cannot fit within the supported bounds report an error instead of clipping content. Browser pagination and physical paper cutting remain printer/driver settings. See docs/invoice-layout.md.
 
 Translations are included for English, Persian, Turkish, Arabic, French, German, Russian, Spanish, Portuguese (Portugal and Brazil), Armenian, Hindi, Simplified Chinese, and Japanese. Select the site language in WordPress settings or your admin language in your user profile. Persian/Arabic invoices use RTL layouts; multilingual PDF fonts are bundled with mPDF.
 
@@ -40,6 +42,26 @@ The plugin does not claim jurisdiction-specific fiscal or tax compliance. WooCom
 Deactivation cancels pending plugin actions and preserves settings/history for recovery on reactivation. Stop local agents before uninstall. Uninstall removes operator capabilities and preserves data and the paired-agent role unless the `wcip_delete_data_on_uninstall` option is explicitly enabled by an operator. Print jobs retain operational references and sanitized errors, but no duplicated invoice/customer payload.
 
 == Changelog ==
+
+= 1.4.4 =
+* Hide emails, billing/store addresses and optional invoice details by default; retain explicitly saved choices.
+* Add independent display switches for customer, business, order, item, totals and footer fields, including an optional customer role.
+* Add bundled font selection, font size and optional compact spacing across bundled templates.
+* Add optional one-page PDF fitting and content-length thermal PDF pages without dropping selected content.
+* Keep totals and closing content together where they fit, and explain browser/driver page and cutter limits.
+* Update operator, developer and translated documentation for the new settings and 1.4.4 release.
+
+= 1.4.3 =
+* Fix activation failures caused by the agent queue index exceeding the database key-length limit.
+* Use a bounded printer-name index prefix while retaining full printer identifiers and exact routing.
+* Create new print-job tables with InnoDB explicitly and support upgrades of existing MyISAM tables.
+* Repair existing full queue indexes before resizing legacy printer columns and verify the final index.
+* Identify the corrected installer build and failing table CREATE/ALTER statement in activation errors.
+
+= 1.4.2 =
+* Verify installed tables directly so database name normalization does not cause false activation failures.
+* Show the failing table and underlying database error during activation and in administrator notices.
+* Preserve installation failures and verify recovery after a partial installation.
 
 = 1.4.1 =
 * Stop queued CUPS automatic jobs when automation is disabled, including changes during rendering.

@@ -70,6 +70,14 @@ final class AdminPage {
 		} elseif ( 'templates' === $section ) {
 			$template = sanitize_key( $this->request_value( $_POST, 'default_template' ) );
 			if ( $this->templates->has( $template ) ) { $changes['default_template'] = $template; }
+			foreach ( array_keys( SettingsRepository::visibility_defaults() ) as $key ) {
+				$changes[ $key ] = '1' === $this->request_value( $_POST, $key );
+			}
+			foreach ( array( 'compact_layout', 'single_page', 'thermal_auto_height' ) as $key ) {
+				$changes[ $key ] = '1' === $this->request_value( $_POST, $key );
+			}
+			$changes['invoice_font'] = $this->request_value( $_POST, 'invoice_font', 'dejavusans' );
+			$changes['invoice_font_size'] = $this->request_value( $_POST, 'invoice_font_size', '10' );
 		} elseif ( 'automatic' === $section ) {
 			$template = sanitize_key( $this->request_value( $_POST, 'automatic_template' ) );
 			$requested_enabled = '1' === $this->request_value( $_POST, 'automatic_enabled' );
@@ -119,7 +127,7 @@ final class AdminPage {
 
 	private function general_screen(): void {
 		$s = $this->settings->all(); $this->form_start( 'general' );
-		echo '<section><h2>' . esc_html__( 'Invoice identity', 'wc-invoice-printer' ) . '</h2><p class="description">' . esc_html__( 'Business details shown to customers on every invoice.', 'wc-invoice-printer' ) . '</p><div class="wcip-fields">';
+		echo '<section><h2>' . esc_html__( 'Invoice identity', 'wc-invoice-printer' ) . '</h2><p class="description">' . esc_html__( 'Store details are shown only when enabled in the Templates tab.', 'wc-invoice-printer' ) . '</p><div class="wcip-fields">';
 		$this->field( 'business_name', __( 'Business name', 'wc-invoice-printer' ), $s['business_name'], 'text' ); $this->field( 'logo_url', __( 'Logo URL', 'wc-invoice-printer' ), $s['logo_url'], 'url' ); $this->field( 'business_phone', __( 'Phone', 'wc-invoice-printer' ), $s['business_phone'], 'text' ); $this->field( 'business_email', __( 'Email', 'wc-invoice-printer' ), $s['business_email'], 'email' ); $this->textarea( 'business_details', __( 'Business and tax details', 'wc-invoice-printer' ), $s['business_details'] );
 		echo '</div></section><section><h2>' . esc_html__( 'Manual printing defaults', 'wc-invoice-printer' ) . '</h2>'; $this->template_select( 'default_template', $s['default_template'] ); echo '<label class="wcip-check"><input type="checkbox" name="show_customer_note" value="1" ' . checked( $s['show_customer_note'], true, false ) . '> ' . esc_html__( 'Include customer notes on invoices', 'wc-invoice-printer' ) . '</label></section>'; submit_button(); echo '</form>';
 	}
@@ -127,7 +135,61 @@ final class AdminPage {
 	private function templates_screen(): void {
 		$selected = (string) $this->settings->get( 'default_template' ); $this->form_start( 'templates' ); echo '<div class="wcip-section-heading"><div><h2>' . esc_html__( 'Choose an invoice layout', 'wc-invoice-printer' ) . '</h2><p>' . esc_html__( 'Preview uses realistic sample data and can switch to RTL.', 'wc-invoice-printer' ) . '</p></div></div><div class="wcip-template-grid">';
 		foreach ( $this->templates->all() as $template ) { $preview = wp_nonce_url( add_query_arg( array( 'action' => 'wcip_preview', 'sample' => 1, 'template' => $template->id ), admin_url( 'admin-post.php' ) ), 'wcip_preview_invoices' ); echo '<article class="wcip-template-card ' . ( $selected === $template->id ? 'is-selected' : '' ) . '"><div class="wcip-template-thumb wcip-thumb-' . esc_attr( $template->id ) . '" aria-hidden="true"><span></span><i></i><i></i><i></i></div><div class="wcip-template-body"><div class="wcip-template-title"><h3>' . esc_html( $template->name ) . '</h3>' . ( $selected === $template->id ? '<span class="wcip-selected">✓ ' . esc_html__( 'Selected', 'wc-invoice-printer' ) . '</span>' : '' ) . '</div><p>' . esc_html( $template->description ) . '</p><span class="wcip-paper">' . esc_html( $template->paper_size ) . '</span><div class="wcip-card-actions"><a class="button" target="_blank" rel="noopener" href="' . esc_url( $preview ) . '">' . esc_html__( 'Preview', 'wc-invoice-printer' ) . '</a><a class="button" target="_blank" rel="noopener" href="' . esc_url( add_query_arg( 'rtl', 1, $preview ) ) . '">' . esc_html__( 'RTL preview', 'wc-invoice-printer' ) . '</a><label class="button button-primary"><input class="screen-reader-text" type="radio" name="default_template" value="' . esc_attr( $template->id ) . '" ' . checked( $selected, $template->id, false ) . '>' . esc_html__( 'Select', 'wc-invoice-printer' ) . '</label></div></div></article>'; }
-		echo '</div>'; submit_button( __( 'Save selected template', 'wc-invoice-printer' ) ); echo '</form>';
+		echo '</div>';
+		$this->presentation_controls();
+		submit_button( __( 'Save template settings', 'wc-invoice-printer' ) ); echo '</form>';
+	}
+
+	private function presentation_controls(): void {
+		$s = $this->settings->presentation();
+		echo '<section><h2>' . esc_html__( 'Invoice layout', 'wc-invoice-printer' ) . '</h2><p class="description">' . esc_html__( 'Save these settings before opening a preview. Layout options apply to invoices.', 'wc-invoice-printer' ) . '</p><div class="wcip-fields">';
+		echo '<div class="wcip-field"><label class="wcip-label" for="wcip-invoice_font">' . esc_html__( 'Font family', 'wc-invoice-printer' ) . '</label><select id="wcip-invoice_font" name="invoice_font">';
+		$fonts = array( 'dejavusans' => __( 'Sans serif', 'wc-invoice-printer' ), 'dejavuserif' => __( 'Serif', 'wc-invoice-printer' ), 'dejavusansmono' => __( 'Monospace', 'wc-invoice-printer' ) );
+		foreach ( $fonts as $key => $label ) { echo '<option value="' . esc_attr( $key ) . '" ' . selected( $s['invoice_font'], $key, false ) . '>' . esc_html( $label ) . '</option>'; }
+		echo '</select></div>';
+		$this->field( 'invoice_font_size', __( 'Font size (pt)', 'wc-invoice-printer' ), $s['invoice_font_size'], 'number', 'min="6" max="16" step="1"' );
+		echo '</div>';
+		$this->checkbox( 'compact_layout', __( 'Use compact spacing', 'wc-invoice-printer' ), $s['compact_layout'] );
+		$this->checkbox( 'single_page', __( 'Fit each invoice on one sheet', 'wc-invoice-printer' ), $s['single_page'] );
+		$this->checkbox( 'thermal_auto_height', __( 'End thermal paper after the invoice content', 'wc-invoice-printer' ), $s['thermal_auto_height'] );
+		echo '<p class="description">' . esc_html__( 'Single-sheet output may reduce text size. Thermal paper length depends on the printer driver; automatic cutting is controlled by the printer.', 'wc-invoice-printer' ) . '</p></section>';
+
+		$groups = array(
+			array( 'label' => __( 'Store information', 'wc-invoice-printer' ), 'fields' => array(
+				'show_store_name' => __( 'Store name', 'wc-invoice-printer' ), 'show_store_logo' => __( 'Store logo', 'wc-invoice-printer' ),
+				'show_store_details' => __( 'Business and tax details', 'wc-invoice-printer' ), 'show_store_phone' => __( 'Store phone', 'wc-invoice-printer' ),
+				'show_store_email' => __( 'Store email', 'wc-invoice-printer' ), 'show_store_address' => __( 'Store address', 'wc-invoice-printer' ),
+			) ),
+			array( 'label' => __( 'Customer and shipping information', 'wc-invoice-printer' ), 'fields' => array(
+				'show_customer_name' => __( 'Customer name', 'wc-invoice-printer' ), 'show_customer_company' => __( 'Customer company', 'wc-invoice-printer' ),
+				'show_customer_role' => __( 'Customer role', 'wc-invoice-printer' ), 'show_shipping_address' => __( 'Shipping address', 'wc-invoice-printer' ),
+				'show_billing_address' => __( 'Billing address', 'wc-invoice-printer' ), 'show_customer_phone' => __( 'Billing phone', 'wc-invoice-printer' ),
+				'show_customer_email' => __( 'Customer email', 'wc-invoice-printer' ), 'show_shipping_phone' => __( 'Shipping phone', 'wc-invoice-printer' ),
+				'show_recipient_extras' => __( 'Mapped recipient details', 'wc-invoice-printer' ),
+			) ),
+			array( 'label' => __( 'Order information', 'wc-invoice-printer' ), 'fields' => array(
+				'show_order_date' => __( 'Order date', 'wc-invoice-printer' ), 'show_paid_date' => __( 'Paid date', 'wc-invoice-printer' ),
+				'show_order_status' => __( 'Order status', 'wc-invoice-printer' ), 'show_payment_method' => __( 'Payment method', 'wc-invoice-printer' ),
+				'show_shipping_method' => __( 'Shipping method', 'wc-invoice-printer' ), 'show_customer_note' => __( 'Customer note', 'wc-invoice-printer' ),
+			) ),
+			array( 'label' => __( 'Items and totals', 'wc-invoice-printer' ), 'fields' => array(
+				'show_item_sku' => __( 'Product SKU', 'wc-invoice-printer' ), 'show_item_variation' => __( 'Product variations', 'wc-invoice-printer' ),
+				'show_item_unit_price' => __( 'Unit price', 'wc-invoice-printer' ), 'show_item_discount' => __( 'Line discount', 'wc-invoice-printer' ),
+				'show_item_tax' => __( 'Line tax', 'wc-invoice-printer' ), 'show_price_note' => __( 'Price explanation', 'wc-invoice-printer' ),
+				'show_totals_breakdown' => __( 'Subtotal, shipping, discounts and tax totals', 'wc-invoice-printer' ), 'show_footer' => __( 'Invoice footer', 'wc-invoice-printer' ),
+			) ),
+		);
+		echo '<section><h2>' . esc_html__( 'Visible invoice fields', 'wc-invoice-printer' ) . '</h2><p class="description">' . esc_html__( 'Select the information to print. Product names, quantities, line totals and the grand total always appear.', 'wc-invoice-printer' ) . '</p>';
+		foreach ( $groups as $group ) {
+			echo '<fieldset><legend><h3>' . esc_html( $group['label'] ) . '</h3></legend><div class="wcip-fields">';
+			foreach ( $group['fields'] as $key => $label ) { $this->checkbox( $key, $label, $s[ $key ] ); }
+			echo '</div></fieldset>';
+		}
+		echo '</section>';
+	}
+
+	private function checkbox( string $name, string $label, bool $value ): void {
+		echo '<label class="wcip-check"><input type="checkbox" name="' . esc_attr( $name ) . '" value="1" ' . checked( $value, true, false ) . '> ' . esc_html( $label ) . '</label>';
 	}
 
 	private function automatic_screen(): void {

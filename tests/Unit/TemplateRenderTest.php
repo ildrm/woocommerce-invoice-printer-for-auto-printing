@@ -12,7 +12,7 @@ use WCInvoicePrinter\Template\TemplateDefinition;
 use WCInvoicePrinter\Tests\Support\TranslationCatalog;
 
 final class TemplateRenderTest extends TestCase {
-	protected function setUp(): void { $GLOBALS['wcip_test_filters'] = array(); }
+	protected function setUp(): void { $GLOBALS['wcip_test_filters'] = array(); $GLOBALS['wcip_test_options'] = array(); }
 	protected function tearDown(): void {
 		$GLOBALS['wcip_test_filters'] = array();
 		unset( $GLOBALS['wcip_test_translations'], $GLOBALS['wcip_test_locale'] );
@@ -27,12 +27,13 @@ final class TemplateRenderTest extends TestCase {
 		$invoice  = ( new InvoiceFactory( new SettingsRepository() ) )->sample( true );
 		$html     = $renderer->render( $invoice, $template_id );
 		self::assertStringContainsString( 'dir="rtl"', $html );
-		self::assertStringContainsString( 'آرمان رضایی', $html );
+		self::assertStringContainsString( esc_html( $invoice->customer['shipping_address'] ), $html );
 		self::assertStringContainsString( 'دفتر برنامه‌ریزی حرفه‌ای', $html );
 		self::assertStringContainsString( '$108.09', $html );
 	}
 
 	public function test_customer_html_is_contextually_escaped(): void {
+		( new SettingsRepository() )->update( array( 'show_customer_name' => true ) );
 		$factory  = new InvoiceFactory( new SettingsRepository() );
 		$sample   = $factory->sample();
 		$customer = $sample->customer;

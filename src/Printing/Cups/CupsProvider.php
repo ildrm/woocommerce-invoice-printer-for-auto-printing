@@ -48,7 +48,10 @@ final class CupsProvider implements PrintProviderInterface {
 			. IppCodec::attribute( 0x42, 'job-name', mb_strcut( sanitize_text_field( $title ), 0, 255, 'UTF-8' ) )
 			. IppCodec::attribute( 0x22, 'ipp-attribute-fidelity', "\x01" )
 			. IppCodec::attribute( 0x49, 'document-format', 'application/pdf' );
-		$response = $this->request( 2, $path, $attributes, IppCodec::attribute( 0x21, 'copies', pack( 'N', $copies ) ), $pdf_bytes );
+		// Suppress queue-default banners so they cannot add sheets to an invoice.
+		$job_attributes = IppCodec::attribute( 0x21, 'copies', pack( 'N', $copies ) )
+			. IppCodec::attribute( 0x44, 'job-sheets', 'none' );
+		$response = $this->request( 2, $path, $attributes, $job_attributes, $pdf_bytes );
 		foreach ( $response['groups'] as $group ) {
 			if ( 2 !== $group['tag'] ) { continue; }
 			$id = $this->value( $group, 'job-id', 0x21 );

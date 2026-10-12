@@ -23,7 +23,9 @@ final class AdminPageTest extends TestCase {
 
 	protected function tearDown(): void {
 		$_POST = array();
+		$_GET = array();
 		$GLOBALS['wcip_test_nonce_valid'] = true;
+		unset( $GLOBALS['wcip_redirect_exception'], $GLOBALS['wcip_test_redirect'] );
 	}
 
 	private function assert_save_fails( int $status ): void {
@@ -50,5 +52,42 @@ final class AdminPageTest extends TestCase {
 		$GLOBALS['wcip_test_capabilities']['wcip_manage_settings'] = true;
 		$_POST['business_name'] = array( 'New' );
 		$this->assert_save_fails( 400 );
+	}
+
+	public function test_template_form_exposes_every_visibility_and_layout_control(): void {
+		$GLOBALS['wcip_test_capabilities']['wcip_manage_settings'] = true;
+		$_GET = array( 'tab' => 'templates' );
+		ob_start();
+		$this->page->render();
+		$html = ob_get_clean();
+		foreach ( array_merge( array_keys( SettingsRepository::visibility_defaults() ), array( 'compact_layout', 'single_page', 'thermal_auto_height' ) ) as $key ) {
+			self::assertStringContainsString( 'name="' . $key . '"', $html, $key );
+		}
+		self::assertStringContainsString( 'name="invoice_font"', $html );
+		self::assertStringContainsString( 'name="invoice_font_size" type="number" value="10" min="6" max="16"', $html );
+		self::assertMatchesRegularExpression( '/name="show_customer_email"[^>]*value="1"\s*>/', $html );
+		self::assertMatchesRegularExpression( '/name="show_customer_name"[^>]*value="1"\s*>/', $html );
+		self::assertMatchesRegularExpression( '/name="show_customer_role"[^>]*value="1"\s*>/', $html );
+		self::assertMatchesRegularExpression( '/name="show_shipping_address"[^>]*checked="checked"/', $html );
+	}
+
+	public function test_template_form_saves_checked_fields_and_clears_unchecked_fields(): void {
+		$GLOBALS['wcip_test_capabilities']['wcip_manage_settings'] = true;
+		$GLOBALS['wcip_test_options']['wcip_settings']['show_customer_email'] = true;
+		$_POST = array( 'section' => 'templates', 'default_template' => 'compact', 'show_shipping_address' => '1', 'show_customer_role' => '1', 'show_item_sku' => '1', 'compact_layout' => '1', 'invoice_font' => 'dejavuserif', 'invoice_font_size' => '8' );
+		$GLOBALS['wcip_redirect_exception'] = new \RuntimeException( 'Test redirect' );
+		try { $this->page->save(); self::fail( 'Expected redirect.' ); }
+		catch ( \RuntimeException $error ) { self::assertSame( 'Test redirect', $error->getMessage() ); }
+		$settings = new SettingsRepository();
+		self::assertSame( 'compact', $settings->get( 'default_template' ) );
+		self::assertTrue( $settings->get( 'show_item_sku' ) );
+		self::assertTrue( $settings->get( 'show_shipping_address' ) );
+		self::assertFalse( $settings->get( 'show_customer_email' ) );
+		self::assertFalse( $settings->get( 'single_page' ) );
+		self::assertTrue( $settings->get( 'compact_layout' ) );
+		self::assertSame( 'dejavuserif', $settings->get( 'invoice_font' ) );
+		self::assertSame( 8, $settings->get( 'invoice_font_size' ) );
+		self::assertSame( 'Existing', $settings->get( 'business_name' ) );
+		self::assertStringContainsString( 'tab=templates', $GLOBALS['wcip_test_redirect'] );
 	}
 }

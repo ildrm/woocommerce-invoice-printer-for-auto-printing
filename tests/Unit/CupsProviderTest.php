@@ -30,6 +30,7 @@ final class CupsProviderTest extends TestCase {
 		self::assertSame( 'https://cups.example.test/printers/Office_A4', $url );
 		self::assertStringEndsWith( "\x03%PDF-test", $args['body'] );
 		self::assertStringContainsString( IppCodec::attribute( 0x21, 'copies', pack( 'N', 2 ) ), $args['body'] );
+		self::assertStringContainsString( "\x02" . IppCodec::attribute( 0x21, 'copies', pack( 'N', 2 ) ) . IppCodec::attribute( 0x44, 'job-sheets', 'none' ) . "\x03", $args['body'] );
 		self::assertStringContainsString( 'ipps://cups.example.test/printers/Office_A4', $args['body'] );
 		self::assertSame( 'Basic ' . base64_encode( 'printer:secret' ), $args['headers']['Authorization'] );
 		self::assertSame( 0, $args['redirection'] ); self::assertTrue( $args['sslverify'] );

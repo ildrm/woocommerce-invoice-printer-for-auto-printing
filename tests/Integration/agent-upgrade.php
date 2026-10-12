@@ -22,7 +22,7 @@ if (!\WCInvoicePrinter\Infrastructure\Activator::maybe_upgrade()) { throw new Ru
 $after=$wpdb->get_row($wpdb->prepare("SELECT * FROM {$table} WHERE id=%d",$id),ARRAY_A);
 foreach(array('agent_token','agent_user','agent_phase','agent_claimed_at') as $column) { if (null !== $after[$column]) { throw new RuntimeException('Historical job acquired agent ownership.'); } unset($after[$column]); }
 if ($before !== $after || $before_settings !== get_option('wcip_settings') || $cutoff !== get_option('wcip_discovery_since')) { throw new RuntimeException('CUPS configuration/history/cutoff changed.'); }
-if ('1.4.0' !== get_option('wcip_db_version') || '1.4.0' !== get_option('wcip_capabilities_version') || '1.3.0' !== get_option('wcip_printing_migration_version') || !get_role('wcip_print_agent')) { throw new RuntimeException('Upgrade stamp/role failed.'); }
+if (\WCInvoicePrinter\Infrastructure\Activator::DB_VERSION !== get_option('wcip_db_version') || '1.4.0' !== get_option('wcip_capabilities_version') || '1.3.0' !== get_option('wcip_printing_migration_version') || !get_role('wcip_print_agent')) { throw new RuntimeException('Upgrade stamp/role failed.'); }
 \WCInvoicePrinter\Infrastructure\Activator::activate();
 if ($before_settings !== get_option('wcip_settings')) { throw new RuntimeException('Rerun changed CUPS setup.'); }
 $wpdb->delete($table,array('id'=>$id));

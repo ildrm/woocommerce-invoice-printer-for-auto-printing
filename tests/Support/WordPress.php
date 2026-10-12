@@ -149,4 +149,20 @@ function as_unschedule_all_actions( string $hook, $args = array(), string $group
 function add_action( string $hook, $callback, int $priority = 10, int $accepted_args = 1 ): void { $GLOBALS['wcip_registered_hooks'][ $hook ][] = compact( 'callback', 'priority', 'accepted_args' ); }
 function add_filter( string $hook, $callback, int $priority = 10, int $accepted_args = 1 ): void { add_action( $hook, $callback, $priority, $accepted_args ); }
 function get_role( string $name ) { return $GLOBALS['wcip_test_roles'][ $name ] ?? null; }
+function get_userdata( int $id ) { return $GLOBALS['wcip_test_users'][ $id ] ?? false; }
+function wp_roles() { return new class { public function get_names(): array { return $GLOBALS['wcip_test_role_names'] ?? array( 'customer' => 'Customer' ); } }; }
+function translate_user_role( string $name ): string { return $GLOBALS['wcip_test_role_translations'][ $name ] ?? $name; }
+function admin_url( string $path = '' ): string { return 'https://example.test/wp-admin/' . $path; }
+function esc_url( string $value ): string { return esc_attr( $value ); }
+function add_query_arg( $key, $value = null, $url = null ): string {
+	$args = is_array( $key ) ? $key : array( $key => $value );
+	$target = is_array( $key ) ? (string) $value : (string) $url;
+	return $target . ( false === strpos( $target, '?' ) ? '?' : '&' ) . http_build_query( array_filter( $args, static fn( $item ) => false !== $item ) );
+}
+function wp_nonce_url( string $url, string $action ): string { return add_query_arg( '_wpnonce', $action, $url ); }
+function wp_nonce_field( string $action ): void { echo '<input type="hidden" name="_wpnonce" value="' . esc_attr( $action ) . '">'; }
+function checked( $value, $expected = true, bool $echo = true ): string { $result = (string) $value === (string) $expected ? 'checked="checked"' : ''; if ( $echo ) { echo $result; } return $result; }
+function selected( $value, $expected = true, bool $echo = true ): string { $result = (string) $value === (string) $expected ? 'selected="selected"' : ''; if ( $echo ) { echo $result; } return $result; }
+function submit_button( string $label = 'Save Changes' ): void { echo '<button type="submit">' . esc_html( $label ) . '</button>'; }
+function wp_safe_redirect( string $url ): bool { $GLOBALS['wcip_test_redirect'] = $url; if ( isset( $GLOBALS['wcip_redirect_exception'] ) ) { throw $GLOBALS['wcip_redirect_exception']; } return true; }
 function nocache_headers(): void { $GLOBALS['wcip_nocache_called'] = true; if ( isset( $GLOBALS['wcip_nocache_exception'] ) ) { throw $GLOBALS['wcip_nocache_exception']; } }
