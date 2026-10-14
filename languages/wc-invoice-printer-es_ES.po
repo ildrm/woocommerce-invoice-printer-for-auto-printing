@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
-"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
-"PO-Revision-Date: 2026-10-12 15:00+0330\n"
+"POT-Creation-Date: 2026-10-13T00:00:00+03:30\n"
+"PO-Revision-Date: 2026-10-13 00:00+0330\n"
 "Last-Translator: WooCommerce Invoice Printer contributors\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -835,10 +835,6 @@ msgstr "Fecha de pago"
 msgid "Payment eligibility changed"
 msgstr "Cambió la elegibilidad del pago"
 
-#: src/Admin/AdminPage.php:172
-msgid "Payment method"
-msgstr "Método de pago"
-
 #: src/Admin/AdminPage.php:131
 msgid "Phone"
 msgstr "Teléfono"
@@ -1317,8 +1313,8 @@ msgid "The document is too long for one page. Hide optional fields or use a smal
 msgstr "El documento es demasiado largo para una página. Oculta los campos opcionales o usa una letra más pequeña."
 
 #: src/Admin/PreviewController.php:93
-msgid "The invoice could not be prepared. Review Print Jobs before trying again."
-msgstr "No se ha podido preparar la factura. Revisa los trabajos de impresión antes de intentarlo de nuevo."
+msgid "The invoice could not be prepared. Review WooCommerce status logs (wc-invoice-printer) and Print Jobs before trying again."
+msgstr "No se ha podido preparar la factura. Revisa los registros de estado de WooCommerce (wc-invoice-printer) y los trabajos de impresión antes de intentarlo de nuevo."
 
 #: src/Infrastructure/Activator.php:11
 msgid "The invoice printer database could not be installed. Check database permissions and try activation again."
@@ -1545,3 +1541,9 @@ msgstr "Se abrirá el diálogo de impresión de tu navegador."
 #: wc-invoice-printer.php
 msgid "https://ildrm.com"
 msgstr "https://ildrm.com"
+
+msgid "Payment gateway"
+msgstr "Pasarela de pago"
+
+msgid "Clear Store email to hide it. Set the store email address in General."
+msgstr "Desmarca Correo de la tienda para ocultarlo. Configura la dirección en General."

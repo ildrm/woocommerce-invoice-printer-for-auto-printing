@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
-"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
-"PO-Revision-Date: 2026-10-12 15:00+0330\n"
+"POT-Creation-Date: 2026-10-13T00:00:00+03:30\n"
+"PO-Revision-Date: 2026-10-13 00:00+0330\n"
 "Last-Translator: WooCommerce Invoice Printer contributors\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -835,10 +835,6 @@ msgstr "Zahlungsdatum"
 msgid "Payment eligibility changed"
 msgstr "Zahlungsberechtigung geändert"
 
-#: src/Admin/AdminPage.php:172
-msgid "Payment method"
-msgstr "Zahlungsart"
-
 #: src/Admin/AdminPage.php:131
 msgid "Phone"
 msgstr "Telefon"
@@ -1317,8 +1313,8 @@ msgid "The document is too long for one page. Hide optional fields or use a smal
 msgstr "Das Dokument ist zu lang für eine Seite. Blenden Sie optionale Felder aus oder verwenden Sie eine kleinere Schrift."
 
 #: src/Admin/PreviewController.php:93
-msgid "The invoice could not be prepared. Review Print Jobs before trying again."
-msgstr "Die Rechnung konnte nicht vorbereitet werden. Prüfen Sie die Druckaufträge, bevor Sie es erneut versuchen."
+msgid "The invoice could not be prepared. Review WooCommerce status logs (wc-invoice-printer) and Print Jobs before trying again."
+msgstr "Die Rechnung konnte nicht vorbereitet werden. Prüfen Sie die WooCommerce-Statusprotokolle (wc-invoice-printer) und die Druckaufträge, bevor Sie es erneut versuchen."
 
 #: src/Infrastructure/Activator.php:11
 msgid "The invoice printer database could not be installed. Check database permissions and try activation again."
@@ -1545,3 +1541,9 @@ msgstr "Der Druckdialog Ihres Browsers wird geöffnet."
 #: wc-invoice-printer.php
 msgid "https://ildrm.com"
 msgstr "https://ildrm.com"
+
+msgid "Payment gateway"
+msgstr "Zahlungsanbieter"
+
+msgid "Clear Store email to hide it. Set the store email address in General."
+msgstr "Deaktivieren Sie Shop-E-Mail, um sie auszublenden. Legen Sie die Shop-E-Mail-Adresse unter Allgemein fest."

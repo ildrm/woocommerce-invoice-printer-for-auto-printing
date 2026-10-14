@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
-"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
-"PO-Revision-Date: 2026-10-12 15:00+0330\n"
+"POT-Creation-Date: 2026-10-13T00:00:00+03:30\n"
+"PO-Revision-Date: 2026-10-13 00:00+0330\n"
 "Last-Translator: WooCommerce Invoice Printer contributors\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -835,10 +835,6 @@ msgstr "Дата оплаты"
 msgid "Payment eligibility changed"
 msgstr "Условия оплаты изменились"
 
-#: src/Admin/AdminPage.php:172
-msgid "Payment method"
-msgstr "Способ оплаты"
-
 #: src/Admin/AdminPage.php:131
 msgid "Phone"
 msgstr "Телефон"
@@ -1318,8 +1314,8 @@ msgid "The document is too long for one page. Hide optional fields or use a smal
 msgstr "Документ слишком длинный для одной страницы. Скройте необязательные поля или используйте меньший шрифт."
 
 #: src/Admin/PreviewController.php:93
-msgid "The invoice could not be prepared. Review Print Jobs before trying again."
-msgstr "Не удалось подготовить счёт. Проверьте задания печати перед повторной попыткой."
+msgid "The invoice could not be prepared. Review WooCommerce status logs (wc-invoice-printer) and Print Jobs before trying again."
+msgstr "Не удалось подготовить счёт. Проверьте журналы состояния WooCommerce (wc-invoice-printer) и задания печати перед повторной попыткой."
 
 #: src/Infrastructure/Activator.php:11
 msgid "The invoice printer database could not be installed. Check database permissions and try activation again."
@@ -1546,3 +1542,9 @@ msgstr "Откроется диалог печати вашего браузер
 #: wc-invoice-printer.php
 msgid "https://ildrm.com"
 msgstr "https://ildrm.com"
+
+msgid "Payment gateway"
+msgstr "Платёжный шлюз"
+
+msgid "Clear Store email to hide it. Set the store email address in General."
+msgstr "Снимите флажок электронной почты магазина, чтобы скрыть её. Укажите адрес в разделе «Общие»."

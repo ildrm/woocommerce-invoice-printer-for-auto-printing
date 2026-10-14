@@ -20,7 +20,10 @@ final class HtmlRenderer {
 		if ( ! $show( 'show_totals_breakdown' ) ) {
 			$totals = array_values( array_filter( $totals, static function ( array $total ): bool { return 'order_total' === ( $total['key'] ?? '' ); } ) );
 			// Older custom InvoiceData objects may have no total keys.
-			if ( ! $totals && $invoice->totals ) { $all_totals = $invoice->totals; $totals = array( end( $all_totals ) ); }
+			if ( ! $totals ) {
+				$legacy_totals = array_values( array_filter( $invoice->totals, static function ( array $total ): bool { return ! isset( $total['key'] ); } ) );
+				if ( $legacy_totals ) { $totals = array( end( $legacy_totals ) ); }
+			}
 		}
 		do_action( 'wcip_before_invoice_render', $invoice, $template );
 		$buffer_level = ob_get_level();

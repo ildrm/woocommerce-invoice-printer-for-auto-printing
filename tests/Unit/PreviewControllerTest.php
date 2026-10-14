@@ -29,6 +29,7 @@ final class PreviewControllerTest extends TestCase {
 		$GLOBALS['wcip_test_orders'] = array( 1 => new \WC_Order( 1 ) );
 		$GLOBALS['wcip_test_capabilities'] = array( 'wcip_print_invoices' => true );
 		$GLOBALS['wcip_test_nonce_valid'] = true;
+		$GLOBALS['wcip_test_logs'] = array();
 		unset( $GLOBALS['wcip_nocache_called'], $GLOBALS['wcip_nocache_exception'] );
 		unset( $GLOBALS['wcip_test_locale'], $GLOBALS['wcip_test_translations'] );
 		$_GET = array( 'order_ids' => '1', 'template' => 'classic' );
@@ -158,6 +159,66 @@ final class PreviewControllerTest extends TestCase {
 		self::assertSame( 'submitted', $this->database->rows[1]['status'] );
 		self::assertSame( 'browser', $this->database->rows[1]['provider_id'] );
 		self::assertSame( 3, $this->database->rows[1]['copies'] );
+	}
+
+	public function test_browser_batch_prepares_only_its_own_jobs(): void {
+		$jobs = new PrintJobRepository();
+		$previous = $jobs->create( array( 'order_id' => 1, 'trigger_type' => 'manual', 'idempotency_key' => 'previous', 'template_id' => 'classic', 'provider_id' => 'browser', 'printer_id' => '', 'copies' => 1 ) );
+		$GLOBALS['wcip_test_orders'][2] = new \WC_Order( 2 );
+		$_GET['order_ids'] = '1,2';
+		$this->prepare_to_http_boundary();
+		self::assertCount( 3, $this->database->rows );
+		self::assertSame( 'queued', $jobs->find( $previous['id'] )['status'] );
+		self::assertSame( 'submitted', $jobs->find( 2 )['status'] );
+		self::assertSame( 'submitted', $jobs->find( 3 )['status'] );
+		self::assertContains( 'COMMIT', $this->database->queries );
+	}
+
+	/** @dataProvider failed_batch_writes */
+	public function test_failed_browser_batch_rolls_back_or_invalidates_every_new_job( string $failure, bool $transactional ): void {
+		$this->database->transactional = $transactional;
+		$GLOBALS['wcip_test_orders'][2] = new \WC_Order( 2 );
+		$_GET['order_ids'] = '1,2';
+		$this->database->before_query = static function ( InMemoryWpdb $db, string $sql ) use ( $failure ) {
+			return ( 'commit' === $failure && 'COMMIT' === $sql ) || ( 'update' === $failure && false !== strpos( $sql, 'WHERE id IN (' ) ) ? false : null;
+		};
+		try { $this->controller->output(); self::fail( 'Expected failed preparation.' ); }
+		catch ( \RuntimeException $error ) { self::assertSame( 500, $error->getCode() ); }
+		self::assertContains( 'ROLLBACK', $this->database->queries );
+		if ( $transactional ) { self::assertSame( array(), $this->database->rows ); }
+		else {
+			self::assertCount( 2, $this->database->rows );
+			foreach ( $this->database->rows as $row ) {
+				self::assertSame( 'failed', $row['status'] );
+				self::assertSame( 'browser_preparation_failed', $row['error_code'] );
+			}
+		}
+		self::assertSame( 'browser_jobs', $GLOBALS['wcip_test_logs'][0]['context']['stage'] );
+	}
+
+	public static function failed_batch_writes(): array {
+		return array( array( 'update', true ), array( 'commit', true ), array( 'update', false ), array( 'commit', false ) );
+	}
+
+	public function test_later_insert_failure_rolls_back_earlier_browser_job(): void {
+		$GLOBALS['wcip_test_orders'][2] = new \WC_Order( 2 );
+		$_GET['order_ids'] = '1,2';
+		$this->database->before_insert = static function ( InMemoryWpdb $db ): void {
+			$db->before_insert = static function ( InMemoryWpdb $db ): void { $db->fail_insert = true; };
+		};
+		$this->assert_failure( 500, 'could not be prepared' );
+		self::assertContains( 'ROLLBACK', $this->database->queries );
+	}
+
+	public function test_failure_log_omits_private_exception_details(): void {
+		$this->temporary_template = tempnam( sys_get_temp_dir(), 'wcip-test-template-' );
+		file_put_contents( $this->temporary_template, '<?php throw new \\RuntimeException("customer@example.test Authorization: secret SELECT private");' );
+		$this->templates->register( new TemplateDefinition( 'broken', 'Broken', '', 'A4', 'portrait', true, $this->temporary_template ) );
+		$_GET['template'] = 'broken';
+		$this->assert_failure( 500, 'could not be prepared' );
+		$logs = json_encode( $GLOBALS['wcip_test_logs'] );
+		foreach ( array( 'customer@example.test', 'secret', 'SELECT private' ) as $private ) { self::assertStringNotContainsString( $private, $logs ); }
+		self::assertSame( 'html_render', $GLOBALS['wcip_test_logs'][0]['context']['stage'] );
 	}
 
 	public function test_single_sheet_browser_print_prepares_valid_pdf_before_recording_job(): void {

@@ -23,6 +23,8 @@ final class MpdfRenderer implements PdfRendererInterface {
 				'mode' => 'utf-8', 'format' => $format,
 				'orientation' => strtoupper( substr( $template->orientation, 0, 1 ) ),
 				'tempDir' => $temp_dir, 'autoScriptToLang' => true, 'autoLangToFont' => true,
+				// Other plugins can load mPDF's global configuration classes first.
+				'fontDir' => array( WCIP_PATH . 'vendor/mpdf/mpdf/ttfonts' ),
 				'default_font' => 'dejavusans', 'shrink_tables_to_fit' => 1,
 				'margin_left' => $thermal ? 4 : 10, 'margin_right' => $thermal ? 4 : 10,
 				'margin_top' => $thermal ? 4 : 10, 'margin_bottom' => $thermal ? 4 : 10,
@@ -92,10 +94,11 @@ final class MpdfRenderer implements PdfRendererInterface {
 
 	/** Preserve each document's page size when a browser prints several orders/copies. */
 	public function bundle( array $documents, TemplateDefinition $template ): string {
+		if ( ! class_exists( \Mpdf\Mpdf::class ) ) { throw new \RuntimeException( __( 'PDF support is unavailable. Install the Composer dependencies.', 'wc-invoice-printer' ) ); }
 		$directory = trailingslashit( get_temp_dir() ) . 'wcip-mpdf-' . bin2hex( random_bytes( 16 ) );
 		if ( ! @mkdir( $directory, 0700 ) ) { throw new \RuntimeException( __( 'A secure PDF working directory could not be created.', 'wc-invoice-printer' ) ); }
 		try {
-			$bundle = new \Mpdf\Mpdf( array( 'tempDir' => $directory ) );
+			$bundle = new \Mpdf\Mpdf( array( 'tempDir' => $directory, 'fontDir' => array( WCIP_PATH . 'vendor/mpdf/mpdf/ttfonts' ) ) );
 			$cache = array(); $bytes = 0;
 			foreach ( $documents as $html ) {
 				$key = hash( 'sha256', $html );

@@ -1,6 +1,6 @@
 # Shipping documents and operations
 
-Version 1.4.4 retains shipping documents and operational services, the plugin’s namespace, browser printing, the local cross-platform agent and the open-source CUPS provider, old template IDs, job states and extension contracts. It adds optional field/font/page controls. Automatic printing, fulfillment automation, exports and the new layout modes are off by default. Preparation, payment, provider acceptance and physical confirmation remain independent.
+Version 1.4.5 retains shipping documents and operational services, the plugin’s namespace, browser printing, the local cross-platform agent and the open-source CUPS provider, template IDs, job states and extension contracts. It fixes PDF font discovery when another plugin loads mPDF first and improves manual-print recovery and diagnostics. The 1.4.4 optional field/font/page controls remain available. Automatic printing, fulfillment automation, exports and the layout modes are off by default. Preparation, payment, provider acceptance and physical confirmation remain independent.
 
 ## Configure a store
 

@@ -137,6 +137,30 @@ final class PrintJobRepository {
 		return $this->set_status( $id, JobStatus::SUBMITTED, JobStatus::QUEUED, array( 'external_job_id' => null, 'completed_at' => current_time( 'mysql', true ), 'error_code' => null, 'error_message' => null ) );
 	}
 
+	/** Prepare queued browser jobs in one write; the caller rolls back or invalidates a partial result. */
+	public function browser_ready_many( array $ids ): bool {
+		$this->state_cache = array();
+		$ids = array_values( array_unique( array_filter( array_map( 'absint', $ids ) ) ) );
+		if ( ! $ids || count( $ids ) > 50 ) { return false; }
+		global $wpdb;
+		$selection = implode( ',', $ids );
+		$now = current_time( 'mysql', true );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Trusted table and integer IDs.
+		$updated = $wpdb->query( $wpdb->prepare( "UPDATE {$this->table} SET status = %s, updated_at = %s, completed_at = %s, external_job_id = NULL, error_code = NULL, error_message = NULL WHERE id IN ({$selection}) AND provider_id = %s AND status = %s", JobStatus::SUBMITTED, $now, $now, 'browser', JobStatus::QUEUED ) );
+		return count( $ids ) === $updated;
+	}
+
+	/** Preserve concurrent physical confirmations and cancellations during failed-request cleanup. */
+	public function invalidate_browser_job( int $id, string $expected ): bool {
+		if ( ! in_array( $expected, array( JobStatus::QUEUED, JobStatus::SUBMITTED ), true ) ) { return false; }
+		$this->state_cache = array();
+		global $wpdb;
+		return 1 === $wpdb->update( $this->table,
+			array( 'status' => JobStatus::FAILED, 'updated_at' => current_time( 'mysql', true ), 'completed_at' => current_time( 'mysql', true ), 'error_code' => 'browser_preparation_failed', 'error_message' => 'The browser document preparation did not complete.' ),
+			array( 'id' => $id, 'provider_id' => 'browser', 'status' => $expected, 'printed_at' => null )
+		);
+	}
+
 	public function fail( int $id, string $status, string $code, string $message, string $expected = JobStatus::PROCESSING ): bool {
 		if ( ! in_array( $status, array( JobStatus::FAILED, JobStatus::UNKNOWN ), true ) ) {
 			throw new \InvalidArgumentException( 'Invalid failure status.' );

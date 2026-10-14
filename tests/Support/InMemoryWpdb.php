@@ -13,6 +13,8 @@ final class InMemoryWpdb {
 	private ?array $transaction_rows = null;
 	public $before_insert = null;
 	public $before_update = null;
+	public $before_query = null;
+	public bool $transactional = true;
 	private int $total = 0;
 
 	public function insert( string $table, array $data, array $formats = array() ) {
@@ -71,9 +73,13 @@ final class InMemoryWpdb {
 
 	public function get_var( string $sql ): int { return $this->total; }
 
-	public function query( string $sql ): int {
+	public function query( string $sql ) {
 		$this->queries[] = $sql;
-		if ( 'START TRANSACTION' === $sql ) { $this->transaction_rows = $this->rows; return 0; }
+		if ( is_callable( $this->before_query ) ) {
+			$result = ( $this->before_query )( $this, $sql );
+			if ( null !== $result ) { return $result; }
+		}
+		if ( 'START TRANSACTION' === $sql ) { $this->transaction_rows = $this->transactional ? $this->rows : null; return 0; }
 		if ( 'ROLLBACK' === $sql ) { $this->rows = $this->transaction_rows ?? $this->rows; $this->transaction_rows = null; return 0; }
 		if ( 'COMMIT' === $sql ) { $this->transaction_rows = null; return 0; }
 		preg_match( '/ SET (.*?) WHERE (.*)$/', $sql, $parts );
@@ -99,6 +105,7 @@ final class InMemoryWpdb {
 			if ( (string) ( $row[ $condition[1] ] ?? '' ) !== stripslashes( trim( $condition[2], "'" ) ) ) { return false; }
 		}
 		if ( preg_match( '/id > (\d+)/', $where, $minimum ) && $row['id'] <= (int) $minimum[1] ) { return false; }
+		if ( preg_match( '/\bid IN \(([0-9,]+)\)/', $where, $ids ) && ! in_array( (int) $row['id'], array_map( 'intval', explode( ',', $ids[1] ) ), true ) ) { return false; }
 		if ( preg_match( '/attempt_count < (\d+)/', $where, $attempt ) && $row['attempt_count'] >= (int) $attempt[1] ) { return false; }
 		if ( preg_match( '/status IN \((.*?)\)/', $where, $statuses ) ) {
 			$allowed = array_map( static fn( $status ) => trim( $status, " '\t" ), explode( ',', $statuses[1] ) );

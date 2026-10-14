@@ -21,9 +21,11 @@ final class InvoicePresentationTest extends TestCase {
 	protected function tearDown(): void { unset( $GLOBALS['wcip_http_callback'] ); }
 
 	/** @dataProvider built_in_templates */
-	public function test_defaults_show_only_shipping_customer_information( string $id ): void {
+	public function test_defaults_hide_optional_customer_information_and_show_gateway_on_invoices( string $id ): void {
 		$html = $this->render( $this->invoice(), $id );
-		foreach ( array( 'CUSTOMER-NAME-PRIVATE', 'Wholesale role visible', 'store-hidden@example.test', 'customer-hidden@example.test', 'BILLING-ADDRESS-PRIVATE', 'STORE-ADDRESS-PRIVATE', 'PAYMENT-METHOD-PRIVATE', 'RECIPIENT-EXTRA-PRIVATE' ) as $hidden ) { self::assertStringNotContainsString( $hidden, $html ); }
+		foreach ( array( 'CUSTOMER-NAME-PRIVATE', 'Wholesale role visible', 'store-hidden@example.test', 'customer-hidden@example.test', 'BILLING-ADDRESS-PRIVATE', 'STORE-ADDRESS-PRIVATE', 'RECIPIENT-EXTRA-PRIVATE' ) as $hidden ) { self::assertStringNotContainsString( $hidden, $html ); }
+		if ( in_array( $id, array( 'shipping-label', 'packing-list' ), true ) ) { self::assertStringNotContainsString( 'PAYMENT-METHOD-PRIVATE', $html ); }
+		else { self::assertStringContainsString( 'Payment gateway', $html ); self::assertStringContainsString( 'PAYMENT-METHOD-PRIVATE', $html ); self::assertStringContainsString( 'stripe', $html ); }
 		self::assertStringContainsString( 'SHIPPING-ADDRESS-VISIBLE', $html );
 		self::assertStringContainsString( '#1042', $html );
 	}
@@ -61,7 +63,7 @@ final class InvoicePresentationTest extends TestCase {
 
 	/** @dataProvider invoice_templates */
 	public function test_totals_use_source_keys_and_payment_visibility_even_when_reordered( string $id ): void {
-		$invoice = $this->invoice();
+		$invoice = $this->invoice( array( 'show_payment_method' => false ) );
 		$totals = array(
 			array( 'key' => 'order_total', 'label' => 'Grand total:', 'value' => 'GRAND-TOTAL-REQUIRED' ),
 			array( 'key' => 'payment_method', 'label' => 'Payment method:', 'value' => 'PAYMENT-METHOD-PRIVATE' ),

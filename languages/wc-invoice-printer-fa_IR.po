@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
-"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
-"PO-Revision-Date: 2026-10-12 15:00+0330\n"
+"POT-Creation-Date: 2026-10-13T00:00:00+03:30\n"
+"PO-Revision-Date: 2026-10-13 00:00+0330\n"
 "Last-Translator: WooCommerce Invoice Printer contributors\n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -835,10 +835,6 @@ msgstr "تاریخ پرداخت"
 msgid "Payment eligibility changed"
 msgstr "شرایط پرداخت تغییر کرده"
 
-#: src/Admin/AdminPage.php:172
-msgid "Payment method"
-msgstr "روش پرداخت"
-
 #: src/Admin/AdminPage.php:131
 msgid "Phone"
 msgstr "تلفن"
@@ -1317,8 +1313,8 @@ msgid "The document is too long for one page. Hide optional fields or use a smal
 msgstr "سند برای یک صفحه بیش از حد طولانی است. فیلدهای اختیاری را پنهان کنید یا از قلم کوچک‌تر استفاده کنید."
 
 #: src/Admin/PreviewController.php:93
-msgid "The invoice could not be prepared. Review Print Jobs before trying again."
-msgstr "فاکتور آماده نشد. پیش از تلاش مجدد، کارهای چاپ را بررسی کنید."
+msgid "The invoice could not be prepared. Review WooCommerce status logs (wc-invoice-printer) and Print Jobs before trying again."
+msgstr "فاکتور آماده نشد. پیش از تلاش مجدد، گزارش‌های وضعیت ووکامرس (wc-invoice-printer) و کارهای چاپ را بررسی کنید."
 
 #: src/Infrastructure/Activator.php:11
 msgid "The invoice printer database could not be installed. Check database permissions and try activation again."
@@ -1545,3 +1541,9 @@ msgstr "پنجره چاپ مرورگر شما باز می‌شود."
 #: wc-invoice-printer.php
 msgid "https://ildrm.com"
 msgstr "https://ildrm.com"
+
+msgid "Payment gateway"
+msgstr "درگاه پرداخت"
+
+msgid "Clear Store email to hide it. Set the store email address in General."
+msgstr "برای پنهان کردن ایمیل فروشگاه، تیک آن را بردارید. نشانی ایمیل فروشگاه را در بخش عمومی وارد کنید."

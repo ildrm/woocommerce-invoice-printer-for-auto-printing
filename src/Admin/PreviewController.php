@@ -70,27 +70,59 @@ final class PreviewController {
 				$orders[] = $order;
 			}
 		}
+		$stage = 'invoice_data';
+		$order_id = 0;
+		$transaction = false;
 		try {
-			if ( $sample ) { $documents[] = $this->html->render( $this->invoices->sample( $rtl || is_rtl() ), $template_id ); }
+			if ( $sample ) {
+				$invoice = $this->invoices->sample( $rtl || is_rtl() );
+				$stage = 'html_render';
+				$documents[] = $this->html->render( $invoice, $template_id );
+			}
 			foreach ( $orders as $order ) {
-				$document = $this->html->render( $this->invoices->from_order( $order )->with_rtl( $rtl || is_rtl() ), $template_id );
+				$order_id = $order->get_id();
+				$stage = 'invoice_data';
+				$invoice = $this->invoices->from_order( $order )->with_rtl( $rtl || is_rtl() );
+				$stage = 'html_render';
+				$document = $this->html->render( $invoice, $template_id );
 				for ( $copy = 0; $copy < $copies; $copy++ ) { $documents[] = $document; }
 			}
 			// Validate the entire PDF selection before recording any prepared job.
-			if ( $pdf_mode && $documents ) { $pdf = ( new \WCInvoicePrinter\Pdf\MpdfRenderer() )->bundle( $documents, $definition ); }
+			if ( $pdf_mode && $documents ) {
+				$stage = 'pdf_render';
+				$pdf = ( new \WCInvoicePrinter\Pdf\MpdfRenderer() )->bundle( $documents, $definition );
+			}
 			// Only record browser jobs after every invoice rendered successfully.
-			if ( ! $preview && ! $pdf_request ) {
+			if ( ! $preview && ! $pdf_request && $orders ) {
+				global $wpdb;
+				$stage = 'browser_jobs';
+				if ( false === $wpdb->query( 'START TRANSACTION' ) ) { throw new \RuntimeException( 'The browser job transaction could not start.' ); }
+				$transaction = true;
 				foreach ( $orders as $order ) {
+					$order_id = $order->get_id();
 					$job = $this->job_service->create_manual( $order, $template_id, 'browser', '', $copies );
-					if ( ! $this->jobs->browser_ready( (int) $job['id'] ) ) {
-						throw new \RuntimeException( 'The browser job could not be recorded as prepared.' );
-					}
 					$prepared_jobs[] = (int) $job['id'];
 				}
+				if ( ! $this->jobs->browser_ready_many( $prepared_jobs ) ) { throw new \RuntimeException( 'The browser jobs could not be recorded as prepared.' ); }
+				if ( false === $wpdb->query( 'COMMIT' ) ) { throw new \RuntimeException( 'The browser job transaction could not commit.' ); }
+				$transaction = false;
 			}
 		} catch ( \Throwable $error ) {
+			if ( $transaction ) {
+				try { $wpdb->query( 'ROLLBACK' ); } catch ( \Throwable $rollback_error ) { /* Keep the original preparation failure. */ }
+			}
+			// Existing MyISAM tables do not roll back. Invalidate only this failed request's rows.
+			foreach ( $prepared_jobs as $job_id ) {
+				try {
+					$job = $this->jobs->find( $job_id );
+					if ( $job && in_array( $job['status'], array( 'queued', 'submitted' ), true ) ) {
+						$this->jobs->invalidate_browser_job( $job_id, $job['status'] );
+					}
+				} catch ( \Throwable $cleanup_error ) { /* Keep the original preparation failure. */ }
+			}
+			$this->log_failure( $error, $stage, $order_id, $template_id, $ids );
 			if ( $error instanceof \WCInvoicePrinter\Pdf\LayoutException ) { wp_die( esc_html( $error->getMessage() ), '', array( 'response' => 400 ) ); }
-			wp_die( esc_html__( 'The invoice could not be prepared. Review Print Jobs before trying again.', 'wc-invoice-printer' ), '', array( 'response' => 500 ) );
+			wp_die( esc_html__( 'The invoice could not be prepared. Review WooCommerce status logs (wc-invoice-printer) and Print Jobs before trying again.', 'wc-invoice-printer' ), '', array( 'response' => 500 ) );
 		}
 		if ( ! $documents ) {
 			wp_die( esc_html__( 'No valid invoices were selected.', 'wc-invoice-printer' ), '', array( 'response' => 404 ) );
@@ -135,5 +167,19 @@ final class PreviewController {
 		}
 		echo '</body></html>';
 		exit;
+	}
+
+	private function log_failure( \Throwable $error, string $stage, int $order_id, string $template_id, array $ids ): void {
+		try {
+			if ( function_exists( 'wc_get_logger' ) ) {
+				// Exception messages, traces and SQL can contain customer data or credentials.
+				wc_get_logger()->error( 'An invoice could not be prepared.', array(
+					'source' => 'wc-invoice-printer', 'stage' => $stage,
+					'order_id' => $order_id, 'order_ids' => array_map( 'intval', $ids ),
+					'template' => $template_id, 'exception' => preg_replace( '/@anonymous.*$/s', '@anonymous', get_class( $error ) ),
+					'file' => basename( $error->getFile() ), 'line' => $error->getLine(),
+				) );
+			}
+		} catch ( \Throwable $logging_error ) { /* Logging must not replace the invoice failure. */ }
 	}
 }
