@@ -169,7 +169,7 @@ final class AdminPage {
 			) ),
 			array( 'label' => __( 'Order information', 'wc-invoice-printer' ), 'fields' => array(
 				'show_order_date' => __( 'Order date', 'wc-invoice-printer' ), 'show_paid_date' => __( 'Paid date', 'wc-invoice-printer' ),
-				'show_order_status' => __( 'Order status', 'wc-invoice-printer' ), 'show_payment_method' => __( 'Payment method', 'wc-invoice-printer' ),
+				'show_order_status' => __( 'Order status', 'wc-invoice-printer' ), 'show_payment_method' => __( 'Payment gateway', 'wc-invoice-printer' ),
 				'show_shipping_method' => __( 'Shipping method', 'wc-invoice-printer' ), 'show_customer_note' => __( 'Customer note', 'wc-invoice-printer' ),
 			) ),
 			array( 'label' => __( 'Items and totals', 'wc-invoice-printer' ), 'fields' => array(
@@ -185,6 +185,7 @@ final class AdminPage {
 			foreach ( $group['fields'] as $key => $label ) { $this->checkbox( $key, $label, $s[ $key ] ); }
 			echo '</div></fieldset>';
 		}
+		echo '<p class="description">' . esc_html__( 'Clear Store email to hide it. Set the store email address in General.', 'wc-invoice-printer' ) . '</p>';
 		echo '</section>';
 	}
 

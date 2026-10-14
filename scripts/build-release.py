@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -13,10 +14,20 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def composer_command():
+    executable = shutil.which('composer')
+    if not executable:
+        raise FileNotFoundError('Composer is required to verify and package production dependencies.')
+    if os.name == 'nt' and os.path.splitext(executable)[1].lower() in ('.bat', '.cmd'):
+        return [os.environ.get('COMSPEC', 'cmd.exe'), '/c', executable]
+    return [executable]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--production-vendor', type=Path, help='Reuse a verified no-dev vendor directory; otherwise install the lock in a temporary copy.')
     args = parser.parse_args()
+    composer = composer_command()
     version = re.search(r'^ \* Version: (\S+)', (ROOT / 'wc-invoice-printer.php').read_text(), re.M).group(1)
     output = ROOT / 'build' / ('wc-invoice-printer-' + version + '.zip')
     with tempfile.TemporaryDirectory(prefix='wcip-release-') as temp:
@@ -42,10 +53,10 @@ def main():
         if args.production_vendor:
             shutil.copytree(args.production_vendor.resolve(), stage / 'vendor')
         else:
-            subprocess.run(['composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader', '--no-interaction', '--no-scripts'], cwd=stage, check=True)
-            subprocess.run(['composer', 'check-platform-reqs', '--no-dev'], cwd=stage, check=True)
+            subprocess.run(composer + ['install', '--no-dev', '--prefer-dist', '--optimize-autoloader', '--no-interaction', '--no-scripts'], cwd=stage, check=True)
+        subprocess.run(composer + ['check-platform-reqs', '--no-dev'], cwd=stage, check=True)
         # Reused dependencies may contain an optimized map for an older source tree.
-        subprocess.run(['composer', 'dump-autoload', '--no-dev', '--optimize', '--no-interaction', '--no-scripts'], cwd=stage, check=True)
+        subprocess.run(composer + ['dump-autoload', '--no-dev', '--optimize', '--no-interaction', '--no-scripts'], cwd=stage, check=True)
         for filename in ('composer.json', 'composer.lock'):
             (stage / filename).unlink()
         installed = json.loads((stage / 'vendor/composer/installed.json').read_text())

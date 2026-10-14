@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
-"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
-"PO-Revision-Date: 2026-10-12 15:00+0330\n"
+"POT-Creation-Date: 2026-10-13T00:00:00+03:30\n"
+"PO-Revision-Date: 2026-10-13 00:00+0330\n"
 "Last-Translator: WooCommerce Invoice Printer contributors\n"
 "Language-Team: Armenian\n"
 "Language: hy\n"
@@ -835,10 +835,6 @@ msgstr "Վճարման ամսաթիվ"
 msgid "Payment eligibility changed"
 msgstr "Վճարման իրավասությունը փոխվել է"
 
-#: src/Admin/AdminPage.php:172
-msgid "Payment method"
-msgstr "Վճարման եղանակ"
-
 #: src/Admin/AdminPage.php:131
 msgid "Phone"
 msgstr "Հեռախոս"
@@ -1317,8 +1313,8 @@ msgid "The document is too long for one page. Hide optional fields or use a smal
 msgstr "Փաստաթուղթը չափազանց երկար է մեկ էջի համար։ Թաքցրեք ոչ պարտադիր դաշտերը կամ օգտագործեք ավելի փոքր տառաչափ։"
 
 #: src/Admin/PreviewController.php:93
-msgid "The invoice could not be prepared. Review Print Jobs before trying again."
-msgstr "Հաշիվը չհաջողվեց պատրաստել։ Կրկին փորձելուց առաջ ստուգեք տպման առաջադրանքները։"
+msgid "The invoice could not be prepared. Review WooCommerce status logs (wc-invoice-printer) and Print Jobs before trying again."
+msgstr "Հաշիվը չհաջողվեց պատրաստել։ Կրկին փորձելուց առաջ ստուգեք WooCommerce-ի կարգավիճակի մատյանները (wc-invoice-printer) և տպման առաջադրանքները։"
 
 #: src/Infrastructure/Activator.php:11
 msgid "The invoice printer database could not be installed. Check database permissions and try activation again."
@@ -1545,3 +1541,9 @@ msgstr "Ձեր դիտարկչի տպման պատուհանը կբացվի։"
 #: wc-invoice-printer.php
 msgid "https://ildrm.com"
 msgstr "https://ildrm.com"
+
+msgid "Payment gateway"
+msgstr "Վճարային համակարգ"
+
+msgid "Clear Store email to hide it. Set the store email address in General."
+msgstr "Հանեք խանութի էլ․ փոստի նշումը՝ այն թաքցնելու համար։ Հասցեն սահմանեք Ընդհանուր բաժնում։"

@@ -38,6 +38,7 @@ final class RecipientResolver {
 		if ( function_exists( 'WC' ) && WC()->countries ) { $formatted = WC()->countries->get_formatted_address( $address, "\n" ); }
 		if ( '' === $formatted ) { $formatted = $order->get_formatted_shipping_address(); }
 		if ( '' === $formatted && $this->settings->get( 'shipping_billing_fallback', true ) ) { $formatted = $order->get_formatted_billing_address(); }
+		$formatted = is_scalar( $formatted ) ? (string) $formatted : '';
 		$formatted = trim( html_entity_decode( wp_strip_all_tags( preg_replace( '/<br\s*\/?\s*>/i', "\n", $formatted ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
 		$name = trim( ( $address['first_name'] ?? '' ) . ' ' . ( $address['last_name'] ?? '' ) );
 		$data = array( 'name' => $name, 'address' => $address, 'formatted_address' => $formatted, 'phone' => sanitize_text_field( $phone ), 'extra' => $extra, 'inherited' => $inherited,

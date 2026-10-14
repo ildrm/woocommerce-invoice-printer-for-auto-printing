@@ -88,7 +88,7 @@ final class OrderIntegration {
 		PrintConfirmationUi::enqueue();
 		$config = array( 'rest' => esc_url_raw( rest_url( 'wc-invoice-printer/v1/print' ) ), 'nonce' => wp_create_nonce( 'wp_rest' ), 'printer' => (string) $this->settings->get( 'cups_printer_id', '' ), 'agentQueue' => (string) $this->settings->get( 'agent_queue' ), 'browserHelp' => __( 'Your browser print dialog will open.', 'wc-invoice-printer' ) . ' ' . __( 'Choose your local printer in the browser dialog. No API key is required.', 'wc-invoice-printer' ), 'nodeHelp' => __( 'The invoice will be queued for the configured physical printer.', 'wc-invoice-printer' ), 'preparing' => __( 'Preparing invoice…', 'wc-invoice-printer' ), 'sending' => __( 'Queuing invoice…', 'wc-invoice-printer' ), 'queued' => __( 'Invoice queued. Check Print Jobs for delivery status.', 'wc-invoice-printer' ), 'failed' => __( 'Printing failed. Review the message and try again.', 'wc-invoice-printer' ), 'invalidCopies' => __( 'Choose between 1 and 20 copies.', 'wc-invoice-printer' ) );
 		wp_enqueue_style( 'wcip-admin', WCIP_URL . 'assets/css/admin.css', array(), WCIP_VERSION );
-		wp_enqueue_script( 'wcip-order-print', WCIP_URL . 'assets/js/order.js', array(), WCIP_VERSION, true );
+		wp_enqueue_script( 'wcip-order-print', WCIP_URL . 'assets/js/order.js', array(), WCIP_VERSION . '-' . filemtime( WCIP_PATH . 'assets/js/order.js' ), true );
 		wp_add_inline_script( 'wcip-order-print', 'window.wcipOrderPrint=' . wp_json_encode( $config, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );
 	}
 }

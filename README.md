@@ -4,7 +4,9 @@ Print WooCommerce invoices manually or automatically through the free local prin
 
 Features include HPOS and legacy order storage, A4/A5 invoices, 58/80 mm receipts, A6 shipping labels and packing lists, translations for 13 languages, RTL and multilingual PDF text, configurable fields and fonts, optional compact/one-page output, individual/bulk printing, and persistent job history with duplicate prevention and conservative retries.
 
-Version **1.4.4** hides email, billing/store addresses and other optional information when no display preference was saved. Only the shipping address is shown in the customer block by default; customer name, role and email are hidden. Store name remains visible. Existing explicitly saved choices are retained. Compact spacing, one-page fitting and content-length thermal pages are optional and off by default. See [invoice display and paper layout](docs/invoice-layout.md).
+Version **1.4.5** fixes PDF font discovery when another plugin loads mPDF first, including Persian compact and thermal invoices. It also removes the automatic administrator-email fallback and adds labeled payment gateway titles/IDs with independent email and gateway visibility controls under Templates. Manual-print recovery, failure diagnostics and release packaging are improved. See [the release notes](docs/release-notes-1.4.5.md).
+
+The display controls introduced in **1.4.4** hide email, billing/store addresses and other optional information when no display preference was saved. Version **1.4.5** shows the shipping address and payment gateway by default; customer name, role and email are hidden. Store name remains visible. Existing explicitly saved choices are retained. Compact spacing, one-page fitting and content-length thermal pages are optional and off by default. See [invoice display and paper layout](docs/invoice-layout.md).
 
 ## Contents
 
@@ -348,7 +350,7 @@ See [architecture](docs/architecture.md), [UI specification](docs/ui-spec.md), a
 
 Localized DOCX development and template-customization guides and a companion-plugin example are in [system-development](system-development/README.md).
 
-[Current review findings and verification](docs/review-1.4.4.md) records presentation, page sizing and printing fixes. The [1.4.3 key-length review](docs/review-1.4.3.md), [1.4.2 activation review](docs/review-1.4.2.md), [1.4.1 review](docs/review-1.4.1.md) and [earlier review](docs/review.md) are retained for historical reference.
+[Current review findings and verification](docs/review-1.4.5.md) records PDF font interoperability, manual printing and production verification. The [1.4.4 presentation review](docs/review-1.4.4.md), [1.4.3 key-length review](docs/review-1.4.3.md), [1.4.2 activation review](docs/review-1.4.2.md), [1.4.1 review](docs/review-1.4.1.md) and [earlier review](docs/review.md) are retained for historical reference.
 
 ## Packaging
 
@@ -364,7 +366,7 @@ For an offline rebuild, `--production-vendor /absolute/path/to/clean/vendor` acc
 
 `build/` contains local staging files and generated release ZIPs and is ignored by Git. Source changes and tests do not regenerate archives. Build a fresh archive before distributing reviewed changes, then verify its installation/activation and a test print. Distribute release ZIPs separately from the source repository.
 
-`build/wc-invoice-printer-1.4.4.zip` is the current production-dependency package filename produced by the builder. Version 1.4.4 adds field visibility, compact spacing, fonts, complete-content one-page fitting and thermal content-height output. It retains the 1.4.3 bounded queue indexes/InnoDB fix, 1.4.2 table verification/error reporting and 1.4.1 printing/lifecycle fixes. Schema version remains 1.4.3; capability version remains 1.4.0 and the commercial-provider retirement stamp remains 1.3.0. Back up the database before upgrade; review [upgrade and operations instructions](docs/operations.md) and your saved display choices.
+`build/wc-invoice-printer-1.4.5.zip` is the current production-dependency package filename produced by the builder. Version 1.4.5 fixes font-directory conflicts and manual-print recovery while retaining the 1.4.4 display/layout controls and earlier queue/activation fixes. Schema version remains 1.4.3; capability version remains 1.4.0 and the commercial-provider retirement stamp remains 1.3.0. Back up the database before upgrade; review [upgrade and operations instructions](docs/operations.md) and your saved display choices.
 
 ## Troubleshooting
 

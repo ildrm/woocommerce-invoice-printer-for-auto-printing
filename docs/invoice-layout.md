@@ -1,10 +1,10 @@
 # Invoice display and paper layout
 
-Version 1.4.4 adds field switches and typography controls under **WooCommerce → Invoice Printer → Templates**. Changes apply to bundled invoice, packing-list and shipping-label layouts, sample previews, browser documents and newly generated PDFs. They change presentation rather than order data, payment, saved amounts or previously printed paper. Custom companion templates must adopt the presentation helpers to follow these controls.
+Version 1.4.5 retains field switches and typography controls under **WooCommerce → Invoice Printer → Templates**. Changes apply to bundled invoice, packing-list and shipping-label layouts, sample previews, browser documents and newly generated PDFs. They change presentation rather than order data, payment, saved amounts or previously printed paper. Custom companion templates must adopt the presentation helpers to follow these controls.
 
 ## Defaults and field switches
 
-New or previously absent visibility settings show the store name and only the shipping address in the customer block. Customer name, customer role, customer/store email, billing/store addresses and other optional details are hidden. Existing explicitly saved options remain effective; review your saved settings after upgrading. Billing fallback and sender details are off when no preference was saved. A missing shipping address does not silently add a billing address unless you enable fallback.
+New or previously absent visibility settings show the store name and only the shipping address in the customer block. Payment gateway is also visible in invoices when its preference is absent. Customer name, customer role, customer/store email, billing/store addresses and other optional details are hidden. Existing explicitly saved options remain effective; review your saved settings after upgrading. Billing fallback and sender details are off when no preference was saved. A missing shipping address does not silently add a billing address unless you enable fallback.
 
 The invoice reference, item names, quantities, payable item amounts and final order total remain available in invoice layouts. Packing lists and shipping labels continue to omit prices. Hiding a breakdown does not change the payable amount.
 
@@ -12,11 +12,15 @@ The invoice reference, item names, quantities, payable item amounts and final or
 | --- | --- |
 | Business | Name, logo, details, phone, email, store address |
 | Customer | Name, company, current account role, shipping address, billing address, phone, email |
-| Order and delivery | Created date, status, payment method, shipping method, paid date, recipient phone, mapped recipient extras, customer note |
+| Order and delivery | Created date, status, payment gateway, shipping method, paid date, recipient phone, mapped recipient extras, customer note |
 | Items | SKU, public variation metadata, unit price, discount, tax |
 | Closing information | Price explanation, totals breakdown, footer |
 
 Controls hide the corresponding labels and empty wrappers as well as their values. Relevant controls apply where a template includes the field. The footer switch controls the translated thank-you text; business contacts have separate switches. The independent barcode/QR and shipping-label sender options remain in their existing sections.
+
+**Store email** and **Customer email** are independent switches. Clear **Store email** under Templates to hide the business contact address; clear **Customer email** to hide the order’s billing email. Set the business contact address under **General**. The WordPress administrator email is no longer used as an automatic default. Previously saved business addresses and visibility choices remain effective, so clear the Store email checkbox after upgrading if an address was previously enabled.
+
+**Payment gateway** uses the existing `show_payment_method` setting. It prints the order’s saved payment title and gateway ID, for example **Credit card (stripe)**. If the title is missing, the gateway ID still appears; if both are absent, the whole line is omitted. Clear the switch to hide the gateway line and WooCommerce payment-method total rows. The switch works independently of the totals breakdown. Existing saved false values remain hidden; enable the switch after upgrading when needed. Showing a gateway does not claim that the order is paid. Labels and packing lists continue to omit payment details.
 
 The customer role is the localized role name of the currently linked WordPress account; it is not an order-time snapshot. Multiple roles can appear. Orders without a linked customer account show **Guest**. Role names and stored business/customer/product text are escaped as text.
 

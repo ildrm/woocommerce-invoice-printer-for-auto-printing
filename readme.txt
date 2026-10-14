@@ -4,7 +4,7 @@ Tags: woocommerce, invoice, print, cups, pdf
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 License: GPLv2 or later
 
 Browser and free cross-platform automatic invoice printing for WooCommerce.
@@ -17,7 +17,9 @@ Local printers use the browser dialog without accounts or subscriptions. Unatten
 
 The paired workstation or CUPS server receives the generated invoice PDF when selected. This may include customer names, addresses, contact details, and purchased items. Protect workstation/server access, the Application Password and the agent journal, and include them in your data-retention procedures.
 
-Version 1.4.4 adds field visibility controls in Templates. New display defaults show only the shipping address in the customer block, and hide customer name/role, email, billing/store addresses and other optional information. Saved explicit display choices are retained. Choose optional compact spacing, a bundled font and size, one-page PDF fitting or content-length thermal PDFs. Layout options are disabled by default. Invoices retain all selected information and saved amounts; invoices that cannot fit within the supported bounds report an error instead of clipping content. Browser pagination and physical paper cutting remain printer/driver settings. See docs/invoice-layout.md.
+Version 1.4.5 fixes PDF font discovery when another plugin loads mPDF first, including Persian compact and thermal invoices. It also removes the automatic administrator-email fallback and shows a labeled payment gateway title/ID with a Templates visibility switch. Print recovery, private diagnostics and packaging are improved. See docs/release-notes-1.4.5.md.
+
+The 1.4.4 field visibility controls remain available in Templates. Absent display preferences show the shipping address and payment gateway in invoices, and hide customer name/role, email, billing/store addresses and other optional information. Saved explicit display choices are retained. Choose optional compact spacing, a bundled font and size, one-page PDF fitting or content-length thermal PDFs. Layout options are disabled by default. Invoices retain all selected information and saved amounts; invoices that cannot fit within the supported bounds report an error instead of clipping content. Browser pagination and physical paper cutting remain printer/driver settings. See docs/invoice-layout.md.
 
 Translations are included for English, Persian, Turkish, Arabic, French, German, Russian, Spanish, Portuguese (Portugal and Brazil), Armenian, Hindi, Simplified Chinese, and Japanese. Select the site language in WordPress settings or your admin language in your user profile. Persian/Arabic invoices use RTL layouts; multilingual PDF fonts are bundled with mPDF.
 
@@ -42,6 +44,18 @@ The plugin does not claim jurisdiction-specific fiscal or tax compliance. WooCom
 Deactivation cancels pending plugin actions and preserves settings/history for recovery on reactivation. Stop local agents before uninstall. Uninstall removes operator capabilities and preserves data and the paired-agent role unless the `wcip_delete_data_on_uninstall` option is explicitly enabled by an operator. Print jobs retain operational references and sanitized errors, but no duplicated invoice/customer payload.
 
 == Changelog ==
+
+= 1.4.5 =
+* Remove the automatic administrator-email fallback; Store email and Customer email remain independent Templates switches.
+* Show a labeled payment gateway title and ID in invoices, with a show/hide switch. Previously saved visibility choices remain effective.
+* Prevent hidden gateway totals from appearing through the legacy totals fallback.
+* Fix PDF and browser printing when another plugin loads mPDF first by explicitly using this plugin's bundled fonts, including Persian compact and thermal invoices.
+* Keep manual invoices printable when optional payment presentation or malformed address filters fail; do not change automatic payment eligibility.
+* Roll back failed browser job batches and invalidate unconfirmed remnants on legacy tables while preserving cancellations and physical confirmations.
+* Add private rendering-stage diagnostics to WooCommerce status logs and translate the error guidance in all 14 languages.
+* Avoid a PHP 7.4 OPcache optimizer crash on repeated sample previews by constructing sample sections in smaller methods.
+* Keep a direct Print/Preview recovery link available when the browser tab does not open.
+* Fix Windows release packaging and verify platform requirements for reused production dependencies.
 
 = 1.4.4 =
 * Hide emails, billing/store addresses and optional invoice details by default; retain explicitly saved choices.

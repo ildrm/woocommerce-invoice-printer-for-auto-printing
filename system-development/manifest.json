@@ -1,5 +1,7 @@
 {
   "plugin_version": "1.4.4",
+  "compatible_plugin_release": "1.4.5",
+  "release_supplement": "../docs/release-notes-1.4.5.md",
   "reviewed_base_commit": "c894eb05d2120a4bba09aa3500fe2842a0e48d74",
   "review_date": "2026-10-12",
   "edition_count": 14,

@@ -134,6 +134,34 @@ final class PrintJobRepositoryTest extends JobTestCase {
 		self::assertStringNotContainsString( 'supersecret', $message );
 	}
 
+	public function test_browser_cleanup_preserves_confirmations_cancellations_and_other_providers(): void {
+		foreach ( array( 'confirmed', 'cancelled', 'cups' ) as $case ) {
+			$job = $this->job( array( 'provider_id' => 'cups' === $case ? 'cups' : 'browser' ) );
+			$this->db->rows[ $job['id'] ]['status'] = 'cancelled' === $case ? 'cancelled' : 'submitted';
+			if ( 'confirmed' === $case ) { $this->db->rows[ $job['id'] ]['printed_at'] = '2026-10-14 00:00:00'; }
+			$before = $this->jobs->find( $job['id'] );
+			self::assertFalse( $this->jobs->invalidate_browser_job( $job['id'], 'submitted' ) );
+			self::assertSame( $before, $this->jobs->find( $job['id'] ) );
+		}
+	}
+
+	public function test_browser_cleanup_does_not_overwrite_a_concurrent_cancellation(): void {
+		$job = $this->job( array( 'provider_id' => 'browser' ) );
+		$this->db->before_update = static function ( $db, $data, $where ): void { $db->rows[ $where['id'] ]['status'] = 'cancelled'; };
+		self::assertFalse( $this->jobs->invalidate_browser_job( $job['id'], 'queued' ) );
+		self::assertSame( 'cancelled', $this->jobs->find( $job['id'] )['status'] );
+	}
+
+	public function test_browser_batch_rejects_missing_or_nonbrowser_jobs(): void {
+		$browser = $this->job( array( 'provider_id' => 'browser' ) );
+		$cups = $this->job();
+		self::assertFalse( $this->jobs->browser_ready_many( array( $browser['id'], $cups['id'] ) ) );
+		self::assertSame( 'queued', $this->jobs->find( $cups['id'] )['status'] );
+		self::assertFalse( $this->jobs->browser_ready_many( array( 999 ) ) );
+		self::assertFalse( $this->jobs->browser_ready_many( array() ) );
+		self::assertFalse( $this->jobs->browser_ready_many( range( 1, 51 ) ) );
+	}
+
 	public function test_list_combines_allowlisted_filters_and_returns_consistent_totals(): void {
 		$this->job();
 		$this->job( array( 'trigger_type' => 'manual', 'provider_id' => 'browser' ) );

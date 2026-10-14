@@ -89,10 +89,11 @@ class WC_Order {
 	public function get_currency(): string { return 'USD'; }
 	public function get_formatted_billing_full_name(): string { return 'Test Customer'; }
 	public function get_billing_company(): string { return ''; }
-	public function get_formatted_billing_address(): string { return ''; }
+	public function get_formatted_billing_address() { return ''; }
 	public function get_formatted_shipping_address(): string { return ''; }
 	public function get_billing_phone(): string { return ''; }
 	public function get_billing_email(): string { return ''; }
+	public function get_payment_method(): string { return 'stripe'; }
 	public function get_payment_method_title(): string { return 'Card'; }
 	public function get_shipping_method(): string { return ''; }
 	public function get_customer_note(): string { return ''; }
@@ -107,6 +108,16 @@ class WC_Order {
 class WC_Order_Item_Product {}
 
 function wc_get_order( $id ) { return isset( $GLOBALS['wcip_order_lookup'] ) ? ( $GLOBALS['wcip_order_lookup'] )( (int) $id ) : ( $GLOBALS['wcip_test_orders'][ (int) $id ] ?? false ); }
+function wc_get_logger() {
+	return new class {
+		public function error( string $message, array $context = array() ): void { $this->record( $message, $context ); }
+		public function warning( string $message, array $context = array() ): void { $this->record( $message, $context ); }
+		private function record( string $message, array $context ): void {
+			if ( $GLOBALS['wcip_test_log_failure'] ?? false ) { throw new RuntimeException( 'Logger unavailable.' ); }
+			$GLOBALS['wcip_test_logs'][] = array( 'message' => $message, 'context' => $context );
+		}
+	};
+}
 function wc_get_orders( array $args ): array { return isset( $GLOBALS['wcip_order_query'] ) ? ( $GLOBALS['wcip_order_query'] )( $args ) : array(); }
 function get_current_user_id(): int { return $GLOBALS['wcip_test_user_id'] ?? 42; }
 function wp_delete_comment( int $id, bool $force = false ): bool { unset( $GLOBALS['wcip_test_notes'][ $id ] ); return true; }

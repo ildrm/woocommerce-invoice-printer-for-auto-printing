@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Invoice Printer 1.4.4\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-auto-print-order-invoice\n"
+"Project-Id-Version: WooCommerce Invoice Printer 1.4.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-invoice-printer-for-auto-printing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-12T11:29:46+00:00\n"
+"POT-Creation-Date: 2026-10-13T06:59:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-invoice-printer\n"
@@ -364,7 +364,8 @@ msgid "Order status"
 msgstr ""
 
 #: src/Admin/AdminPage.php:172
-msgid "Payment method"
+#: templates/shared/customer.php:13
+msgid "Payment gateway"
 msgstr ""
 
 #: src/Admin/AdminPage.php:173
@@ -421,289 +422,293 @@ msgstr ""
 msgid "Select the information to print. Product names, quantities, line totals and the grand total always appear."
 msgstr ""
 
-#: src/Admin/AdminPage.php:196
+#: src/Admin/AdminPage.php:188
+msgid "Clear Store email to hide it. Set the store email address in General."
+msgstr ""
+
+#: src/Admin/AdminPage.php:197
 msgid "Automatic printing uses the local print agent or a self-hosted CUPS server. Browser printing uses your print dialog."
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "Automatic printing"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "After verified payment, queue an invoice without delaying checkout."
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "Enabled"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:198
+#: src/Admin/AdminPage.php:230
 msgid "Provider"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "Connection"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
-#: src/Admin/AdminPage.php:213
+#: src/Admin/AdminPage.php:198
+#: src/Admin/AdminPage.php:214
 msgid "Server configured"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "Not configured"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:198
+#: src/Admin/AdminPage.php:230
 msgid "Printer"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "No printer selected"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
-#: src/Admin/AdminPage.php:248
+#: src/Admin/AdminPage.php:198
+#: src/Admin/AdminPage.php:249
 #: src/Admin/OrderIntegration.php:58
 msgid "Destination"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
-#: src/Admin/AdminPage.php:208
-#: src/Admin/AdminPage.php:254
+#: src/Admin/AdminPage.php:198
+#: src/Admin/AdminPage.php:209
+#: src/Admin/AdminPage.php:255
 #: src/Admin/OrderIntegration.php:58
 #: src/Infrastructure/Activator.php:163
 msgid "Print agent"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
-#: src/Admin/AdminPage.php:255
+#: src/Admin/AdminPage.php:198
+#: src/Admin/AdminPage.php:256
 #: src/Admin/OrderIntegration.php:58
 msgid "Copies"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "Trigger"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "Payment completed"
 msgstr ""
 
-#: src/Admin/AdminPage.php:197
+#: src/Admin/AdminPage.php:198
 msgid "Only orders WooCommerce confirms as paid are eligible."
 msgstr ""
 
-#: src/Admin/AdminPage.php:206
+#: src/Admin/AdminPage.php:207
 msgid "Local browser printing"
 msgstr ""
 
-#: src/Admin/AdminPage.php:206
+#: src/Admin/AdminPage.php:207
 msgid "Use a printer installed on this computer through your browser. No account or subscription is needed."
 msgstr ""
 
-#: src/Admin/AdminPage.php:206
+#: src/Admin/AdminPage.php:207
 msgid "Open the test page, click Print, and choose your printer in the browser dialog."
 msgstr ""
 
-#: src/Admin/AdminPage.php:206
+#: src/Admin/AdminPage.php:207
 msgid "Open local test page"
 msgstr ""
 
-#: src/Admin/AdminPage.php:206
+#: src/Admin/AdminPage.php:207
 msgid "For orders, choose Browser print dialog when printing an invoice or a bulk selection."
 msgstr ""
 
-#: src/Admin/AdminPage.php:206
+#: src/Admin/AdminPage.php:207
 msgid "Choose local printers in your browser dialog. The list below contains shared CUPS queues. Install missing local printers in your operating system."
 msgstr ""
 
-#: src/Admin/AdminPage.php:208
+#: src/Admin/AdminPage.php:209
 msgid "Use the free local print agent on Windows, Linux or macOS. It connects to this site over HTTPS and works with shared hosting, VPS and dedicated servers."
 msgstr ""
 
-#: src/Admin/AdminPage.php:209
+#: src/Admin/AdminPage.php:210
 msgid "Agent queue"
 msgstr ""
 
-#: src/Admin/AdminPage.php:210
+#: src/Admin/AdminPage.php:211
 msgid "Agent user ID"
 msgstr ""
 
-#: src/Admin/AdminPage.php:211
+#: src/Admin/AdminPage.php:212
 msgid "Create a user with the Print agent role and an Application Password. Pair its user ID and queue here; configure the same queue in the local agent. Keep the computer awake."
 msgstr ""
 
-#: src/Admin/AdminPage.php:211
+#: src/Admin/AdminPage.php:212
 msgid "Last seen"
 msgstr ""
 
-#: src/Admin/AdminPage.php:213
+#: src/Admin/AdminPage.php:214
 msgid "CUPS open-source automatic printing"
 msgstr ""
 
-#: src/Admin/AdminPage.php:213
+#: src/Admin/AdminPage.php:214
 msgid "CUPS connection"
 msgstr ""
 
-#: src/Admin/AdminPage.php:213
+#: src/Admin/AdminPage.php:214
 msgid "Invoice PDFs contain customer data and are sent only to your configured CUPS server when this destination is used."
 msgstr ""
 
-#: src/Admin/AdminPage.php:213
+#: src/Admin/AdminPage.php:214
 msgid "Not connected"
 msgstr ""
 
-#: src/Admin/AdminPage.php:213
+#: src/Admin/AdminPage.php:214
 msgid "The CUPS password is managed with WCIP_CUPS_PASSWORD and cannot be edited here."
 msgstr ""
 
-#: src/Admin/AdminPage.php:213
+#: src/Admin/AdminPage.php:214
 msgid "The stored password is never displayed or returned to the browser."
 msgstr ""
 
-#: src/Admin/AdminPage.php:214
+#: src/Admin/AdminPage.php:215
 msgid "CUPS server address"
 msgstr ""
 
-#: src/Admin/AdminPage.php:215
+#: src/Admin/AdminPage.php:216
 msgid "CUPS username"
 msgstr ""
 
-#: src/Admin/AdminPage.php:216
+#: src/Admin/AdminPage.php:217
 msgid "CUPS password"
 msgstr ""
 
-#: src/Admin/AdminPage.php:217
+#: src/Admin/AdminPage.php:218
 msgid "Save the server settings before testing. Leave the password blank to retain it. HTTPS certificates must be trusted by WordPress."
 msgstr ""
 
-#: src/Admin/AdminPage.php:219
+#: src/Admin/AdminPage.php:220
 msgid "Test connection"
 msgstr ""
 
-#: src/Admin/AdminPage.php:219
+#: src/Admin/AdminPage.php:220
 msgid "Refresh printers"
 msgstr ""
 
-#: src/Admin/AdminPage.php:219
+#: src/Admin/AdminPage.php:220
 msgid "CUPS printers"
 msgstr ""
 
-#: src/Admin/AdminPage.php:219
+#: src/Admin/AdminPage.php:220
 msgid "This list contains queues shared by your CUPS server. Configure and test the printer in CUPS, save its HTTPS address here, then refresh."
 msgstr ""
 
-#: src/Admin/AdminPage.php:219
+#: src/Admin/AdminPage.php:220
 msgid "Default CUPS printer"
 msgstr ""
 
-#: src/Admin/AdminPage.php:219
+#: src/Admin/AdminPage.php:220
 msgid "Refresh to load printers"
 msgstr ""
 
-#: src/Admin/AdminPage.php:219
+#: src/Admin/AdminPage.php:220
 msgid "Print test page"
 msgstr ""
 
-#: src/Admin/AdminPage.php:220
+#: src/Admin/AdminPage.php:221
 msgid "Save printer settings"
 msgstr ""
 
-#: src/Admin/AdminPage.php:225
+#: src/Admin/AdminPage.php:226
 msgid "You are not allowed to view print jobs."
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 msgid "Print jobs"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 msgid "Submitted means the local spooler or CUPS accepted the PDF, or the browser invoice was prepared. It does not confirm paper output."
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:228
+#: src/Admin/AdminPage.php:230
 msgid "Status"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 msgid "All"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:228
+#: src/Admin/AdminPage.php:230
 msgid "Source"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:228
+#: src/Admin/AdminPage.php:230
 msgid "Automatic"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:228
+#: src/Admin/AdminPage.php:230
 msgid "Manual"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 msgid "Document type"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 #: templates/compact/invoice.php:28
 msgid "Invoice"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 #: src/Template/TemplateRegistry.php:15
 #: templates/shipping-label/document.php:9
 msgid "Shipping label"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 #: src/Template/TemplateRegistry.php:16
 #: templates/packing-list/document.php:9
 msgid "Packing list"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 msgid "Order ID"
 msgstr ""
 
-#: src/Admin/AdminPage.php:227
+#: src/Admin/AdminPage.php:228
 msgid "Filter"
 msgstr ""
 
-#: src/Admin/AdminPage.php:228
+#: src/Admin/AdminPage.php:229
 msgid "No print jobs yet"
 msgstr ""
 
-#: src/Admin/AdminPage.php:228
+#: src/Admin/AdminPage.php:229
 msgid "Manual and automatic jobs will appear here with their delivery status."
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 #: src/Admin/OperationsConsole.php:14
 msgid "Order"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 #: src/Admin/OrderIntegration.php:58
 msgid "Template"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "Attempts"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "Updated"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 #: src/Admin/OrderIntegration.php:29
 #: src/Admin/OrderPrintFilters.php:13
 #: src/Admin/PrintConfirmationUi.php:12
@@ -711,89 +716,89 @@ msgstr ""
 msgid "Printed"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "Details"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 #: src/PrintJob/PrintConfirmationService.php:35
 msgid "Browser"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 #: src/Admin/OperationsConsole.php:14
 #: src/PrintJob/DocumentPrintState.php:22
 msgid "Not printed"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "View"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "External job ID"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "Error"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "Cancel queued job"
 msgstr ""
 
-#: src/Admin/AdminPage.php:229
+#: src/Admin/AdminPage.php:230
 msgid "Retry if safe"
 msgstr ""
 
-#: src/Admin/AdminPage.php:234
+#: src/Admin/AdminPage.php:235
 #: src/Admin/PreviewController.php:34
 msgid "You are not allowed to print invoices."
 msgstr ""
 
-#: src/Admin/AdminPage.php:238
+#: src/Admin/AdminPage.php:239
 #: src/Admin/PreviewController.php:63
 msgid "Select no more than 50 orders."
 msgstr ""
 
-#: src/Admin/AdminPage.php:240
+#: src/Admin/AdminPage.php:241
 #: src/Admin/PreviewController.php:65
 msgid "Invalid order selection."
 msgstr ""
 
-#: src/Admin/AdminPage.php:242
+#: src/Admin/AdminPage.php:243
 msgid "No orders selected"
 msgstr ""
 
 #. translators: %d: number of selected invoices.
-#: src/Admin/AdminPage.php:245
+#: src/Admin/AdminPage.php:246
 #, php-format
 msgid "Print %d invoice"
 msgid_plural "Print %d invoices"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/AdminPage.php:246
+#: src/Admin/AdminPage.php:247
 msgid "Browser output is combined into one document. CUPS and the print agent create controlled individual jobs."
 msgstr ""
 
-#: src/Admin/AdminPage.php:248
+#: src/Admin/AdminPage.php:249
 #: src/Admin/OrderIntegration.php:58
 msgid "Browser print dialog"
 msgstr ""
 
 #. translators: %s: the selected printer's name.
-#: src/Admin/AdminPage.php:251
+#: src/Admin/AdminPage.php:252
 #: src/Admin/OrderIntegration.php:58
 #, php-format
 msgid "CUPS: %s"
 msgstr ""
 
-#: src/Admin/AdminPage.php:256
+#: src/Admin/AdminPage.php:257
 msgid "Start bulk printing"
 msgstr ""
 
-#: src/Admin/AdminPage.php:279
+#: src/Admin/AdminPage.php:280
 msgid "Invoice template"
 msgstr ""
 
@@ -1062,9 +1067,9 @@ msgid "Choose your local printer in the browser dialog. No API key is required."
 msgstr ""
 
 #: src/Admin/OrderIntegration.php:58
-#: src/Admin/PreviewController.php:115
-#: src/Admin/PreviewController.php:117
-#: src/Admin/PreviewController.php:119
+#: src/Admin/PreviewController.php:147
+#: src/Admin/PreviewController.php:149
+#: src/Admin/PreviewController.php:151
 msgid "Print"
 msgstr ""
 
@@ -1143,19 +1148,19 @@ msgstr ""
 msgid "One of the selected orders does not exist or cannot be printed."
 msgstr ""
 
-#: src/Admin/PreviewController.php:93
-msgid "The invoice could not be prepared. Review Print Jobs before trying again."
+#: src/Admin/PreviewController.php:125
+msgid "The invoice could not be prepared. Review WooCommerce status logs (wc-invoice-printer) and Print Jobs before trying again."
 msgstr ""
 
-#: src/Admin/PreviewController.php:96
+#: src/Admin/PreviewController.php:128
 msgid "No valid invoices were selected."
 msgstr ""
 
-#: src/Admin/PreviewController.php:130
+#: src/Admin/PreviewController.php:162
 msgid "Open PDF"
 msgstr ""
 
-#: src/Admin/PreviewController.php:130
+#: src/Admin/PreviewController.php:162
 msgid "Invoice PDF"
 msgstr ""
 
@@ -1243,104 +1248,105 @@ msgstr ""
 msgid "The printing configuration migration failed. Check database permissions."
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:90
+#: src/Invoice/InvoiceFactory.php:95
 msgid "September 15, 2026"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:90
+#: src/Invoice/InvoiceFactory.php:95
 #: src/PrintJob/JobStatus.php:27
 msgid "Processing"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:93
-#: src/Invoice/InvoiceFactory.php:97
+#: src/Invoice/InvoiceFactory.php:100
+#: src/Invoice/InvoiceFactory.php:104
 msgid "Alex Morgan"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:93
-#: src/Invoice/InvoiceFactory.php:97
+#: src/Invoice/InvoiceFactory.php:100
+#: src/Invoice/InvoiceFactory.php:104
 msgid "Morgan Studio"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:94
-#: src/Invoice/InvoiceFactory.php:95
-#: src/Invoice/InvoiceFactory.php:97
+#: src/Invoice/InvoiceFactory.php:101
+#: src/Invoice/InvoiceFactory.php:102
+#: src/Invoice/InvoiceFactory.php:104
 msgid "840 Evergreen Terrace, Seattle, WA"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:100
+#: src/Invoice/InvoiceFactory.php:110
 msgid "Professional planning notebook with an intentionally long product name"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:100
+#: src/Invoice/InvoiceFactory.php:110
 msgid "Color: Midnight / Size: Large"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:101
+#: src/Invoice/InvoiceFactory.php:111
 msgid "Fine gel pen set"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:103
+#: src/Invoice/InvoiceFactory.php:116
 msgid "Subtotal:"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:103
+#: src/Invoice/InvoiceFactory.php:116
 msgid "Discount:"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:103
+#: src/Invoice/InvoiceFactory.php:116
 msgid "Shipping:"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:103
+#: src/Invoice/InvoiceFactory.php:116
 msgid "Tax:"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:103
+#: src/Invoice/InvoiceFactory.php:116
 msgid "Total:"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:110
+#: src/Invoice/InvoiceFactory.php:126
 msgid "Credit card"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:110
+#: src/Invoice/InvoiceFactory.php:126
 msgid "Ground shipping"
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:111
+#: src/Invoice/InvoiceFactory.php:127
 msgid "Please leave the parcel at reception."
 msgstr ""
 
-#: src/Invoice/InvoiceFactory.php:123
-#: src/Invoice/InvoiceFactory.php:132
+#: src/Invoice/InvoiceFactory.php:137
+#: src/Invoice/InvoiceFactory.php:146
 msgid "Guest"
 msgstr ""
 
 #: src/Pdf/MpdfRenderer.php:9
-#: src/Pdf/MpdfRenderer.php:66
-#: src/Pdf/MpdfRenderer.php:74
-#: src/Pdf/MpdfRenderer.php:104
-#: src/Pdf/MpdfRenderer.php:113
+#: src/Pdf/MpdfRenderer.php:68
+#: src/Pdf/MpdfRenderer.php:76
+#: src/Pdf/MpdfRenderer.php:107
+#: src/Pdf/MpdfRenderer.php:116
 msgid "The document exceeds the safe rendering limit."
 msgstr ""
 
 #: src/Pdf/MpdfRenderer.php:11
+#: src/Pdf/MpdfRenderer.php:97
 msgid "PDF support is unavailable. Install the Composer dependencies."
 msgstr ""
 
 #: src/Pdf/MpdfRenderer.php:17
-#: src/Pdf/MpdfRenderer.php:96
+#: src/Pdf/MpdfRenderer.php:99
 msgid "A secure PDF working directory could not be created."
 msgstr ""
 
-#: src/Pdf/MpdfRenderer.php:41
-#: src/Pdf/MpdfRenderer.php:45
-#: src/Pdf/MpdfRenderer.php:56
+#: src/Pdf/MpdfRenderer.php:43
+#: src/Pdf/MpdfRenderer.php:47
+#: src/Pdf/MpdfRenderer.php:58
 msgid "The document is too long for one page. Hide optional fields or use a smaller font."
 msgstr ""
 
-#: src/Pdf/MpdfRenderer.php:62
+#: src/Pdf/MpdfRenderer.php:64
 msgid "The document cannot fit legibly on one sheet. Enable compact layout, hide optional fields or use a smaller font."
 msgstr ""
 

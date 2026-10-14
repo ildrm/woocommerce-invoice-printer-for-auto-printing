@@ -72,11 +72,12 @@ final class InvoiceFactory {
 			array(
 				'presentation' => $this->settings->presentation(),
 				'document_codes' => $this->document_codes( $order->get_id() ),
-				'payment_confirmed' => ( new \WCInvoicePrinter\Automation\PaymentEligibilityPolicy( $this->settings ) )->confirmed( $order ),
+				'payment_confirmed' => $this->presentation_payment_confirmed( $order ),
 				'show_paid_date' => (bool) $this->settings->get( 'show_paid_date', false ),
 				'show_shipping_phone' => (bool) $this->settings->get( 'show_shipping_phone', false ),
 				'label_show_sender' => (bool) $this->settings->get( 'label_show_sender', false ),
 				'payment_method' => $order->get_payment_method_title(),
+				'payment_method_id' => $order->get_payment_method(),
 				'shipping_method'=> $order->get_shipping_method(),
 				'note'           => $this->settings->get( 'show_customer_note' ) ? $order->get_customer_note() : '',
 			),
@@ -85,32 +86,45 @@ final class InvoiceFactory {
 		return apply_filters( 'wcip_invoice_data', $data, $order );
 	}
 
+	/** Keep sample sections small for PHP 7.4 OPcache as well as normal rendering. */
 	public function sample( bool $rtl = false ): InvoiceData {
-		return new InvoiceData(
-			array( 'id' => 1042, 'number' => '1042', 'date' => __( 'September 15, 2026', 'wc-invoice-printer' ), 'paid_date' => __( 'September 15, 2026', 'wc-invoice-printer' ), 'currency' => 'USD', 'status' => __( 'Processing', 'wc-invoice-printer' ) ),
-			$this->store_data(),
-			array(
-				'name' => __( 'Alex Morgan', 'wc-invoice-printer' ), 'company' => __( 'Morgan Studio', 'wc-invoice-printer' ), 'role' => __( 'Customer', 'woocommerce' ),
-				'billing_address' => __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ),
-				'shipping_address' => __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ),
-				'phone' => '+1 555 0199', 'shipping_phone' => '+1 555 0199', 'email' => 'alex@example.com',
-				'recipient' => array( 'formatted_address' => __( 'Alex Morgan', 'wc-invoice-printer' ) . "\n" . __( 'Morgan Studio', 'wc-invoice-printer' ) . "\n" . __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ), 'phone' => '+1 555 0199', 'extra' => array() ),
-			),
-			array(
-				array( 'name' => __( 'Professional planning notebook with an intentionally long product name', 'wc-invoice-printer' ), 'variation' => __( 'Color: Midnight / Size: Large', 'wc-invoice-printer' ), 'sku' => 'PLAN-XL-01', 'quantity' => 2, 'unit_price' => '$42.00', 'subtotal' => '$84.00', 'discount' => '$8.40', 'tax' => '$6.05', 'total' => '$81.65' ),
-				array( 'name' => __( 'Fine gel pen set', 'wc-invoice-printer' ), 'variation' => '', 'sku' => 'PEN-06', 'quantity' => 1, 'unit_price' => '$18.00', 'subtotal' => '$18.00', 'discount' => '$0.00', 'tax' => '$1.44', 'total' => '$19.44' ),
-			),
-			array( array( 'key' => 'cart_subtotal', 'label' => __( 'Subtotal:', 'wc-invoice-printer' ), 'value' => '$102.00' ), array( 'key' => 'discount', 'label' => __( 'Discount:', 'wc-invoice-printer' ), 'value' => '−$8.40' ), array( 'key' => 'shipping', 'label' => __( 'Shipping:', 'wc-invoice-printer' ), 'value' => '$7.00' ), array( 'key' => 'tax', 'label' => __( 'Tax:', 'wc-invoice-printer' ), 'value' => '$7.49' ), array( 'key' => 'order_total', 'label' => __( 'Total:', 'wc-invoice-printer' ), 'value' => '<strong>$108.09</strong>' ) ),
-			array(
-				'presentation' => $this->settings->presentation(),
-				'payment_confirmed' => true,
-				'show_paid_date' => (bool) $this->settings->get( 'show_paid_date', false ),
-				'show_shipping_phone' => (bool) $this->settings->get( 'show_shipping_phone', false ),
-				'label_show_sender' => (bool) $this->settings->get( 'label_show_sender', false ),
-				'payment_method' => __( 'Credit card', 'wc-invoice-printer' ), 'shipping_method' => __( 'Ground shipping', 'wc-invoice-printer' ),
-				'note' => $this->settings->get( 'show_customer_note' ) ? __( 'Please leave the parcel at reception.', 'wc-invoice-printer' ) : '',
-			),
-			$rtl
+		return new InvoiceData( $this->sample_order(), $this->store_data(), $this->sample_customer(), $this->sample_items(), $this->sample_totals(), $this->sample_fulfillment(), $rtl );
+	}
+
+	private function sample_order(): array {
+		return array( 'id' => 1042, 'number' => '1042', 'date' => __( 'September 15, 2026', 'wc-invoice-printer' ), 'paid_date' => __( 'September 15, 2026', 'wc-invoice-printer' ), 'currency' => 'USD', 'status' => __( 'Processing', 'wc-invoice-printer' ) );
+	}
+
+	private function sample_customer(): array {
+		return array(
+			'name' => __( 'Alex Morgan', 'wc-invoice-printer' ), 'company' => __( 'Morgan Studio', 'wc-invoice-printer' ), 'role' => __( 'Customer', 'woocommerce' ),
+			'billing_address' => __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ),
+			'shipping_address' => __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ),
+			'phone' => '+1 555 0199', 'shipping_phone' => '+1 555 0199', 'email' => 'alex@example.com',
+			'recipient' => array( 'formatted_address' => __( 'Alex Morgan', 'wc-invoice-printer' ) . "\n" . __( 'Morgan Studio', 'wc-invoice-printer' ) . "\n" . __( '840 Evergreen Terrace, Seattle, WA', 'wc-invoice-printer' ), 'phone' => '+1 555 0199', 'extra' => array() ),
+		);
+	}
+
+	private function sample_items(): array {
+		return array(
+			array( 'name' => __( 'Professional planning notebook with an intentionally long product name', 'wc-invoice-printer' ), 'variation' => __( 'Color: Midnight / Size: Large', 'wc-invoice-printer' ), 'sku' => 'PLAN-XL-01', 'quantity' => 2, 'unit_price' => '$42.00', 'subtotal' => '$84.00', 'discount' => '$8.40', 'tax' => '$6.05', 'total' => '$81.65' ),
+			array( 'name' => __( 'Fine gel pen set', 'wc-invoice-printer' ), 'variation' => '', 'sku' => 'PEN-06', 'quantity' => 1, 'unit_price' => '$18.00', 'subtotal' => '$18.00', 'discount' => '$0.00', 'tax' => '$1.44', 'total' => '$19.44' ),
+		);
+	}
+
+	private function sample_totals(): array {
+		return array( array( 'key' => 'cart_subtotal', 'label' => __( 'Subtotal:', 'wc-invoice-printer' ), 'value' => '$102.00' ), array( 'key' => 'discount', 'label' => __( 'Discount:', 'wc-invoice-printer' ), 'value' => '−$8.40' ), array( 'key' => 'shipping', 'label' => __( 'Shipping:', 'wc-invoice-printer' ), 'value' => '$7.00' ), array( 'key' => 'tax', 'label' => __( 'Tax:', 'wc-invoice-printer' ), 'value' => '$7.49' ), array( 'key' => 'order_total', 'label' => __( 'Total:', 'wc-invoice-printer' ), 'value' => '<strong>$108.09</strong>' ) );
+	}
+
+	private function sample_fulfillment(): array {
+		return array(
+			'presentation' => $this->settings->presentation(),
+			'payment_confirmed' => true,
+			'show_paid_date' => (bool) $this->settings->get( 'show_paid_date', false ),
+			'show_shipping_phone' => (bool) $this->settings->get( 'show_shipping_phone', false ),
+			'label_show_sender' => (bool) $this->settings->get( 'label_show_sender', false ),
+			'payment_method' => __( 'Credit card', 'wc-invoice-printer' ), 'payment_method_id' => 'stripe', 'shipping_method' => __( 'Ground shipping', 'wc-invoice-printer' ),
+			'note' => $this->settings->get( 'show_customer_note' ) ? __( 'Please leave the parcel at reception.', 'wc-invoice-printer' ) : '',
 		);
 	}
 
@@ -182,10 +196,36 @@ final class InvoiceFactory {
 		return array( 'span' => array( 'class' => true ), 'bdi' => array(), 'small' => array( 'class' => true ), 'strong' => array(), 'del' => array(), 'ins' => array() );
 	}
 
-	private function plain_address( string $address ): string {
+	/** @param mixed $address Filtered WooCommerce addresses may be empty or malformed. */
+	private function plain_address( $address ): string {
+		$address = is_scalar( $address ) ? (string) $address : '';
 		// WooCommerce joins address lines with <br>; removing tags directly
 		// concatenates the name, street and locality into an unusable address.
 		return trim( html_entity_decode( wp_strip_all_tags( (string) preg_replace( '/<br\s*\/?\s*>/i', "\n", $address ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
+	}
+
+	/** Optional payment presentation must not prevent an order from being printed. */
+	private function presentation_payment_confirmed( \WC_Order $order ): bool {
+		try {
+			return ( new \WCInvoicePrinter\Automation\PaymentEligibilityPolicy( $this->settings ) )->confirmed( $order );
+		} catch ( \Throwable $error ) {
+			// Preserve successful gateway/filter semantics. On failure, omit the paid
+			// date rather than claim confirmation; automatic eligibility stays strict.
+			if ( function_exists( 'wc_get_logger' ) ) {
+				try {
+					wc_get_logger()->warning( 'Payment confirmation could not be read for invoice presentation.', array(
+						'source' => 'wc-invoice-printer',
+						'stage' => 'payment_presentation',
+						'exception_class' => preg_replace( '/@anonymous.*$/s', '@anonymous', get_class( $error ) ),
+						'exception_file' => basename( str_replace( '\\', '/', $error->getFile() ) ),
+						'exception_line' => $error->getLine(),
+					) );
+				} catch ( \Throwable $logging_error ) {
+					// A broken optional logger must not replace the recoverable error.
+				}
+			}
+			return false;
+		}
 	}
 
 	private function safe_logo_data_uri( string $url ): string {

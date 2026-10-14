@@ -1,5 +1,9 @@
 # Development guide verification
 
+## Version 1.4.5 supplement
+
+Reviewed **13 October 2026**. The DOCX editions and their existing checksums are unchanged and retain their 1.4.4 review baseline. Template IDs, presentation fields and extension APIs remain compatible with 1.4.5. The [release supplement](../docs/release-notes-1.4.5.md) covers explicit PDF font directories, conservative payment presentation, manual-print failure recovery, diagnostics and Windows packaging. Current implementation and executed verification are recorded in [the 1.4.5 review](../docs/review-1.4.5.md). No new DOCX rendering is claimed.
+
 ## Version 1.4.4 review
 
 Reviewed **12 October 2026** against the **WooCommerce Invoice Printer 1.4.4** working tree. The earlier verification record below remains historical evidence for version 1.4.0.

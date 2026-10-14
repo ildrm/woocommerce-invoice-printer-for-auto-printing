@@ -6,19 +6,19 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const source = fs.readFileSync(path.join(__dirname, '../../assets/js/order.js'), 'utf8');
-function environment({ output = 'browser', copies = '2' } = {}) {
+function environment({ output = 'browser', copies = '2', popup = null } = {}) {
   const listeners = {};
   const opened = [];
   const requests = [];
-  const status = { textContent: '' };
+  const status = { textContent: '', children: [], replaceChildren(...children) { this.children = children; } };
   const dialog = {
     dataset: { orderId: '42', previewBase: 'https://example.test/wp-admin/admin-post.php?action=wcip_preview&_wpnonce=nonce&order_ids=42' },
     querySelector(selector) { return { '#wcip-order-template': { value: 'thermal' }, '#wcip-order-output': { value: output }, '#wcip-order-copies': { value: copies }, '[data-wcip-print-status]': status }[selector]; }
   };
   const config = { rest: 'https://example.test/wp-json/wc-invoice-printer/v1/print', nonce: 'nonce', printer: '123', agentQueue: 'Office', sending: 'Queuing', queued: 'Invoice queued', failed: 'Failed', invalidCopies: 'Invalid copies' };
-  vm.runInNewContext(source, { document: { addEventListener(name, callback) { listeners[name] = callback; } }, window: { wcipOrderPrint: config, open(url) { opened.push(url); } }, URL, fetch: async (url, options) => { requests.push({ url, options }); return { ok: true, async json() { return { queued: 1 }; } }; } });
+  vm.runInNewContext(source, { document: { createElement(tag) { return { tagName: tag }; }, addEventListener(name, callback) { listeners[name] = callback; } }, window: { wcipOrderPrint: config, open(url) { opened.push(url); return popup; } }, URL, fetch: async (url, options) => { requests.push({ url, options }); return { ok: true, async json() { return { queued: 1 }; } }; } });
   async function click(action) {
-    const button = { disabled: false, setAttribute() {}, removeAttribute() {} };
+    const button = { textContent: action === 'preview' ? 'Preview' : 'Print', disabled: false, setAttribute() {}, removeAttribute() {} };
     await listeners.click({ target: { closest(selector) { return selector === '.wcip-order-dialog' ? dialog : selector === '[data-wcip-' + action + ']' ? button : null; } } });
     return button;
   }
@@ -42,6 +42,21 @@ test('browser Print opens the print dialog for the requested copies', async () =
   assert.equal(url.searchParams.get('print'), '1');
   assert.equal(url.searchParams.get('copies'), '2');
 });
+
+for (const popup of [null, {}]) {
+  test(`Print and Preview keep a usable recovery link when window.open returns ${popup === null ? 'null' : 'a window'}`, async () => {
+    for (const action of ['submit', 'preview']) {
+      const env = environment({ popup });
+      await env.click(action);
+      const link = env.status.children[0];
+      assert.equal(link.href, env.opened[0]);
+      assert.equal(link.target, '_blank');
+      assert.equal(link.rel, 'noopener');
+      assert.equal(link.textContent, action === 'preview' ? 'Preview' : 'Print');
+      assert.equal(env.requests.length, 0);
+    }
+  });
+}
 
 test('CUPS submission reports queued instead of provider acceptance', async () => {
   const env = environment({ output: 'cups' });

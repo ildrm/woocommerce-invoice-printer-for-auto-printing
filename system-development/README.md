@@ -1,6 +1,6 @@
 # System development documentation
 
-Development and template-customization guides for **WooCommerce Invoice Printer 1.4.4**, updated against the current working tree on **12 October 2026**. This folder contains documentation and an optional companion-plugin example; it is not loaded by the main plugin.
+Development and template-customization guides for **WooCommerce Invoice Printer 1.4.5**. The DOCX editions were rendered and reviewed for 1.4.4 on **12 October 2026**; their template/API guidance remains applicable. The [1.4.5 release supplement](../docs/release-notes-1.4.5.md) documents the font-loading and manual-print fixes reviewed on **13 October 2026**. This folder contains documentation and an optional companion-plugin example; it is not loaded by the main plugin.
 
 The plugin has 13 supported languages and 14 bundled locale catalogs. Every locale has a complete DOCX guide with localized explanations and shared code examples, API references, hook signatures and commands. The English edition gives additional background. Technical identifiers remain unchanged so examples can be copied. Translation wording has not been independently reviewed by native-language editors.
 

@@ -83,6 +83,19 @@ final class SettingsRepositoryTest extends TestCase {
 		self::assertSame( 'dejavusansmono', $settings->get( 'invoice_font' ) );
 	}
 
+	public function test_business_email_has_no_admin_fallback_and_saved_gateway_choices_survive_updates(): void {
+		$GLOBALS['wcip_test_options']['admin_email'] = 'administrator@example.test';
+		$settings = new SettingsRepository();
+		self::assertSame( '', $settings->get( 'business_email' ) );
+		self::assertTrue( $settings->get( 'show_payment_method' ) );
+		$settings->update( array( 'business_email' => 'store@example.test', 'show_store_email' => true, 'show_payment_method' => false ) );
+		$settings->update( array( 'business_name' => 'Updated' ) );
+		self::assertSame( 'store@example.test', $settings->get( 'business_email' ) );
+		self::assertTrue( $settings->get( 'show_store_email' ) );
+		self::assertFalse( $settings->get( 'show_payment_method' ) );
+		self::assertFalse( $settings->get( 'show_customer_email' ) );
+	}
+
 	public function test_credential_change_invalidates_both_account_caches(): void {
 		$settings = new SettingsRepository();
 		$settings->update( array( 'cups_password' => 'old' ) ); $old = $settings->cups_fingerprint();

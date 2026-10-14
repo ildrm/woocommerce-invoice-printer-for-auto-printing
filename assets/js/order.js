@@ -28,8 +28,15 @@
       url.searchParams.set('copies', String(preview ? 1 : copies));
       if (preview) url.searchParams.set('preview', '1');
       else url.searchParams.set('print', '1');
+      // Keep a direct link available if the new tab is blocked or closed.
+      // With noopener, a null return also occurs when a tab opens successfully.
+      const link = document.createElement('a');
+      link.href = url.toString();
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = (preview || submit).textContent;
+      status.replaceChildren(link);
       window.open(url.toString(), '_blank', 'noopener');
-      status.textContent = '';
       return;
     }
     submit.disabled = true;
